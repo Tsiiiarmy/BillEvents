@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { Icon, Reveal, Logo, BillPay, Btn, Heading, EventCard, ThemeToggle } from './components'
 import { events, categories, steps, benefits } from './data'
@@ -41,7 +42,7 @@ export function Navbar({ theme, toggle, user = null }) {
                 {['My Tickets', 'Order History', 'Saved Events', 'Notifications', 'Settings', 'Sign Out'].map((t) => <li key={t}><a href="#" className="block rounded-lg px-3 py-2 hover:bg-mist dark:hover:bg-white/10">{t}</a></li>)}
               </ul>
             </details>
-          ) : <a href="#" className={`${a} hidden px-2 md:block`}>Sign In</a>}
+          ) : <Link to="/signin" className={`${a} hidden px-2 md:block`}>Sign In</Link>}
           <Btn as="a" href="#organizers" className="hidden bg-aqua text-navy sm:inline-flex">Create Event</Btn>
           <button className="icon-btn lg:hidden" aria-label="Menu" aria-expanded={open} onClick={() => setOpen(!open)}><Icon n={open ? 'x' : 'menu'} /></button>
         </div>
@@ -49,7 +50,7 @@ export function Navbar({ theme, toggle, user = null }) {
       {open && (
         <nav aria-label="Mobile" className="wrap grid gap-1 border-t border-navy/10 py-4 lg:hidden dark:border-white/10">
           {links.map(([t, h]) => <a key={t} href={h} onClick={() => setOpen(false)} className="rounded-lg px-3 py-3 font-medium hover:bg-mist dark:hover:bg-white/10">{t}</a>)}
-          <div className="mt-2 flex gap-3"><a href="#" className="flex-1 rounded-full border border-navy/20 py-3 text-center font-bold dark:border-white/25">Sign In</a><Btn as="a" href="#organizers" className="flex-1 bg-aqua text-navy">Create Event</Btn></div>
+          <div className="mt-2 flex gap-3"><Link to="/signin" className="flex-1 rounded-full border border-navy/20 py-3 text-center font-bold dark:border-white/25">Sign In</Link><Btn as="a" href="#organizers" className="flex-1 bg-aqua text-navy">Create Event</Btn></div>
         </nav>
       )}
     </header>
