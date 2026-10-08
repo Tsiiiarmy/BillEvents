@@ -12,6 +12,8 @@ const DEFAULTS = { q: '', category: 'All', city: 'All', price: 'any', sort: 'soo
  * When the backend is ready, replace `allEvents` + the useMemo with an API request
  * that sends `filters` as query parameters. The pages won't need to change.
  */
+
+
 export default function useEventFilters() {
   const [params, setParams] = useSearchParams()
   const filters = Object.fromEntries(Object.keys(DEFAULTS).map((k) => [k, params.get(k) ?? DEFAULTS[k]]))

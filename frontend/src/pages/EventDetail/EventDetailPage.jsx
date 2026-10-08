@@ -42,10 +42,22 @@ export default function EventDetailPage({ theme, toggle }) {
       <SkipLink />
       <Navbar theme={theme} toggle={toggle} />
       <main id="main">
-        <section className={`relative isolate overflow-hidden bg-linear-to-br ${event.grad} text-white`}>
-          <Icon n={event.icon} className="absolute -bottom-10 -right-6 -z-10 h-72 w-72 text-white/15 sm:h-96 sm:w-96" />
-          <div className="absolute inset-0 -z-10 bg-linear-to-t from-navy/80 via-navy/20 to-transparent" />
-          <div className="wrap flex min-h-[18rem] flex-col justify-between py-6 sm:min-h-[22rem]">
+      <section className={`relative isolate overflow-hidden bg-linear-to-br ${event.grad} text-white`}>
+        {event.image && (
+          <img
+            src={event.image}
+            alt=""
+            className="absolute inset-0 -z-20 h-full w-full object-cover"
+          />
+        )}
+        <div className="absolute inset-0 -z-10 bg-linear-to-t from-navy/90 via-navy/45 to-navy/20" />
+        {!event.image && (
+          <Icon
+            n={event.icon}
+            className="absolute -bottom-10 -right-6 -z-10 h-72 w-72 text-white/15 sm:h-96 sm:w-96"
+          />
+        )}
+        <div className="wrap flex min-h-[18rem] flex-col justify-between py-6 sm:min-h-[22rem]">
             <div className="flex items-center justify-between">
               <Link to="/events" className="inline-flex items-center gap-1.5 text-sm font-bold hover:text-aqua"><Icon n="arrow" className="h-4 w-4 rotate-180" />All events</Link>
               <button onClick={() => setFav(!fav)} aria-pressed={fav} aria-label={`Save ${event.title}`} className="grid h-10 w-10 place-items-center rounded-full bg-white/90 text-navy transition hover:scale-110 active:scale-90">
