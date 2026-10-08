@@ -1,3 +1,8 @@
+import { allEvents } from './events'
+export { allEvents }
+// export const events = allEvents.filter((e) => e.featured) // landing page keeps showing only the curated 4
+
+
 // Sample data. Add an `image` URL/import to any event to show a real photo instead of the gradient.
 export const events = [
   { id: 1, title: 'Addis Summer Festival', cat: 'Music', icon: 'music', date: 'Oct 24, 2026 · 6:00 PM', venue: 'Millennium Hall', city: 'Addis Ababa', price: 1500, grad: 'from-aqua via-[#3364AA] to-navy' },

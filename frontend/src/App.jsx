@@ -1,13 +1,27 @@
-import { useEffect } from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
-import useTheme from './hooks/useTheme'
-import { Navbar, Hero, Featured, Categories, HowItWorks, Organizers, AppSection, Trust, Footer } from './sections'
-import AuthPage from './AuthPage'
+import { useEffect } from "react";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import useTheme from "./hooks/useTheme";
+
+import { Navbar } from "./components/layout/Navbar";
+import { Footer } from "./components/layout/Footer";
+import { SkipLink } from "./components/common/SkipLink";
+
+import { Hero } from "./components/landing/Hero";
+import { Featured } from "./components/landing/Featured";
+import { Categories } from "./components/landing/Categories";
+import { HowItWorks } from "./components/landing/HowItWorks";
+import { Organizers } from "./components/landing/Organizers";
+import { AppSection } from "./components/landing/AppSection";
+import { Trust } from "./components/landing/Trust";
+
+import AuthPage from "./pages/Auth/AuthPage";
+import DiscoverPage from "./pages/Discover/DiscoverPage";
+import EventDetailPage from "./pages/EventDetail/EventDetailPage";
 
 function Landing({ theme, toggle }) {
   return (
     <>
-      <a href="#main" className="sr-only z-[60] rounded bg-aqua px-4 py-2 font-bold text-navy focus:not-sr-only focus:fixed focus:left-4 focus:top-4">Skip to content</a>
+      <SkipLink />
       <Navbar theme={theme} toggle={toggle} />
       <main id="main">
         <Hero />
@@ -20,19 +34,57 @@ function Landing({ theme, toggle }) {
       </main>
       <Footer />
     </>
-  )
+  );
 }
 
 export default function App() {
-  const { theme, toggleTheme } = useTheme()
-  const { pathname } = useLocation()
-  useEffect(() => { window.scrollTo(0, 0) }, [pathname]) // start each page at the top
+  const { theme, toggleTheme } = useTheme();
+  const { pathname, hash } = useLocation();
+
+  // New page → scroll to top. Link with #section (e.g. /#how) → scroll to that section.
+  useEffect(() => {
+    const el = hash && document.getElementById(hash.slice(1));
+    if (el) el.scrollIntoView();
+    else window.scrollTo({ top: 0, behavior: "instant" });
+  }, [pathname, hash]);
 
   return (
     <Routes>
-      <Route path="/" element={<Landing theme={theme} toggle={toggleTheme} />} />
-      <Route path="/signin" element={<AuthPage key="signin" mode="signin" theme={theme} toggle={toggleTheme} />} />
-      <Route path="/signup" element={<AuthPage key="signup" mode="signup" theme={theme} toggle={toggleTheme} />} />
+      <Route
+        path="/"
+        element={<Landing theme={theme} toggle={toggleTheme} />}
+      />
+      <Route
+        path="/events"
+        element={<DiscoverPage theme={theme} toggle={toggleTheme} />}
+      />
+      <Route
+        path="/events/:id"
+        element={<EventDetailPage theme={theme} toggle={toggleTheme} />}
+      />
+      <Route
+        path="/signin"
+        element={
+          <AuthPage
+            key="signin"
+            mode="signin"
+            theme={theme}
+            toggle={toggleTheme}
+          />
+        }
+      />
+      <Route
+        path="/signup"
+        element={
+          <AuthPage
+            key="signup"
+            mode="signup"
+            theme={theme}
+            toggle={toggleTheme}
+          />
+        }
+      />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
-  )
+  );
 }

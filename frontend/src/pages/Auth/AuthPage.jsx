@@ -1,8 +1,14 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Icon, Logo, BillPay, Btn, ThemeToggle } from './components'
-import heroImg from './assets/images/hero-addis-concert.jpg'
-import logoDark from './assets/logo/billevents-logo-reverse.svg'
+
+import { Icon } from '../../components/common/Icon'
+import { Logo, BillPay } from '../../components/common/Brand'
+import { Btn } from '../../components/common/Btn'
+import { ThemeToggle } from '../../components/common/ThemeToggle'
+
+import heroImg from '../../assets/images/hero-addis-concert.jpg'
+import logoDark from '../../assets/logo/billevents-logo-reverse.svg'
+
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const PHONE = /^(\+251|251|0)?[79]\d{8}$/ // Ethiopian mobile, e.g. 911234567 or 0911234567
