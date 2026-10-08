@@ -31,6 +31,7 @@ const P = {
   globe: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18',
   minus: 'M5 12h14',
   clock: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7v5l3 2',
+  send: 'M22 2L11 13M22 2l-7 20-4-9-9-4z',
 }
 
 export function Icon({ n, className = 'h-5 w-5' }) {
