@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Icon } from '../common/Icon'
 import { Reveal } from '../common/Reveal'
 import { Btn } from '../common/Btn'
@@ -25,7 +26,7 @@ export function Organizers() {
                 ))}
               </ul>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Btn as="a" href="#" className="bg-aqua text-navy">Create Event <Icon n="arrow" className="h-4 w-4 transition group-hover:translate-x-1" /></Btn>
+              <Btn as={Link} to="/organizer" className="bg-aqua text-navy">Create Event <Icon n="arrow" className="h-4 w-4 transition group-hover:translate-x-1" /></Btn>
                 <Btn as="a" href="#how" variant="ghost">Learn More</Btn>
               </div>
             </Reveal>

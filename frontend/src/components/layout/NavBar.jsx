@@ -25,7 +25,7 @@ export function Navbar({ theme, toggle, user = null }) {
     if (el) el.focus(); else navigate('/events')
   }
 
-  const links = [['Discover', '/events'], ['Categories', '/#categories'], ['How It Works', '/#how'], ['For Organizers', '/#organizers']]
+  const links = [['Discover', '/events'], ['Categories', '/#categories'], ['How It Works', '/#how'], ['For Organizers', '/organizer']]
   if (user) links.push(['My Tickets', '#'])
   const a = 'text-sm font-medium text-navy/80 transition hover:text-teal dark:text-white/80 dark:hover:text-aqua'
   const active = (h) => h === '/events' && pathname.startsWith('/events')
@@ -57,7 +57,7 @@ export function Navbar({ theme, toggle, user = null }) {
               </ul>
             </details>
           ) : <Link to="/signin" className={`${a} hidden px-2 md:block`}>Sign In</Link>}
-          <Btn as={Link} to="/#organizers" className="hidden bg-aqua text-navy sm:inline-flex">Create Event</Btn>
+          <Btn as={Link} to="/organizer" className="hidden bg-aqua text-navy sm:inline-flex">Create Event</Btn>
           <button className="icon-btn lg:hidden" aria-label="Menu" aria-expanded={open} onClick={() => setOpen(!open)}><Icon n={open ? 'x' : 'menu'} /></button>
         </div>
       </div>
@@ -66,7 +66,7 @@ export function Navbar({ theme, toggle, user = null }) {
           {links.map(([t, h]) => <Link key={t} to={h} onClick={() => setOpen(false)} className="rounded-lg px-3 py-3 font-medium hover:bg-mist dark:hover:bg-white/10">{t}</Link>)}
           <div className="mt-2 flex gap-3">
             <Link to="/signin" onClick={() => setOpen(false)} className="flex-1 rounded-full border border-navy/20 py-3 text-center font-bold dark:border-white/25">Sign In</Link>
-            <Btn as={Link} to="/#organizers" onClick={() => setOpen(false)} className="flex-1 bg-aqua text-navy">Create Event</Btn>
+            <Btn as={Link} to="/organizer" onClick={() => setOpen(false)} className="flex-1 bg-aqua text-navy">Create Event</Btn>
           </div>
         </nav>
       )}

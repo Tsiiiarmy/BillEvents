@@ -32,6 +32,9 @@ const P = {
   minus: 'M5 12h14',
   clock: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7v5l3 2',
   send: 'M22 2L11 13M22 2l-7 20-4-9-9-4z',
+  building: 'M4 21V4h10v17M14 9h6v12M4 21h16M8 8h2M8 12h2M8 16h2',
+  file: 'M6 2h9l5 5v15H6zM14 2v6h6M9 13h6M9 17h6',
+  star: 'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z',
 }
 
 export function Icon({ n, className = 'h-5 w-5' }) {
