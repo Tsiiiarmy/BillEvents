@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 import { Icon } from '../../components/common/Icon'
 import { Btn } from '../../components/common/Btn'
@@ -38,14 +38,16 @@ export default function PaymentPage({ theme, toggle }) {
   }))
   const [err, setErr] = useState({})
   const [stage, setStage] = useState('form') // form | processing | failed
-  const [paid, setPaid] = useState(null)
+  const [doneRef, setDoneRef] = useState(null)
   const [outcome, setOutcome] = useState('success') // dev-only switch
   const timer = useRef(null)
 
   useEffect(() => () => clearTimeout(timer.current), [])
 
   // Guards. All hooks are above this line so the hook order never changes.
-  if (paid) return <PaidPanel order={paid} theme={theme} toggle={toggle} />
+  // Paid comes first: the draft is deleted on success, so this must win
+  // over the "no draft" guard or we'd bounce to /events instead.
+  if (doneRef) return <Navigate to={`/checkout/success/${doneRef}`} replace />
   if (!hasDraft) return <Navigate to="/events" replace />
   if (!isSignedIn) return <Navigate to="/signin?next=/checkout/payment" replace />
   if (!draft.contact) return <Navigate to="/checkout" replace />
