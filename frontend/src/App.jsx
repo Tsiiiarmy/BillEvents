@@ -6,6 +6,7 @@ import { Navbar } from './components/layout/Navbar'
 import { Footer } from './components/layout/Footer'
 import { SkipLink } from './components/common/SkipLink'
 // import { DevStatusSwitcher } from './components/common/DevStatusSwitcher'
+import { DevUserSwitcher } from './components/common/DevUserSwitcher'
 
 import { Hero } from './components/landing/Hero'
 import { Featured } from './components/landing/Featured'
@@ -18,9 +19,14 @@ import { Trust } from './components/landing/Trust'
 import AuthPage from './pages/Auth/AuthPage'
 import DiscoverPage from './pages/Discover/DiscoverPage'
 import EventDetailPage from './pages/EventDetail/EventDetailPage'
+import CheckoutPage from './pages/Checkout/CheckoutPage'
+import PaymentPage from './pages/Checkout/PaymentPage'
 import OrganizerGate from './pages/Organizer/OrganizerGate'
 import BecomeOrganizerPage from './pages/Organizer/BecomeOrganizerPage'
+import StatusPage from './pages/Organizer/StatusPage'
 import ComingSoon from './pages/Organizer/ComingSoon'
+import RegisterPage from './pages/Organizer/RegisterPage'
+import SubmittedPage from './pages/Organizer/SubmittedPage'
 
 function Landing({ theme, toggle }) {
   return (
@@ -61,17 +67,22 @@ export default function App() {
         <Route path="/events/:id" element={<EventDetailPage {...t} />} />
         <Route path="/signin" element={<AuthPage key="signin" mode="signin" {...t} />} />
         <Route path="/signup" element={<AuthPage key="signup" mode="signup" {...t} />} />
+        {/* Customer ticketing journey */}
+        <Route path="/checkout" element={<CheckoutPage {...t} />} />
+        <Route path="/checkout/payment" element={<PaymentPage {...t} />} />
 
         {/* Organizer journey */}
         <Route path="/organizer" element={<OrganizerGate />} />
         <Route path="/organizer/apply" element={<BecomeOrganizerPage {...t} />} />
-        <Route path="/organizer/register" element={<ComingSoon {...t} title="Organizer application" text="The six-step application (Profile, Organization, Verification, Experience, Agreement, Review) is built in the next stages." />} />
-        <Route path="/organizer/status" element={<ComingSoon {...t} title="Application status" text="The status screens (under review, changes required, not approved) are built in Stage 5." />} />
+        <Route path="/organizer/register" element={<RegisterPage {...t} />} />
+        <Route path="/organizer/submitted" element={<SubmittedPage {...t} />} />
+        <Route path="/organizer/status" element={<StatusPage {...t} />} />
         <Route path="/organizer/dashboard" element={<ComingSoon {...t} title="Organizer dashboard" text="Your dashboard and the Create Event button are built in Stage 6." />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       {/* <DevStatusSwitcher /> */}
+      <DevUserSwitcher />
     </>
   )
 }

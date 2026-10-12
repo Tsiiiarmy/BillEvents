@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+
+import useAuth from '../../hooks/useAuth'
 
 import { Icon } from '../../components/common/Icon'
 import { Logo, BillPay } from '../../components/common/Brand'
@@ -43,8 +45,22 @@ const copy = {
 }
 const perks = [['ticket', 'All your tickets in one place'], ['heart', 'Save the events you love'], ['shield', 'Secure payments with BillPay']]
 
+// "mikiyas.g" → "Mikiyas G". Only used when someone signs in with an email
+// and we have no real name for them yet.
+
+const nameFromEmail = (email) =>
+  email.split('@')[0].split(/[._-]+/).filter(Boolean)
+    .map((w) => w[0].toUpperCase() + w.slice(1)).join(' ') || 'BillEvents user'
+
 export default function AuthPage({ mode, theme, toggle }) {
   const up = mode === 'signup'
+  const navigate = useNavigate()
+  const [params] = useSearchParams()
+  const { signIn } = useAuth()
+
+  // ?next=/checkout sends you back where you came from. Only in-app paths allowed.
+  const raw = params.get('next') || ''
+  const next = raw.startsWith('/') && !raw.startsWith('//') ? raw : null
   const [v, setV] = useState({ name: '', phone: '', email: '', id: '', password: '', terms: false, remember: true })
   const [err, setErr] = useState({})
   const [show, setShow] = useState(false)
@@ -65,9 +81,25 @@ export default function AuthPage({ mode, theme, toggle }) {
       if (!(EMAIL.test(v.id) || PHONE.test(v.id.replace(/\s/g, '')))) x.id = 'Enter your email or phone number.'
       if (!v.password) x.password = 'Enter your password.'
     }
-    setErr(x)
-    if (!Object.keys(x).length) setDone(true)
-  }
+      setErr(x)
+      if (Object.keys(x).length) return
+
+      // Front-end only. There is no password check — useAuth just remembers who you are.
+      const byEmail = EMAIL.test(v.id)
+      signIn(
+        up
+          ? { name: v.name.trim(), email: v.email.trim(), phone: v.phone.replace(/\s/g, '') }
+          : {
+              name: byEmail ? nameFromEmail(v.id.trim()) : 'BillEvents user',
+              email: byEmail ? v.id.trim() : '',
+              phone: byEmail ? '' : v.id.replace(/\s/g, ''),
+            },
+      )
+
+      if (next) navigate(next, { replace: true })
+      else setDone(true)
+    }
+
 
   return (
     <div className="grid min-h-screen lg:grid-cols-[1.05fr_1fr]">
@@ -103,7 +135,7 @@ export default function AuthPage({ mode, theme, toggle }) {
             <div className="animate-up text-center">
               <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-aqua text-navy"><Icon n="check" className="h-8 w-8" /></span>
               <h1 className="mt-6 font-heading text-3xl font-bold">{up ? 'Account created!' : "You're signed in!"}</h1>
-              <p className="mt-3 text-mortar dark:text-white/70">This is a front-end preview, so nothing was sent anywhere. Real accounts come when we connect the backend.</p>
+               <p className="mt-3 text-mortar dark:text-white/70">This is a front-end preview. Your account is remembered in this browser only — real accounts come when we connect the backend.</p>
               <Btn as={Link} to="/" variant="dark" className="mt-8">Back to events</Btn>
             </div>
           ) : (

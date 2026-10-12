@@ -38,3 +38,42 @@ export const CHECKPOINTS = [
   { icon: 'ticket', title: 'Create your event', text: 'Once approved, set up your event, ticket types, pricing and inventory.' },
   { icon: 'check', title: 'Event review and publish', text: 'Every event is reviewed by BillEvents before it goes live to customers.' },
 ]
+
+// ─── Wizard configuration ───
+// Change these when BillEvents defines its real compliance policy. The UI reads them.
+export const ORGANIZER_CONFIG = {
+  collectIdNumber: false,           // show an ID / passport number field in Step 01
+  idNumberRequired: false,          // make that field mandatory (only matters if shown)
+  registrationNumberRequired: true  // organizations must give their business license number
+}
+
+export const ORG_TYPES = ['Company', 'Event agency', 'Non-profit / Association', 'Venue', 'Community group', 'Other']
+
+export const CITIES = ['Addis Ababa', 'Adama', 'Bahir Dar', 'Dire Dawa', 'Gondar', 'Hawassa', 'Jimma', 'Mekelle', 'Other']
+
+// ─── Verification documents ───
+// Placeholders: replace with BillEvents' real compliance policy. The UI reads this list.
+export const DOCUMENT_TYPES = [
+  { id: 'identity', title: 'Identity document', text: 'A national ID, passport or driver’s license.', required: true, for: ['individual', 'organization'] },
+  { id: 'license', title: 'Business license', text: 'Your valid business license (trade license) or registration certificate.', required: true, for: ['organization'] },
+  { id: 'supporting', title: 'Additional supporting document', text: 'Anything else that helps us verify you.', required: false, for: ['individual', 'organization'] },
+]
+
+export const UPLOAD_RULES = {
+  accept: '.pdf,.jpg,.jpeg,.png',
+  types: ['application/pdf', 'image/jpeg', 'image/png'],
+  label: 'PDF, JPG or PNG',
+  maxMB: 5,
+}
+
+// Which documents apply to this applicant (depends on Individual vs Organization)
+export const docsFor = (mode) => DOCUMENT_TYPES.filter((d) => d.for.includes(mode))
+
+
+// ─── Experience & agreement ───
+export const FREQUENCIES = [
+  { id: 'first', label: 'This is my first event' },
+  { id: 'occasionally', label: 'Occasionally' },
+  { id: 'several', label: 'Several times a year' },
+  { id: 'regularly', label: 'Regularly' },
+]

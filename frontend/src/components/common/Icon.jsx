@@ -35,6 +35,21 @@ const P = {
   building: 'M4 21V4h10v17M14 9h6v12M4 21h16M8 8h2M8 12h2M8 16h2',
   file: 'M6 2h9l5 5v15H6zM14 2v6h6M9 13h6M9 17h6',
   star: 'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z',
+  upload: 'M12 16V4M7 9l5-5 5 5M4 20h16',
+  arrowleft: 'M19 12H5M11 18l-6-6 6-6',
+  download: 'M12 4v12M7 11l5 5 5-5M4 20h16',
+  share: 'M4 12v8h16v-8M12 16V3M8 7l4-4 4 4',
+  copy: 'M9 9h11v11H9zM5 15H4V4h11v1',
+  alert: 'M12 4L2 20h20zM12 10v4M12 17h.01',
+  info: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 11v5M12 8h.01',
+  wallet: 'M3 6h13v3M3 6v12h18V9H3M17 14h.01',
+  bank: 'M3 10h18L12 4 3 10zM6 10v8M10 10v8M14 10v8M18 10v8M3 21h18',
+  qr: 'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z',
+  chevron: 'M6 9l6 6 6-6',
+  logout: 'M9 21H4V3h5M16 17l5-5-5-5M21 12H9',
+  bell: 'M18 9a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8M13.7 21a2 2 0 0 1-3.4 0',
+  refresh: 'M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5',
+  scan: 'M3 7V3h4M17 3h4v4M21 17v4h-4M7 21H3v-4M7 12h10',
 }
 
 export function Icon({ n, className = 'h-5 w-5' }) {
