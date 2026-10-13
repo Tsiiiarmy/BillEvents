@@ -21,6 +21,7 @@ import DiscoverPage from './pages/Discover/DiscoverPage'
 import EventDetailPage from './pages/EventDetail/EventDetailPage'
 import CheckoutPage from './pages/Checkout/CheckoutPage'
 import PaymentPage from './pages/Checkout/PaymentPage'
+import SuccessPage from './pages/Checkout/SuccessPage'
 import OrganizerGate from './pages/Organizer/OrganizerGate'
 import BecomeOrganizerPage from './pages/Organizer/BecomeOrganizerPage'
 import StatusPage from './pages/Organizer/StatusPage'
@@ -70,6 +71,7 @@ export default function App() {
         {/* Customer ticketing journey */}
         <Route path="/checkout" element={<CheckoutPage {...t} />} />
         <Route path="/checkout/payment" element={<PaymentPage {...t} />} />
+        <Route path="/checkout/success/:ref" element={<SuccessPage {...t} />} />
 
         {/* Organizer journey */}
         <Route path="/organizer" element={<OrganizerGate />} />

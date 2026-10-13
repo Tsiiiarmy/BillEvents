@@ -115,8 +115,8 @@ export default function PaymentPage({ theme, toggle }) {
         method: { id: method.id, name: method.name },
         user,
       })
+      setDoneRef(order.ref)
       clearCheckout()
-      setPaid(order)
     }, THINKING_MS)
   }
 
@@ -250,66 +250,6 @@ export default function PaymentPage({ theme, toggle }) {
           </div>
         </div>
       )}
-    </div>
-  )
-}
-
-/* ─────────────────────────────────────────────────────────────
-   TEMPORARY. The real Payment Success page is the next stage and
-   will replace this block completely. It exists so the flow has an
-   end you can test today.
-   ───────────────────────────────────────────────────────────── */
-function PaidPanel({ order, theme, toggle }) {
-  const [copied, setCopied] = useState(false)
-
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(order.ref)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    } catch {
-      /* clipboard blocked */
-    }
-  }
-
-  return (
-    <div className="min-h-screen">
-      <CheckoutHeader theme={theme} toggle={toggle} current="done" backTo="/events" backLabel="All events" />
-      <main id="main" className="wrap grid place-items-center py-16 text-center sm:py-24">
-        <div className="max-w-md">
-          <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-aqua text-navy">
-            <Icon n="check" className="h-8 w-8" />
-          </span>
-          <h1 className="mt-6 font-heading text-3xl font-bold">Payment approved</h1>
-          <p className="mt-3 text-mortar dark:text-white/70">
-            {order.quantity} {order.quantity === 1 ? 'ticket' : 'tickets'} for {order.eventTitle}.
-          </p>
-
-          <div className="mt-6 rounded-2xl bg-mist p-5 dark:bg-navy-2">
-            <p className="text-xs text-mortar dark:text-white/60">Order reference</p>
-            <p className="font-heading text-2xl font-bold tracking-wide">{order.ref}</p>
-            <button
-              type="button"
-              onClick={copy}
-              className="mt-3 inline-flex items-center gap-1.5 text-sm font-bold text-teal hover:underline dark:text-aqua"
-            >
-              <Icon n={copied ? 'check' : 'copy'} className="h-4 w-4" />
-              {copied ? 'Copied' : 'Copy reference'}
-            </button>
-            <p className="mt-4 border-t border-navy/10 pt-4 text-sm dark:border-white/10">
-              Paid {etb(order.total)} with {order.method?.name}
-            </p>
-          </div>
-
-          <p className="mt-6 text-sm text-mortar dark:text-white/60">
-            The full confirmation screen, My Tickets and the QR ticket are the next stage. Your
-            order is already saved in this browser.
-          </p>
-          <Btn as={Link} to="/events" variant="dark" className="mt-6">
-            Back to events
-          </Btn>
-        </div>
-      </main>
     </div>
   )
 }
