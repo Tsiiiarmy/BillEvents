@@ -24,8 +24,8 @@ import PaymentPage from './pages/Checkout/PaymentPage'
 import SuccessPage from './pages/Checkout/SuccessPage'
 import MyTicketsPage from './pages/Account/MyTicketsPage'
 import TicketViewPage from './pages/Account/TicketViewPage'
-import AccountSoonPage from './pages/Account/AccountSoonPage'
 import SavedPage from './pages/Account/SavedPage'
+import SettingsPage from './pages/Account/SettingsPage'
 import OrganizerGate from './pages/Organizer/OrganizerGate'
 import BecomeOrganizerPage from './pages/Organizer/BecomeOrganizerPage'
 import StatusPage from './pages/Organizer/StatusPage'
@@ -82,17 +82,7 @@ export default function App() {
         <Route path="/account/tickets" element={<MyTicketsPage {...t} />} />
         <Route path="/account/tickets/:ref" element={<TicketViewPage {...t} />} />
         <Route path="/account/saved" element={<SavedPage {...t} />} />
-        <Route
-          path="/account/settings"
-          element={
-            <AccountSoonPage
-              {...t}
-              title="Settings"
-              icon="settings"
-              text="Your name, contact details and preferences will be editable here."
-            />
-          }
-        />
+        <Route path="/account/settings" element={<SettingsPage {...t} />} />
 
         {/* Organizer journey */}
         <Route path="/organizer" element={<OrganizerGate />} />

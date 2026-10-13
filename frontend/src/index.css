@@ -95,3 +95,58 @@
 .in .line { animation: draw 2s 0.3s ease forwards; }
 .bar { transform: scaleX(0); transform-origin: left; transition: transform 1.3s 0.3s cubic-bezier(0.2, 0.7, 0.2, 1); }
 .in .bar { transform: scaleX(var(--w)); }
+
+
+/* ── Gate scanner ─────────────────────────────────────────── */
+@keyframes scanline {
+  0%,
+  100% {
+    transform: translateY(-46%);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateY(46%);
+    opacity: 1;
+  }
+}
+.scanline {
+  animation: scanline 2.6s ease-in-out infinite;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.88);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.animate-pop {
+  animation: pop 0.28s ease-out both;
+}
+
+@keyframes countdown {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+.countdown {
+  transform-origin: left;
+  animation: countdown var(--dur, 3s) linear forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scanline,
+  .animate-pop,
+  .countdown {
+    animation: none;
+  }
+}
