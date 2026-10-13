@@ -10,10 +10,15 @@ const toTime = (iso) => {
   return Number.isNaN(t) ? null : t
 }
 
-export function isPastEvent(order) {
-  const t = toTime(order?.eventStart)
+/** Works on any ISO date string, e.g. an event's `start`. */
+export function isPastDate(iso) {
+  const t = toTime(iso)
   if (t === null) return false // unknown date → keep it visible
   return t + GRACE_HOURS * 3_600_000 < Date.now()
+}
+
+export function isPastEvent(order) {
+  return isPastDate(order?.eventStart)
 }
 
 /** "In 11 days", "Tomorrow", "Today", "Happening now", "3 weeks ago". */

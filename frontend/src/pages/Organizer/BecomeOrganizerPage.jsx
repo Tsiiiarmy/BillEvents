@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Link, Navigate } from 'react-router-dom'
-import { Navbar } from '../../components/layout/Navbar'
+import { Navbar } from '../../components/layout/NavBar'
 import { Footer } from '../../components/layout/Footer'
 import { SkipLink } from '../../components/common/SkipLink'
 import { Icon } from '../../components/common/Icon'

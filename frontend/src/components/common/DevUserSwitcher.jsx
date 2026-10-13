@@ -2,6 +2,7 @@ import { useState } from 'react'
 import useAuth from '../../hooks/useAuth'
 import useOrders from '../../hooks/useOrders'
 import useCheckout from '../../hooks/useCheckout'
+import useSaved from '../../hooks/useSaved'
 import { Icon } from './Icon'
 
 // Dev-only. Never rendered in a production build.
@@ -15,7 +16,7 @@ export function DevUserSwitcher() {
   const { user, signIn, signOut } = useAuth()
   const { orders, clearOrders } = useOrders()
   const { draft, clearCheckout } = useCheckout()
-
+  const { saved, clearSaved } = useSaved()
   if (!import.meta.env.DEV) return null
 
   const row =
@@ -56,6 +57,9 @@ export function DevUserSwitcher() {
           </button>
           <button type="button" className={row} onClick={clearOrders}>
             Clear orders ({orders.length})
+          </button>
+          <button type="button" className={row} onClick={clearSaved}>
+            Clear saved events ({saved.length})
           </button>
         </div>
       )}

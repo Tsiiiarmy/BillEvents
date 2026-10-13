@@ -1,11 +1,10 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Icon } from '../common/Icon'
 import { Btn } from '../common/Btn'
 import { Reveal } from '../common/Reveal'
+import { SaveButton } from '../common/SaveButton'
 
 export function EventCard({ e, i = 0 }) {
-  const [fav, setFav] = useState(false)
   return (
     <Reveal delay={i * 90}>
       <article className="group overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-md shadow-navy/5 transition duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-navy/15 dark:border-white/10 dark:bg-navy-2 dark:shadow-none dark:hover:shadow-[0_24px_50px_-24px_rgba(107,214,218,.4)]">
@@ -15,9 +14,7 @@ export function EventCard({ e, i = 0 }) {
           </div>
           {!e.image && <Icon n={e.icon} className="absolute -bottom-5 -right-3 h-36 w-36 text-white/20 transition duration-700 group-hover:-rotate-6 group-hover:scale-110" />}
           <span className="absolute bottom-3 left-3 rounded-full bg-white px-3 py-1 text-xs font-bold text-navy">{e.cat}</span>
-          <button onClick={() => setFav(!fav)} aria-pressed={fav} aria-label={`Save ${e.title}`} className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-navy transition hover:scale-110 active:scale-90">
-            <Icon n="heart" className={`h-4 w-4 transition ${fav ? 'scale-125 fill-red-500 text-red-500' : ''}`} />
-          </button>
+          <SaveButton event={e} size="h-9 w-9" className="absolute right-3 top-3" />
         </div>
         <div className="p-5">
           <p className="flex items-center gap-1.5 text-xs text-mortar dark:text-white/60"><Icon n="calendar" className="h-3.5 w-3.5" />{e.date}</p>

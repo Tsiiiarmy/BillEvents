@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Navbar } from "../../components/layout/Navbar";
+import { Navbar } from "../../components/layout/NavBar";
 import { Footer } from "../../components/layout/Footer";
 import { SkipLink } from "../../components/common/SkipLink";
 import { FilterBar } from "../../components/discover/FilterBar";

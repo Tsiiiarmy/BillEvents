@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import useTheme from './hooks/useTheme'
 
-import { Navbar } from './components/layout/Navbar'
+import { Navbar } from './components/layout/NavBar'
 import { Footer } from './components/layout/Footer'
 import { SkipLink } from './components/common/SkipLink'
 // import { DevStatusSwitcher } from './components/common/DevStatusSwitcher'
@@ -25,6 +25,7 @@ import SuccessPage from './pages/Checkout/SuccessPage'
 import MyTicketsPage from './pages/Account/MyTicketsPage'
 import TicketViewPage from './pages/Account/TicketViewPage'
 import AccountSoonPage from './pages/Account/AccountSoonPage'
+import SavedPage from './pages/Account/SavedPage'
 import OrganizerGate from './pages/Organizer/OrganizerGate'
 import BecomeOrganizerPage from './pages/Organizer/BecomeOrganizerPage'
 import StatusPage from './pages/Organizer/StatusPage'
@@ -80,17 +81,7 @@ export default function App() {
         <Route path="/account" element={<Navigate to="/account/tickets" replace />} />
         <Route path="/account/tickets" element={<MyTicketsPage {...t} />} />
         <Route path="/account/tickets/:ref" element={<TicketViewPage {...t} />} />
-        <Route
-          path="/account/saved"
-          element={
-            <AccountSoonPage
-              {...t}
-              title="Saved Events"
-              icon="heart"
-              text="The heart button on an event will save it here. That's the next stage."
-            />
-          }
-        />
+        <Route path="/account/saved" element={<SavedPage {...t} />} />
         <Route
           path="/account/settings"
           element={

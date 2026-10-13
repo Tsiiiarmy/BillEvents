@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Navbar } from '../../components/layout/Navbar'
+import { Navbar } from '../../components/layout/NavBar'
 import { SkipLink } from '../../components/common/SkipLink'
 import { StatusBadge } from '../../components/common/StatusBadge'
 import { Btn } from '../../components/common/Btn'

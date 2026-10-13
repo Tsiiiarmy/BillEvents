@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { Navbar } from '../../components/layout/Navbar'
+import { Navbar } from '../../components/layout/NavBar'
 import { Footer } from '../../components/layout/Footer'
 import { SkipLink } from '../../components/common/SkipLink'
 import { Icon } from '../../components/common/Icon'
 import { Btn } from '../../components/common/Btn'
 import { Reveal } from '../../components/common/Reveal'
+import { SaveButton } from '../../components/common/SaveButton'
 import { EventCard } from '../../components/landing/EventCard'
 import { TicketSelector } from '../../components/event/TicketSelector'
 import { allEvents } from '../../data'
@@ -13,7 +14,6 @@ import { allEvents } from '../../data'
 export default function EventDetailPage({ theme, toggle }) {
   const { id } = useParams()
   const event = allEvents.find((e) => String(e.id) === id)
-  const [fav, setFav] = useState(false)
   useEffect(() => { document.title = event ? `${event.title} — BillEvents` : 'Event not found — BillEvents' }, [event])
 
   if (!event) {
@@ -60,9 +60,7 @@ export default function EventDetailPage({ theme, toggle }) {
         <div className="wrap flex min-h-[18rem] flex-col justify-between py-6 sm:min-h-[22rem]">
             <div className="flex items-center justify-between">
               <Link to="/events" className="inline-flex items-center gap-1.5 text-sm font-bold hover:text-aqua"><Icon n="arrow" className="h-4 w-4 rotate-180" />All events</Link>
-              <button onClick={() => setFav(!fav)} aria-pressed={fav} aria-label={`Save ${event.title}`} className="grid h-10 w-10 place-items-center rounded-full bg-white/90 text-navy transition hover:scale-110 active:scale-90">
-                <Icon n="heart" className={`h-5 w-5 transition ${fav ? 'scale-110 fill-red-500 text-red-500' : ''}`} />
-              </button>
+              <SaveButton event={event} />
             </div>
             <div className="animate-up pb-4">
               <span className="rounded-full bg-white px-3 py-1 text-xs font-bold text-navy">{event.cat}</span>
