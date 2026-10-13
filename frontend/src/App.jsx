@@ -22,6 +22,9 @@ import EventDetailPage from './pages/EventDetail/EventDetailPage'
 import CheckoutPage from './pages/Checkout/CheckoutPage'
 import PaymentPage from './pages/Checkout/PaymentPage'
 import SuccessPage from './pages/Checkout/SuccessPage'
+import MyTicketsPage from './pages/Account/MyTicketsPage'
+import TicketViewPage from './pages/Account/TicketViewPage'
+import AccountSoonPage from './pages/Account/AccountSoonPage'
 import OrganizerGate from './pages/Organizer/OrganizerGate'
 import BecomeOrganizerPage from './pages/Organizer/BecomeOrganizerPage'
 import StatusPage from './pages/Organizer/StatusPage'
@@ -72,6 +75,33 @@ export default function App() {
         <Route path="/checkout" element={<CheckoutPage {...t} />} />
         <Route path="/checkout/payment" element={<PaymentPage {...t} />} />
         <Route path="/checkout/success/:ref" element={<SuccessPage {...t} />} />
+
+        {/* Account */}
+        <Route path="/account" element={<Navigate to="/account/tickets" replace />} />
+        <Route path="/account/tickets" element={<MyTicketsPage {...t} />} />
+        <Route path="/account/tickets/:ref" element={<TicketViewPage {...t} />} />
+        <Route
+          path="/account/saved"
+          element={
+            <AccountSoonPage
+              {...t}
+              title="Saved Events"
+              icon="heart"
+              text="The heart button on an event will save it here. That's the next stage."
+            />
+          }
+        />
+        <Route
+          path="/account/settings"
+          element={
+            <AccountSoonPage
+              {...t}
+              title="Settings"
+              icon="settings"
+              text="Your name, contact details and preferences will be editable here."
+            />
+          }
+        />
 
         {/* Organizer journey */}
         <Route path="/organizer" element={<OrganizerGate />} />
