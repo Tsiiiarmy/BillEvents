@@ -26,6 +26,7 @@ import MyTicketsPage from './pages/Account/MyTicketsPage'
 import TicketViewPage from './pages/Account/TicketViewPage'
 import SavedPage from './pages/Account/SavedPage'
 import SettingsPage from './pages/Account/SettingsPage'
+import EntryPage from './pages/Entry/EntryPage'
 import OrganizerGate from './pages/Organizer/OrganizerGate'
 import BecomeOrganizerPage from './pages/Organizer/BecomeOrganizerPage'
 import StatusPage from './pages/Organizer/StatusPage'
@@ -83,6 +84,9 @@ export default function App() {
         <Route path="/account/tickets/:ref" element={<TicketViewPage {...t} />} />
         <Route path="/account/saved" element={<SavedPage {...t} />} />
         <Route path="/account/settings" element={<SettingsPage {...t} />} />
+
+        {/* Gate staff. Its own surface — always dark, no site navigation. */}
+        <Route path="/entry" element={<EntryPage />} />
 
         {/* Organizer journey */}
         <Route path="/organizer" element={<OrganizerGate />} />
