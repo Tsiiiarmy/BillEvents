@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { SocialIcon } from '../common/SocialIcon'
-import { Newsletter } from './NewsLetter'
+import { Newsletter } from './Newsletter'
 import logoDark from '../../assets/logo/billevents-logo-reverse.svg'
 import payMonogram from '../../assets/logo/billpay-monogram-reverse.svg'
 
