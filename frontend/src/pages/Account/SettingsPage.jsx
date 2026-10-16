@@ -10,16 +10,14 @@ import useAuth from '../../hooks/useAuth'
 import useOrders from '../../hooks/useOrders'
 import useSaved from '../../hooks/useSaved'
 import useCheckout from '../../hooks/useCheckout'
+import useLanguage from '../../hooks/useLanguage'
+import { LANGUAGES } from '../../i18n/languages'
+
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const PHONE = /^(\+251|251|0)?[79]\d{8}$/
 
-const LANGUAGES = [
-  ['EN', 'English'],
-  ['አማ', 'አማርኛ'],
-  ['OM', 'Afaan Oromoo'],
-  ['ትግ', 'ትግርኛ'],
-]
+
 
 /** Shared panel so every block on the page sits in the same frame. */
 function Section({ icon, title, lead, children }) {
@@ -99,6 +97,7 @@ export default function SettingsPage({ theme, toggle }) {
   const { orders, clearOrders } = useOrders()
   const { saved, clearSaved } = useSaved()
   const { draft, clearCheckout } = useCheckout()
+  const { lang, setLang, t } = useLanguage()
 
   const [form, setForm] = useState(() => ({
     name: user?.name ?? '',
@@ -274,27 +273,48 @@ export default function SettingsPage({ theme, toggle }) {
         </Section>
 
         {/* Language */}
-        <Section icon="globe" title="Language" lead="Four languages are planned for launch.">
-          <div className="flex flex-wrap gap-2.5">
-            {LANGUAGES.map(([code, label], i) => (
-              <span
-                key={code}
-                className={`rounded-full px-4 py-2 text-sm font-bold ${
-                  i === 0
-                    ? 'bg-navy text-white dark:bg-aqua dark:text-navy'
-                    : 'bg-mist text-mortar dark:bg-navy dark:text-white/55'
-                }`}
-              >
-                {label}
-              </span>
-            ))}
-          </div>
+        <Section icon="globe" title={t('settings.lang.title')} lead={t('settings.lang.lead')}>
+          <fieldset>
+            <legend className="sr-only">{t('settings.lang.title')}</legend>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {LANGUAGES.map((l) => (
+                <label key={l.code} className="cursor-pointer">
+                  <input
+                    type="radio"
+                    name="language"
+                    checked={lang === l.code}
+                    onChange={() => setLang(l.code)}
+                    className="peer sr-only"
+                  />
+                  <span className="flex items-center gap-3 rounded-2xl border border-navy/10 p-4 transition hover:border-navy/30 peer-checked:border-aqua peer-checked:bg-aqua/10 peer-focus-visible:ring-4 peer-focus-visible:ring-aqua/40 dark:border-white/15 dark:hover:border-white/35 dark:peer-checked:border-aqua">
+                    <span
+                      lang={l.code}
+                      className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-mist text-sm font-bold text-teal dark:bg-navy dark:text-aqua"
+                    >
+                      {l.short}
+                    </span>
+                    <span className="min-w-0">
+                      <span lang={l.code} className="block font-bold">
+                        {l.native}
+                      </span>
+                      {l.native !== l.name && (
+                        <span className="block text-xs text-mortar dark:text-white/55">{l.name}</span>
+                      )}
+                    </span>
+                    {lang === l.code && (
+                      <Icon n="check" className="ml-auto h-5 w-5 shrink-0 text-teal dark:text-aqua" />
+                    )}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
           <p className="mt-4 flex items-start gap-2 rounded-xl bg-mist p-3.5 text-sm text-mortar dark:bg-navy dark:text-white/65">
             <Icon n="info" className="mt-0.5 h-4 w-4 shrink-0" />
-            Switching language isn't wired up yet. The interface is English only until the
-            translations are written.
+            {t('settings.lang.note')}
           </p>
         </Section>
+
 
         {/* Local data */}
         <Section

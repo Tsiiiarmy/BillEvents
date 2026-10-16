@@ -7,7 +7,23 @@ import { Btn } from '../common/Btn'
 import { ThemeToggle } from '../common/ThemeToggle'
 import { Avatar } from '../common/Avatar'
 import { UserMenu, ACCOUNT_LINKS } from './UserMenu'
+import { LanguageMenu } from './LanguageMenu'
 import useAuth from '../../hooks/useAuth'
+import useLanguage from '../../hooks/useLanguage'
+import { LANGUAGES } from '../../i18n/languages'
+
+const BASE_LINKS = [
+  { key: 'nav.discover', to: '/events', match: (p) => p.startsWith('/events') },
+  { key: 'nav.categories', to: '/#categories' },
+]
+
+// Top-level on purpose: it's the page people open at the gate.
+const TICKETS_LINK = {
+  key: 'nav.myTickets',
+  to: '/account/tickets',
+  icon: 'ticket',
+  match: (p) => p.startsWith('/account/tickets'),
+}
 
 export function Navbar({ theme, toggle }) {
   const [open, setOpen] = useState(false)
@@ -15,6 +31,7 @@ export function Navbar({ theme, toggle }) {
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const { user, isSignedIn, signOut } = useAuth()
+  const { lang, setLang, t } = useLanguage()
 
   useEffect(() => {
     const f = () => setSc(window.scrollY > 10)
@@ -24,6 +41,14 @@ export function Navbar({ theme, toggle }) {
   }, [])
 
   useEffect(() => setOpen(false), [pathname])
+
+  // Escape closes the mobile menu.
+  useEffect(() => {
+    if (!open) return undefined
+    const onKey = (e) => e.key === 'Escape' && setOpen(false)
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [open])
 
   const goSearch = () => {
     const el = document.getElementById('hero-search') || document.getElementById('event-search')
@@ -37,17 +62,24 @@ export function Navbar({ theme, toggle }) {
     navigate('/')
   }
 
-  const links = [
-    ['Discover', '/events'],
-    ['Categories', '/#categories'],
-    ['How It Works', '/#how'],
-    ['For Organizers', '/organizer'],
-  ]
+  const links = isSignedIn ? [...BASE_LINKS, TICKETS_LINK] : BASE_LINKS
+  const isOn = (l) => Boolean(l.match?.(pathname))
 
-  const a = 'text-sm font-medium text-navy/80 transition hover:text-teal dark:text-white/80 dark:hover:text-aqua'
-  const active = (h) =>
-    (h === '/events' && pathname.startsWith('/events')) ||
-    (h === '/account/tickets' && pathname.startsWith('/account/tickets'))
+  // Come back to the same page after signing in.
+  const signInTo =
+    pathname === '/' || pathname.startsWith('/signin') || pathname.startsWith('/signup')
+      ? '/signin'
+      : `/signin?next=${encodeURIComponent(pathname)}`
+
+  const pill = (on) =>
+    `inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm transition ${
+      on
+        ? 'bg-navy/7 font-bold text-navy dark:bg-white/10 dark:text-white'
+        : 'font-medium text-navy/70 hover:bg-navy/5 hover:text-navy dark:text-white/70 dark:hover:bg-white/10 dark:hover:text-white'
+    }`
+
+  const row =
+    'flex items-center gap-3 rounded-lg px-3 py-3 font-medium hover:bg-mist dark:hover:bg-white/10'
 
   return (
     <header
@@ -55,74 +87,53 @@ export function Navbar({ theme, toggle }) {
         sc ? 'shadow-lg shadow-navy/10' : ''
       }`}
     >
-      <div className="wrap flex h-16 items-center justify-between gap-4">
-        <Link to="/" aria-label="BillEvents home">
+      <div className="wrap flex h-16 items-center gap-6">
+        <Link to="/" aria-label={t('nav.home')} className="shrink-0">
           <Logo theme={theme} className="h-8" />
         </Link>
 
-        <nav aria-label="Main" className="hidden items-center gap-7 lg:flex">
-          {links.map(([t, h]) => (
+        <nav aria-label={t('nav.main')} className="hidden items-center gap-1 md:flex">
+          {links.map((l) => (
             <Link
-              key={t}
-              to={h}
-              aria-current={active(h) ? 'page' : undefined}
-              className={`${a} ${active(h) ? '!font-bold !text-teal dark:!text-aqua' : ''}`}
+              key={l.key}
+              to={l.to}
+              aria-current={isOn(l) ? 'page' : undefined}
+              className={pill(isOn(l))}
             >
-              {t}
+              {l.icon && <Icon n={l.icon} className="h-4 w-4" />}
+              {t(l.key)}
             </Link>
           ))}
-          {/* Deliberately a top-level link, not buried in the menu: this is the
-              page people open at the gate. */}
-          {isSignedIn && (
-            <Link
-              to="/account/tickets"
-              aria-current={active('/account/tickets') ? 'page' : undefined}
-              className={`${a} inline-flex items-center gap-1.5 ${
-                active('/account/tickets') ? '!font-bold !text-teal dark:!text-aqua' : ''
-              }`}
-            >
-              <Icon n="ticket" className="h-4 w-4" />
-              My Tickets
-            </Link>
-          )}
         </nav>
 
-        <div className="flex items-center gap-1 sm:gap-2">
-          <button className="icon-btn" aria-label="Search events" onClick={goSearch}>
+        <div className="ml-auto flex items-center gap-1">
+          <button type="button" className="icon-btn" aria-label={t('nav.search')} onClick={goSearch}>
             <Icon n="search" />
           </button>
 
-          <label className="relative hidden items-center sm:flex">
-            <span className="sr-only">Language</span>
-            <Icon n="globe" className="pointer-events-none absolute left-2.5 h-4 w-4" />
-            <select className="cursor-pointer appearance-none rounded-full bg-transparent py-2 pl-8 pr-3 text-sm font-bold hover:bg-navy/10 dark:hover:bg-white/10">
-              <option className="text-navy">EN</option>
-              <option className="text-navy">አማ</option>
-              <option className="text-navy">OM</option>
-              <option className="text-navy">ትግ</option>
-              <option className="text-navy">Somali</option>
-              <option className="text-navy">Wolaita</option>
-            </select>
-          </label>
+          <div className="hidden sm:block">
+            <LanguageMenu />
+          </div>
 
           <ThemeToggle theme={theme} toggle={toggle} />
+
+          <span aria-hidden="true" className="mx-2 hidden h-6 w-px bg-navy/10 sm:block dark:bg-white/15" />
 
           {isSignedIn ? (
             <UserMenu />
           ) : (
-            <Link to="/signin" className={`${a} hidden px-2 md:block`}>
-              Sign In
-            </Link>
+            <Btn as={Link} to={signInTo} className="hidden bg-aqua text-navy sm:inline-flex">
+              <Icon n="user" className="h-4 w-4" />
+              {t('nav.signIn')}
+            </Btn>
           )}
 
-          <Btn as={Link} to="/organizer" className="hidden bg-aqua text-navy sm:inline-flex">
-            Create Event
-          </Btn>
-
           <button
-            className="icon-btn lg:hidden"
-            aria-label="Menu"
+            type="button"
+            className="icon-btn md:hidden"
+            aria-label={t(open ? 'nav.menuClose' : 'nav.menuOpen')}
             aria-expanded={open}
+            aria-controls="mobile-menu"
             onClick={() => setOpen(!open)}
           >
             <Icon n={open ? 'x' : 'menu'} />
@@ -132,68 +143,86 @@ export function Navbar({ theme, toggle }) {
 
       {open && (
         <nav
-          aria-label="Mobile"
-          className="wrap grid gap-1 border-t border-navy/10 py-4 lg:hidden dark:border-white/10"
+          id="mobile-menu"
+          aria-label={t('nav.mobile')}
+          className="wrap grid gap-1 border-t border-navy/10 py-4 md:hidden dark:border-white/10"
         >
           {isSignedIn && (
             <div className="mb-2 flex items-center gap-3 rounded-xl bg-mist px-3 py-3 dark:bg-navy-2">
               <Avatar user={user} className="h-10 w-10 text-sm" />
               <div className="min-w-0">
-                <p className="truncate font-heading text-sm font-bold">{user.name || 'BillEvents user'}</p>
+                <p className="truncate font-heading text-sm font-bold">
+                  {user.name || t('account.guestName')}
+                </p>
                 <p className="truncate text-xs text-mortar dark:text-white/60">
-                  {user.email || user.phone || 'Signed in'}
+                  {user.email || user.phone || t('account.signedIn')}
                 </p>
               </div>
             </div>
           )}
 
-          {links.map(([t, h]) => (
+          {links.map((l) => (
             <Link
-              key={t}
-              to={h}
-              className="rounded-lg px-3 py-3 font-medium hover:bg-mist dark:hover:bg-white/10"
+              key={l.key}
+              to={l.to}
+              aria-current={isOn(l) ? 'page' : undefined}
+              className={`${row} ${isOn(l) ? 'bg-mist font-bold dark:bg-white/10' : ''}`}
             >
-              {t}
+              {l.icon && <Icon n={l.icon} className="h-4 w-4 text-mortar dark:text-white/60" />}
+              {t(l.key)}
             </Link>
           ))}
 
-          {isSignedIn ? (
+          {isSignedIn && (
             <>
               <hr className="my-2 border-navy/10 dark:border-white/10" />
-              {ACCOUNT_LINKS.map((l) => (
-                <Link
-                  key={l.to}
-                  to={l.to}
-                  className="flex items-center gap-3 rounded-lg px-3 py-3 font-medium hover:bg-mist dark:hover:bg-white/10"
-                >
+              {ACCOUNT_LINKS.filter((l) => l.to !== TICKETS_LINK.to).map((l) => (
+                <Link key={l.to} to={l.to} className={row}>
                   <Icon n={l.icon} className="h-4 w-4 text-mortar dark:text-white/60" />
-                  {l.label}
+                  {t(l.key)}
                 </Link>
               ))}
-              <button
-                type="button"
-                onClick={leave}
-                className="flex items-center gap-3 rounded-lg px-3 py-3 text-left font-medium hover:bg-mist dark:hover:bg-white/10"
-              >
+              <button type="button" onClick={leave} className={`${row} text-left`}>
                 <Icon n="logout" className="h-4 w-4 text-mortar dark:text-white/60" />
-                Sign out
+                {t('nav.signOut')}
               </button>
-              <Btn as={Link} to="/organizer" className="mt-2 bg-aqua text-navy">
-                Create Event
-              </Btn>
             </>
-          ) : (
-            <div className="mt-2 flex gap-3">
-              <Link
-                to="/signin"
-                className="flex-1 rounded-full border border-navy/20 py-3 text-center font-bold dark:border-white/25"
-              >
-                Sign In
-              </Link>
-              <Btn as={Link} to="/organizer" className="flex-1 bg-aqua text-navy">
-                Create Event
-              </Btn>
+          )}
+
+          {/* Language — the navbar dropdown is hidden on small phones */}
+          <div className="mt-2 border-t border-navy/10 pt-4 sm:hidden dark:border-white/10">
+            <p className="px-3 text-xs font-bold uppercase tracking-wider text-mortar dark:text-white/50">
+              {t('nav.language')}
+            </p>
+            <div className="mt-2 flex flex-wrap gap-2 px-3">
+              {LANGUAGES.map((l) => {
+                const on = lang === l.code
+                return (
+                  <button
+                    key={l.code}
+                    type="button"
+                    lang={l.code}
+                    aria-pressed={on}
+                    onClick={() => setLang(l.code)}
+                    className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-sm font-bold transition ${
+                      on
+                        ? 'bg-navy text-white dark:bg-aqua dark:text-navy'
+                        : 'bg-mist text-mortar dark:bg-white/10 dark:text-white/70'
+                    }`}
+                  >
+                    {on && <Icon n="check" className="h-4 w-4" />}
+                    {l.native}
+                  </button>
+                )
+              })}
             </div>
+          </div>
+
+          {!isSignedIn && (
+            <Btn as={Link} to={signInTo} className="mt-4 w-full bg-aqua text-navy sm:hidden">
+              <Icon n="user" className="h-4 w-4" />
+              {t('nav.signIn')}
+            </Btn>
           )}
         </nav>
       )}

@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 import { SocialIcon } from '../common/SocialIcon'
 import { Newsletter } from './Newsletter'
+import useLanguage from '../../hooks/useLanguage'
+import { LANGUAGES } from '../../i18n/languages'
 import logoDark from '../../assets/logo/billevents-logo-reverse.svg'
 import payMonogram from '../../assets/logo/billpay-monogram-reverse.svg'
 
@@ -26,11 +28,11 @@ const social = [
   ['LinkedIn', 'linkedin'],
 ]
 
-const langs = ['English', 'Amharic', 'Afaan Oromoo', 'Tigrinya']
 
 const link = 'transition hover:text-aqua'
 
 export function Footer() {
+  const { lang, setLang, t } = useLanguage()
   return (
     <>
       <Newsletter />
@@ -128,12 +130,18 @@ export function Footer() {
               © 2026 BillEvents. All rights reserved.
             </p>
 
-            <ul className="flex flex-wrap justify-center gap-5">
-              {langs.map((language) => (
-                <li key={language}>
-                  <a href="#" className={link}>
-                    {language}
-                  </a>
+            <ul aria-label={t('footer.languages')} className="flex flex-wrap justify-center gap-5">
+              {LANGUAGES.map((l) => (
+                <li key={l.code}>
+                  <button
+                    type="button"
+                    lang={l.code}
+                    aria-pressed={lang === l.code}
+                    onClick={() => setLang(l.code)}
+                    className={`${link} ${lang === l.code ? 'font-bold text-white underline underline-offset-4' : ''}`}
+                  >
+                    {l.native}
+                  </button>
                 </li>
               ))}
             </ul>

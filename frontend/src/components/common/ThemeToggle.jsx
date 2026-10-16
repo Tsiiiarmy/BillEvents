@@ -1,6 +1,8 @@
 import { Icon } from './Icon'
+import useLanguage from '../../hooks/useLanguage'
 
 export function ThemeToggle({ theme, toggle }) {
+  const { t } = useLanguage()
   const isDark = theme === 'dark'
 
   return (
@@ -8,8 +10,8 @@ export function ThemeToggle({ theme, toggle }) {
       type="button"
       className="icon-btn"
       onClick={toggle}
-      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      title={isDark ? 'Light mode' : 'Dark mode'}
+      aria-label={t(isDark ? 'theme.toLight' : 'theme.toDark')}
+      title={t(isDark ? 'theme.light' : 'theme.dark')}
     >
       <Icon n={isDark ? 'sun' : 'moon'} />
     </button>

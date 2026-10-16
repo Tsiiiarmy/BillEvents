@@ -7,10 +7,12 @@ import { Icon } from "../common/Icon";
 import { Avatar } from "../common/Avatar";
 import { ACCOUNT_LINKS } from "../layout/UserMenu";
 import useAuth from "../../hooks/useAuth";
+import useLanguage from '../../hooks/useLanguage'
 
 /** Shared chrome for every /account page: guard, side nav, heading. */
 export function AccountLayout({ theme, toggle, title, lead, children }) {
   const { user, isSignedIn } = useAuth();
+  const { t } = useLanguage()
   const { pathname } = useLocation();
 
   if (!isSignedIn) return <Navigate to={`/signin?next=${pathname}`} replace />;
@@ -63,7 +65,7 @@ export function AccountLayout({ theme, toggle, title, lead, children }) {
                         }`}
                       >
                         <Icon n={l.icon} className="h-4 w-4" />
-                        {l.label}
+                          {t(l.key)}
                       </Link>
                     </li>
                   );
