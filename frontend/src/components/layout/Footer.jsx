@@ -12,10 +12,10 @@ const quick = [
 ]
 
 const support = [
-  'Help Center',
-  'Contact Us',
-  'Terms & Conditions',
-  'Privacy Policy',
+  ['Help Center', '/help'],
+  ['Contact Us', '/contact'],
+  ['Terms & Conditions', '/terms'],
+  ['Privacy Policy', '/privacy'],
 ]
 
 const social = [
@@ -84,11 +84,11 @@ export function Footer() {
             </h3>
 
             <ul className="mt-4 grid gap-2.5 text-sm text-white/70">
-              {support.map((text) => (
+              {support.map(([text, to]) => (
                 <li key={text}>
-                  <a href="#" className={link}>
+                  <Link to={to} className={link}>
                     {text}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

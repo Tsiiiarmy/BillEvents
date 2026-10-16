@@ -26,7 +26,10 @@ import MyTicketsPage from "./pages/Account/MyTicketsPage";
 import TicketViewPage from "./pages/Account/TicketViewPage";
 import SavedPage from "./pages/Account/SavedPage";
 import SettingsPage from "./pages/Account/SettingsPage";
-import EntryPage from "./pages/Entry/EntryPage";
+import EntryPage from './pages/Entry/EntryPage'
+import HelpPage from './pages/Info/HelpPage'
+import ContactPage from './pages/Info/ContactPage'
+import LegalPage from './pages/Info/LegalPage'
 import OrganizerGate from "./pages/Organizer/OrganizerGate";
 import BecomeOrganizerPage from "./pages/Organizer/BecomeOrganizerPage";
 import StatusPage from "./pages/Organizer/StatusPage";
@@ -96,6 +99,12 @@ export default function App() {
         />
         <Route path="/account/saved" element={<SavedPage {...t} />} />
         <Route path="/account/settings" element={<SettingsPage {...t} />} />
+
+        {/* Support */}
+        <Route path="/help" element={<HelpPage {...t} />} />
+        <Route path="/contact" element={<ContactPage {...t} />} />
+        <Route path="/terms" element={<LegalPage key="terms" doc="terms" {...t} />} />
+        <Route path="/privacy" element={<LegalPage key="privacy" doc="privacy" {...t} />} />
 
         {/* Gate staff. Its own surface — always dark, no site navigation. */}
         <Route path="/entry" element={<EntryPage />} />
