@@ -32,6 +32,30 @@ function persist() {
   emit()
 }
 
+/**
+ * Applies `change` to the one ticket with this code, but only if `when(ticket)`
+ * is true. Saves and notifies only if something actually changed.
+ */
+function updateTicket(code, when, change) {
+  let changed = false
+  const next = state.map((order) => {
+    if (!order.tickets.some((t) => t.code === code && when(t))) return order
+    return {
+      ...order,
+      tickets: order.tickets.map((t) => {
+        if (t.code !== code || !when(t)) return t
+        changed = true
+        return { ...t, ...change() }
+      }),
+    }
+  })
+  if (changed) {
+    state = next
+    persist()
+  }
+  return changed
+}
+
 /** One ticket object per seat, so each has its own code and its own status. */
 function expandTickets(items, event) {
   const tickets = []
@@ -101,18 +125,28 @@ export function findTicket(code) {
   return null
 }
 
+/** Marks a valid ticket as used. Returns true if it changed. */
 export function checkInTicket(code) {
-  let changed = false
-  state = state.map((order) => ({
-    ...order,
-    tickets: order.tickets.map((t) => {
-      if (t.code !== code || t.status !== 'valid') return t
-      changed = true
-      return { ...t, status: 'used', checkedInAt: new Date().toISOString() }
-    }),
-  }))
-  if (changed) persist()
-  return changed
+  return updateTicket(
+    code,
+    (t) => t.status === 'valid',
+    () => ({ status: 'used', checkedInAt: new Date().toISOString() }),
+  )
+}
+
+/**
+ * Reverses a check-in made by mistake: used → valid, so it can be scanned again.
+ * Only touches a ticket that is currently 'used'. Returns true if it changed.
+ *
+ * A real backend should record who undid it and when (an audit log), not just
+ * flip the status back.
+ */
+export function undoCheckIn(code) {
+  return updateTicket(
+    code,
+    (t) => t.status === 'used',
+    () => ({ status: 'valid', checkedInAt: null }),
+  )
 }
 
 export function clearOrders() {
@@ -120,8 +154,8 @@ export function clearOrders() {
   persist()
 }
 
-/** Returns { orders, createOrder, findOrder, findTicket, checkInTicket, clearOrders }. */
+/** Returns { orders, createOrder, findOrder, findTicket, checkInTicket, undoCheckIn, clearOrders }. */
 export default function useOrders() {
   const orders = useSyncExternalStore(subscribe, getSnapshot)
-  return { orders, createOrder, findOrder, findTicket, checkInTicket, clearOrders }
+  return { orders, createOrder, findOrder, findTicket, checkInTicket, undoCheckIn, clearOrders }
 }

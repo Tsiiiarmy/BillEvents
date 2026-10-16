@@ -9,6 +9,11 @@ export const RESULT_MS = 3000
 /** Ignore a repeat of the same code within this window (camera sees it many times a second). */
 export const REPEAT_MS = 2500
 
+
+/** How many of this shift's admissions stay in the "Recently let in" list (for undo). */
+export const RECENT_LIMIT = 5
+
+
 /** Short buzz patterns. Ignored where the device has no vibration motor. */
 export const BUZZ = { ok: 60, warn: [40, 60, 40], bad: [70, 70, 70] }
 

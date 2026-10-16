@@ -4,15 +4,22 @@ import { Link } from 'react-router-dom'
 import { Icon } from '../../components/common/Icon'
 import { ScannerView } from '../../components/entry/ScannerView'
 import useOrders from '../../hooks/useOrders'
+import { RECENT_LIMIT } from '../../data/entry'
 import { whenLabel } from '../../utils/datetime'
 import logoReverse from '../../assets/logo/billevents-logo-reverse.svg'
 
 const ANY = '__any__'
 
+const hhmm = (iso) =>
+  new Date(iso).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+
 export default function EntryPage() {
-  const { orders } = useOrders()
+  const { orders, undoCheckIn } = useOrders()
   const [gate, setGate] = useState(null)
   const [session, setSession] = useState({ in: 0, refused: 0 })
+  const [recent, setRecent] = useState([]) // this shift's admissions, newest first
+  const [confirming, setConfirming] = useState(null) // code awaiting "Yes, undo"
+  const [notice, setNotice] = useState('')
 
   useEffect(() => {
     document.title = 'Gate Entry — BillEvents'
@@ -47,10 +54,53 @@ export default function EntryPage() {
     ? gates.reduce((a, g) => ({ total: a.total + g.total, used: a.used + g.used }), { total: 0, used: 0 })
     : { total: current?.total ?? 0, used: current?.used ?? 0 }
 
-  const onResult = (r) =>
+  const onResult = (r) => {
     setSession((s) =>
       r.kind === 'ok' ? { ...s, in: s.in + 1 } : { ...s, refused: s.refused + 1 },
     )
+    if (r.kind !== 'ok') return
+
+    setNotice('')
+    setConfirming(null)
+    setRecent((list) =>
+      [
+        {
+          code: r.code,
+          name: r.order?.contact?.name || 'Ticket holder',
+          tier: r.ticket?.tierName,
+          seat: r.ticket?.seat,
+          event: r.order?.eventTitle,
+          at: r.ticket?.checkedInAt ?? new Date().toISOString(),
+        },
+        ...list.filter((x) => x.code !== r.code),
+      ].slice(0, RECENT_LIMIT),
+    )
+  }
+
+  // Codes currently checked in. Used to hide list rows that were undone
+  // elsewhere or wiped via Settings → Data on this device.
+  const usedCodes = useMemo(() => {
+    const set = new Set()
+    orders.forEach((o) =>
+      o.tickets.forEach((t) => {
+        if (t.status === 'used') set.add(t.code)
+      }),
+    )
+    return set
+  }, [orders])
+  const recentLive = recent.filter((r) => usedCodes.has(r.code))
+
+  const undo = (item) => {
+    const done = undoCheckIn(item.code)
+    setConfirming(null)
+    setRecent((list) => list.filter((x) => x.code !== item.code))
+    if (done) {
+      setSession((s) => ({ ...s, in: Math.max(0, s.in - 1) }))
+      setNotice(`Check-in undone for ${item.name}. Ticket ${item.code} can be scanned again.`)
+    } else {
+      setNotice(`Ticket ${item.code} isn't checked in any more, so there was nothing to undo.`)
+    }
+  }
 
   return (
     <div className="relative isolate min-h-screen overflow-hidden bg-navy text-white">
@@ -251,6 +301,97 @@ export default function EntryPage() {
                   <p className="mt-1 font-heading text-2xl font-bold">{session.refused}</p>
                 </div>
               </div>
+
+              {/* Recently let in — the undo lives here */}
+              <section
+                aria-labelledby="recent-heading"
+                className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              >
+                <h2
+                  id="recent-heading"
+                  className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-white/50"
+                >
+                  <Icon n="clock" className="h-3.5 w-3.5" />
+                  Recently let in
+                </h2>
+
+                {recentLive.length === 0 ? (
+                  <p className="mt-3 text-sm text-white/55">
+                    People you let in this shift appear here, so a mistake can be undone.
+                  </p>
+                ) : (
+                  <ul className="mt-3 divide-y divide-white/10">
+                    {recentLive.map((r) => (
+                      <li key={r.code} className="py-3 first:pt-0 last:pb-0">
+                        <div className="flex items-center gap-3">
+                          <div className="min-w-0 flex-1">
+                            <p className="truncate font-bold">{r.name}</p>
+                            <p className="mt-0.5 truncate text-xs text-white/60">
+                              {r.tier} · Ticket {r.seat} · {hhmm(r.at)}
+                            </p>
+                            {gate === ANY && r.event && (
+                              <p className="mt-0.5 truncate text-xs text-white/45">{r.event}</p>
+                            )}
+                            <p className="mt-1 font-mono text-xs tracking-wider text-white/50">
+                              {r.code}
+                            </p>
+                          </div>
+                          {confirming !== r.code && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setNotice('')
+                                setConfirming(r.code)
+                              }}
+                              aria-label={`Undo check-in for ${r.name}, ticket ${r.code}`}
+                              className="shrink-0 rounded-full border border-white/20 px-3.5 py-1.5 text-xs font-bold text-white/80 transition hover:border-amber-400 hover:text-amber-400"
+                            >
+                              Undo
+                            </button>
+                          )}
+                        </div>
+
+                        {confirming === r.code && (
+                          <div
+                            role="group"
+                            aria-label={`Confirm undo for ${r.name}`}
+                            className="mt-3 rounded-xl bg-amber-400/10 p-3 ring-1 ring-amber-400/40"
+                          >
+                            <p className="flex items-start gap-2 text-sm text-white/85">
+                              <Icon n="alert" className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" />
+                              <span>
+                                Undo this check-in? The ticket becomes valid again and must be
+                                scanned to get in.
+                              </span>
+                            </p>
+                            <div className="mt-3 flex gap-2">
+                              <button
+                                type="button"
+                                autoFocus
+                                onClick={() => undo(r)}
+                                className="rounded-full bg-amber-400 px-4 py-2 text-xs font-bold text-navy transition hover:bg-amber-300"
+                              >
+                                Yes, undo
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setConfirming(null)}
+                                className="rounded-full px-4 py-2 text-xs font-bold text-white/70 transition hover:text-white"
+                              >
+                                Keep
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                <p aria-live="polite" className="text-sm font-bold text-aqua empty:hidden mt-3">
+                  {notice}
+                </p>
+              </section>
 
               <div className="rounded-2xl border border-white/10 bg-white/5 p-5 text-sm text-white/65">
                 <p className="flex items-start gap-2">
