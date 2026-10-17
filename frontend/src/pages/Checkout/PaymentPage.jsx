@@ -12,19 +12,20 @@ import { PaymentFields } from '../../components/checkout/PaymentFields'
 import useAuth from '../../hooks/useAuth'
 import useCheckout from '../../hooks/useCheckout'
 import useOrders from '../../hooks/useOrders'
+import useLanguage from '../../hooks/useLanguage'
 import { PAYMENT_METHODS } from '../../data/checkout'
 import { calcTotals, etb } from '../../utils/money'
 
 const PHONE = /^(\+251|251|0)?[79]\d{8}$/
 const THINKING_MS = 2200
 
-const card =
-  'rounded-3xl border border-navy/10 bg-white p-5 sm:p-6 dark:border-white/10 dark:bg-navy-2'
+const card = 'rounded-3xl border border-navy/10 bg-white p-5 sm:p-6 dark:border-white/10 dark:bg-navy-2'
 
 export default function PaymentPage({ theme, toggle }) {
   const { user, isSignedIn } = useAuth()
   const { draft, hasDraft, clearCheckout } = useCheckout()
   const { createOrder } = useOrders()
+  const { t } = useLanguage()
 
   const [methodId, setMethodId] = useState(PAYMENT_METHODS[0].id)
   const [form, setForm] = useState(() => ({
@@ -36,7 +37,7 @@ export default function PaymentPage({ theme, toggle }) {
     exp: '',
     cvc: '',
   }))
-  const [err, setErr] = useState({})
+  const [err, setErr] = useState({}) // translation KEYS
   const [stage, setStage] = useState('form') // form | processing | failed
   const [doneRef, setDoneRef] = useState(null)
   const [outcome, setOutcome] = useState('success') // dev-only switch
@@ -53,6 +54,8 @@ export default function PaymentPage({ theme, toggle }) {
   if (!draft.contact) return <Navigate to="/checkout" replace />
 
   const method = PAYMENT_METHODS.find((m) => m.id === methodId) || PAYMENT_METHODS[0]
+  const methodName = t(`pm.${method.id}.name`, null, method.name)
+  const methodDetail = t(`pm.${method.id}.detail`, null, method.detail)
   const totals = calcTotals(draft.items)
   const busy = stage === 'processing'
 
@@ -70,29 +73,27 @@ export default function PaymentPage({ theme, toggle }) {
   const validate = () => {
     const x = {}
     if (method.kind === 'mobile') {
-      if (!PHONE.test(form.phone.replace(/\s/g, ''))) {
-        x.phone = 'Enter the mobile number linked to your wallet, e.g. 911 234 567.'
-      }
+      if (!PHONE.test(form.phone.replace(/\s/g, ''))) x.phone = 'pay.errPhone'
     }
     if (method.kind === 'bank') {
-      if (!form.bank) x.bank = 'Choose the bank you want to pay from.'
-      if (form.account.trim().length < 2) x.account = 'Enter the account holder name.'
+      if (!form.bank) x.bank = 'pay.errBank'
+      if (form.account.trim().length < 2) x.account = 'pay.errAccount'
     }
     if (method.kind === 'card') {
-      if (form.card.replace(/\D/g, '').length !== 16) x.card = 'Enter the 16 digits on your card.'
-      if (form.holder.trim().length < 2) x.holder = 'Enter the name printed on the card.'
+      if (form.card.replace(/\D/g, '').length !== 16) x.card = 'pay.errCard'
+      if (form.holder.trim().length < 2) x.holder = 'pay.errHolder'
       if (!/^\d{2}\/\d{2}$/.test(form.exp)) {
-        x.exp = 'Use the MM/YY format.'
+        x.exp = 'pay.errExpFormat'
       } else {
         const m = Number(form.exp.slice(0, 2))
         const y = 2000 + Number(form.exp.slice(3))
         const now = new Date()
-        if (m < 1 || m > 12) x.exp = 'The month must be between 01 and 12.'
+        if (m < 1 || m > 12) x.exp = 'pay.errExpMonth'
         else if (y < now.getFullYear() || (y === now.getFullYear() && m < now.getMonth() + 1)) {
-          x.exp = 'That card has already expired.'
+          x.exp = 'pay.errExpired'
         }
       }
-      if (!/^\d{3,4}$/.test(form.cvc)) x.cvc = 'Enter the 3 or 4 digit code.'
+      if (!/^\d{3,4}$/.test(form.cvc)) x.cvc = 'pay.errCvc'
     }
     return x
   }
@@ -127,32 +128,24 @@ export default function PaymentPage({ theme, toggle }) {
         toggle={toggle}
         current="payment"
         backTo="/checkout"
-        backLabel="Back to your details"
+        backLabel={t('pay.backToDetails')}
       />
 
       <main id="main" className="wrap py-8 sm:py-12">
-        <h1 className="font-heading text-3xl font-bold sm:text-4xl">Payment</h1>
+        <h1 className="font-heading text-3xl font-bold sm:text-4xl">{t('pay.title')}</h1>
         <p className="mt-2 flex flex-wrap items-center gap-2 text-mortar dark:text-white/70">
-          Completing your purchase with <BillPay theme={theme} className="h-4" />
+          {t('pay.lead')} <BillPay theme={theme} className="h-4" />
         </p>
 
         <div className="mt-8 grid items-start gap-6 lg:grid-cols-[1fr_380px] lg:gap-8">
           {/* Left: method + fields */}
           <div className="grid gap-6">
             {stage === 'failed' && (
-              <div
-                role="alert"
-                className="flex items-start gap-3 rounded-2xl border border-red-500/40 bg-red-500/10 p-4"
-              >
+              <div role="alert" className="flex items-start gap-3 rounded-2xl border border-red-500/40 bg-red-500/10 p-4">
                 <Icon n="alert" className="mt-0.5 h-5 w-5 shrink-0 text-red-600 dark:text-red-400" />
                 <div>
-                  <p className="font-heading font-bold text-red-700 dark:text-red-300">
-                    Payment was not completed
-                  </p>
-                  <p className="mt-1 text-sm text-mortar dark:text-white/70">
-                    Nothing was charged and your tickets are still held. Check your details, or pick
-                    a different payment method and try again.
-                  </p>
+                  <p className="font-heading font-bold text-red-700 dark:text-red-300">{t('pay.failTitle')}</p>
+                  <p className="mt-1 text-sm text-mortar dark:text-white/70">{t('pay.failText')}</p>
                 </div>
               </div>
             )}
@@ -163,9 +156,9 @@ export default function PaymentPage({ theme, toggle }) {
 
             <section className={card} aria-labelledby="pay-details-h">
               <h2 id="pay-details-h" className="font-heading text-lg font-bold">
-                {method.name} details
+                {t('pay.detailsTitle', { method: methodName })}
               </h2>
-              <p className="mt-1 text-sm text-mortar dark:text-white/60">{method.detail}</p>
+              <p className="mt-1 text-sm text-mortar dark:text-white/60">{methodDetail}</p>
 
               <form onSubmit={pay} noValidate id="payment-form" className="mt-5">
                 <fieldset disabled={busy} className="grid gap-5 disabled:opacity-60">
@@ -201,7 +194,7 @@ export default function PaymentPage({ theme, toggle }) {
 
             <p className="flex items-start gap-2 text-xs text-mortar dark:text-white/55">
               <Icon n="info" className="h-4 w-4 shrink-0" />
-              This is a preview build. No money moves and no real payment provider is contacted.
+              {t('pay.preview')}
             </p>
           </div>
 
@@ -215,11 +208,11 @@ export default function PaymentPage({ theme, toggle }) {
                 className="mt-5 w-full bg-aqua py-3.5 text-base text-navy disabled:pointer-events-none disabled:opacity-50"
               >
                 <Icon n="lock" className="h-4 w-4" />
-                {busy ? 'Confirming…' : `Pay ${etb(totals.total)}`}
+                {busy ? t('pay.confirming') : t('pay.payAmount', { amount: etb(totals.total) })}
               </Btn>
 
               <p className="mt-4 flex items-center justify-center gap-2 text-xs text-mortar dark:text-white/60">
-                Payments powered by <BillPay theme={theme} className="h-4" />
+                {t('co.poweredBy')} <BillPay theme={theme} className="h-4" />
               </p>
             </OrderSummary>
           </div>
@@ -239,14 +232,12 @@ export default function PaymentPage({ theme, toggle }) {
               className="mx-auto block h-12 w-12 animate-spin rounded-full border-4 border-navy/15 border-t-aqua motion-reduce:animate-none dark:border-white/20"
             />
             <h2 id="pay-busy-h" className="mt-5 font-heading text-xl font-bold">
-              Confirming your payment
+              {t('pay.busyTitle')}
             </h2>
             <p className="mt-2 text-sm text-mortar dark:text-white/65" aria-live="polite">
-              {method.detail}
+              {methodDetail}
             </p>
-            <p className="mt-4 text-xs text-mortar dark:text-white/50">
-              Please don’t close or refresh this page.
-            </p>
+            <p className="mt-4 text-xs text-mortar dark:text-white/50">{t('pay.busyKeep')}</p>
           </div>
         </div>
       )}
