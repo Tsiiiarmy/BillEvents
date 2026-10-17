@@ -7,19 +7,20 @@ import logoDark from '../../assets/logo/billevents-logo-reverse.svg'
 import payMonogram from '../../assets/logo/billpay-monogram-reverse.svg'
 
 const quick = [
-  ['Discover', '/events'],
-  ['Categories', '/#categories'],
-  ['How It Works', '/#how'],
-  ['For Organizers', '/#organizers'],
+  ['nav.discover', '/events'],
+  ['nav.categories', '/#categories'],
+  ['footer.howItWorks', '/#how'],
+  ['footer.forOrganizers', '/#organizers'],
 ]
 
 const support = [
-  ['Help Center', '/help'],
-  ['Contact Us', '/contact'],
-  ['Terms & Conditions', '/terms'],
-  ['Privacy Policy', '/privacy'],
+  ['footer.help', '/help'],
+  ['footer.contact', '/contact'],
+  ['footer.terms', '/terms'],
+  ['footer.privacy', '/privacy'],
 ]
 
+// Brand names — not translated. TODO: real profile URLs.
 const social = [
   ['Facebook', 'facebook'],
   ['X', 'x'],
@@ -28,51 +29,38 @@ const social = [
   ['LinkedIn', 'linkedin'],
 ]
 
-
 const link = 'transition hover:text-aqua'
 
 export function Footer() {
   const { lang, setLang, t } = useLanguage()
+
   return (
     <>
       <Newsletter />
 
       <footer className="bg-navy text-white dark:bg-[#0F1A33]">
-        {/* Main Footer */}
         <div className="wrap grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
-
           {/* Brand */}
           <div>
-            <img
-              src={logoDark}
-              alt="BillEvents"
-              className="h-10 w-auto"
-            />
-
-            <p className="mt-4 max-w-[17rem] text-sm leading-6 text-white/70">
-              Discover unforgettable experiences, all in one place.
-            </p>
-
+            <img src={logoDark} alt="BillEvents" className="h-10 w-auto" />
+            <p className="mt-4 max-w-[17rem] text-sm leading-6 text-white/70">{t('footer.tagline')}</p>
             <Link
               to="/events"
               className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-white transition hover:text-aqua"
             >
-              Explore Events
+              {t('footer.explore')}
               <span aria-hidden="true">→</span>
             </Link>
           </div>
 
-          {/* Quick Links */}
-          <nav aria-label="Quick links">
-            <h3 className="font-heading font-bold">
-              Quick Links
-            </h3>
-
+          {/* Quick links */}
+          <nav aria-label={t('footer.quickLinks')}>
+            <h3 className="font-heading font-bold">{t('footer.quickLinks')}</h3>
             <ul className="mt-4 grid gap-2.5 text-sm text-white/70">
-              {quick.map(([text, to]) => (
-                <li key={text}>
+              {quick.map(([key, to]) => (
+                <li key={key}>
                   <Link to={to} className={link}>
-                    {text}
+                    {t(key)}
                   </Link>
                 </li>
               ))}
@@ -80,32 +68,23 @@ export function Footer() {
           </nav>
 
           {/* Support */}
-          <nav aria-label="Support">
-            <h3 className="font-heading font-bold">
-              Support
-            </h3>
-
+          <nav aria-label={t('footer.support')}>
+            <h3 className="font-heading font-bold">{t('footer.support')}</h3>
             <ul className="mt-4 grid gap-2.5 text-sm text-white/70">
-              {support.map(([text, to]) => (
-                <li key={text}>
+              {support.map(([key, to]) => (
+                <li key={key}>
                   <Link to={to} className={link}>
-                    {text}
+                    {t(key)}
                   </Link>
                 </li>
               ))}
             </ul>
           </nav>
 
-          {/* Follow Us */}
+          {/* Follow us */}
           <div>
-            <h3 className="font-heading font-bold">
-              Follow Us
-            </h3>
-
-            <p className="mt-3 max-w-[14rem] text-sm leading-6 text-white/60">
-              Stay connected and never miss what’s happening.
-            </p>
-
+            <h3 className="font-heading font-bold">{t('footer.follow')}</h3>
+            <p className="mt-3 max-w-[14rem] text-sm leading-6 text-white/60">{t('footer.followText')}</p>
             <ul className="-ml-2 mt-3 flex flex-wrap">
               {social.map(([label, name]) => (
                 <li key={name}>
@@ -122,13 +101,10 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom Footer */}
+        {/* Bottom bar */}
         <div className="border-t border-white/10">
           <div className="wrap flex flex-col items-center justify-between gap-4 py-6 text-xs text-white/70 lg:flex-row">
-
-            <p>
-              © 2026 BillEvents. All rights reserved.
-            </p>
+            <p>{t('footer.rights', { year: new Date().getFullYear() })}</p>
 
             <ul aria-label={t('footer.languages')} className="flex flex-wrap justify-center gap-5">
               {LANGUAGES.map((l) => (
@@ -147,12 +123,8 @@ export function Footer() {
             </ul>
 
             <p className="flex items-center gap-2">
-              Part of the BillPay family
-              <img
-                src={payMonogram}
-                alt="BillPay"
-                className="h-5 w-auto"
-              />
+              {t('footer.family')}
+              <img src={payMonogram} alt="BillPay" className="h-5 w-auto" />
             </p>
           </div>
         </div>
