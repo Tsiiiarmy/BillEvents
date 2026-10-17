@@ -136,4 +136,34 @@ export default {
   'save.label': 'Save {title}',
   'save.tipOn': 'Saved',
   'save.tipOff': 'Save for later',
+
+  
+  // Discover page
+  'discover.docTitle': 'Discover Events',
+  'discover.eyebrow': 'DISCOVER EVENTS',
+  'discover.title': 'Find your next {accent} moment.',
+  'discover.titleAccent': 'unforgettable',
+  'discover.lead': 'Browse concerts, festivals, shows, exhibitions and outdoor experiences across Ethiopia.',
+  'discover.results': 'Event results',
+  'discover.count.one': '{count} event',
+  'discover.count.other': '{count} events',
+  'discover.in': 'in {category}',
+  'discover.clearAll': 'Clear all filters',
+  'discover.emptyTitle': 'No events found',
+  'discover.emptyText': 'Try a different search or remove some filters.',
+  'discover.showing': 'Showing {shown} of {total}',
+  'discover.loadMore': 'Load more events',
+
+  // Discover filters
+  'filter.clearSearch': 'Clear search',
+  'filter.byCategory': 'Filter by category',
+  'filter.all': 'All',
+  'filter.city': 'City',
+  'filter.allCities': 'All cities',
+  'filter.price': 'Price',
+  'filter.sort': 'Sort by',
+  'sort.soonest': 'Date: soonest',
+  'sort.priceAsc': 'Price: low to high',
+  'sort.priceDesc': 'Price: high to low',
+  'price.any': 'Any price',
 }
