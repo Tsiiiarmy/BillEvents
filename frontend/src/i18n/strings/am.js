@@ -140,4 +140,25 @@ export default {
 
   'trust.lead': 'ደህንነቱ የተጠበቀ ክፍያ በአጋራችን',
   'trust.tagline': 'ደህንነቱ የተጠበቀ • ቀላል • አስተማማኝ',
+
+  
+  'how.step1.title': 'ዝግጅት ያግኙ',
+  'how.step1.text': 'ዝግጅቶችን ያስሱ እና የሚወዱትን ያግኙ።',
+  'how.step2.title': 'ትኬቶችዎን ይምረጡ',
+  'how.step2.text': 'የትኬት ዓይነቱን እና ብዛቱን ይምረጡ።',
+  'how.step3.title': 'ደህንነቱ በተጠበቀ መንገድ ይክፈሉ',
+  'how.step3.text': 'ክፍያውን በBillPay በኩል ያጠናቅቁ።',
+  'how.step4.title': 'ትኬትዎን ይቀበሉ',
+  'how.step4.text': 'ዲጂታል ትኬትዎን ይቀበሉ እና ለዝግጅቱ ይዘጋጁ።',
+
+  'org.benefit1.title': 'ይፍጠሩ እና ያስተዳድሩ',
+  'org.benefit1.text': 'ዝግጅቶችን፣ የትኬት ዓይነቶችን እና ዋጋዎችን ይፍጠሩ።',
+  'org.benefit2.title': 'ሽያጭን ይከታተሉ',
+  'org.benefit2.text': 'ሽያጭን፣ ክምችትን እና ተሳታፊዎችን ይከታተሉ።',
+  'org.benefit3.title': 'ደህንነቱ የተጠበቀ ክፍያ',
+  'org.benefit3.text': 'ክፍያዎች በBillPay ይከናወናሉ።',
+
+  'save.label': '{title} — ያስቀምጡ',
+  'save.tipOn': 'ተቀምጧል',
+  'save.tipOff': 'ለበኋላ ያስቀምጡ',
 }

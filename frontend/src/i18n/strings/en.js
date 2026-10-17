@@ -130,4 +130,10 @@ export default {
   // Trust strip
   'trust.lead': 'Secure payments powered by',
   'trust.tagline': 'SAFE • SIMPLE • RELIABLE',
+
+  
+  // Save (heart) button
+  'save.label': 'Save {title}',
+  'save.tipOn': 'Saved',
+  'save.tipOff': 'Save for later',
 }

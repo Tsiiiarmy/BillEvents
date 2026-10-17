@@ -139,4 +139,25 @@ export default {
 
   'trust.lead': 'ውሑስ ክፍሊት ብሓገዝ',
   'trust.tagline': 'ውሑስ • ቀሊል • እሙን',
+
+  
+  'how.step1.title': 'ፍጻመ ርኸብ',
+  'how.step1.text': 'ፍጻመታት ርአ፣ ዘፍቅሮ ርኸብ።',
+  'how.step2.title': 'ቲኬታትካ ምረጽ',
+  'how.step2.text': 'ዓይነትን ብዝሒን ቲኬት ምረጽ።',
+  'how.step3.title': 'ብውሑስ ክፈል',
+  'how.step3.text': 'ክፍሊት ብBillPay ኣጻፍፍ።',
+  'how.step4.title': 'ቲኬትካ ተቐበል',
+  'how.step4.text': 'ዲጂታላዊ ቲኬትካ ተቐቢልካ ንፍጻመ ተዳሎ።',
+
+  'org.benefit1.title': 'ፍጠርን ኣመሓድርን',
+  'org.benefit1.text': 'ፍጻመታት፣ ዓይነታት ቲኬትን ዋጋታትን ፍጠር።',
+  'org.benefit2.title': 'መሸጣ ተኸታተል',
+  'org.benefit2.text': 'መሸጣ፣ ክዝናን ተሳተፍትን ተኸታተል።',
+  'org.benefit3.title': 'ውሑስ ክፍሊት',
+  'org.benefit3.text': 'ክፍሊታት ብBillPay ይካየዱ።',
+
+  'save.label': '{title} ኣቐምጥ',
+  'save.tipOn': 'ተዓቂቡ',
+  'save.tipOff': 'ንድሕሪ ኣቐምጥ',
 }

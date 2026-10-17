@@ -1,14 +1,19 @@
 import { Icon } from './Icon'
 import useSaved from '../../hooks/useSaved'
+import useLanguage from '../../hooks/useLanguage'
 
 /**
  * The heart. Works anywhere, including inside a card that is wrapped in a
  * Link — the click is stopped so saving never navigates.
  *
  * tone 'overlay' sits on a photo or gradient; 'plain' sits on a page.
+ *
+ * The label stays the same; aria-pressed alone tells screen readers whether
+ * it's saved (the standard pattern for toggle buttons).
  */
 export function SaveButton({ event, tone = 'overlay', size = 'h-10 w-10', className = '' }) {
   const { saved, toggleSaved } = useSaved()
+  const { t } = useLanguage()
   const on = saved.includes(String(event.id))
 
   const press = (e) => {
@@ -28,8 +33,8 @@ export function SaveButton({ event, tone = 'overlay', size = 'h-10 w-10', classN
       type="button"
       onClick={press}
       aria-pressed={on}
-      aria-label={on ? `Remove ${event.title} from saved events` : `Save ${event.title}`}
-      title={on ? 'Saved' : 'Save for later'}
+      aria-label={t('save.label', { title: event.title })}
+      title={t(on ? 'save.tipOn' : 'save.tipOff')}
       className={`grid shrink-0 place-items-center rounded-full transition hover:scale-110 active:scale-90 motion-reduce:hover:scale-100 focus-visible:ring-4 focus-visible:ring-aqua/40 ${size} ${tones[tone] || tones.overlay} ${className}`}
     >
       <Icon

@@ -139,4 +139,25 @@ export default {
 
   'trust.lead': 'Kaffaltii nageenya qabu kan dhiyeessu',
   'trust.tagline': 'NAGAA • SALPHAA • AMANAMAA',
+
+  
+  'how.step1.title': 'Taatee argadhu',
+  'how.step1.text': 'Taateewwan ilaali, kan jaallattu argadhu.',
+  'how.step2.title': 'Tikeetii kee filadhu',
+  'how.step2.text': 'Gosa tikeetii fi baay’ina filadhu.',
+  'how.step3.title': 'Nageenyaan kaffali',
+  'how.step3.text': 'Kaffaltii BillPay’n xumuri.',
+  'how.step4.title': 'Tikeetii kee fudhadhu',
+  'how.step4.text': 'Tikeetii dijitaalaa kee fudhadhuu taateef qophaa’i.',
+
+  'org.benefit1.title': 'Uumi fi bulchi',
+  'org.benefit1.text': 'Taateewwan, gosa tikeetii fi gatii uumi.',
+  'org.benefit2.title': 'Gurgurtaa hordofi',
+  'org.benefit2.text': 'Gurgurtaa, kuusaa fi hirmaattota hordofi.',
+  'org.benefit3.title': 'Kaffaltii nageenya qabu',
+  'org.benefit3.text': 'Kaffaltiin BillPay’n raawwatama.',
+
+  'save.label': '{title} olkaa’i',
+  'save.tipOn': 'Olkaa’ameera',
+  'save.tipOff': 'Booda ilaaluuf olkaa’i',
 }
