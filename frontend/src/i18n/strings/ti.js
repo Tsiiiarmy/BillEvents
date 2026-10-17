@@ -222,4 +222,43 @@ export default {
   'sel.continue': 'ናብ ክፍሊት ቀጽል',
   'sel.secure': 'ውሑስ ክፍሊት ብBillPay',
   'fee.label': 'ክፍሊት ኣገልግሎት BillEvents',
+
+
+  
+  'form.optional': 'ኣማራጺ',
+  'form.select': 'ምረጽ...',
+
+  'co.secure': 'ውሑስ ክፍሊት',
+  'co.progress': 'መስርሕ ክፍሊት',
+  'co.stepOf': 'ደረጃ {n} ካብ {total} · ',
+  'co.completed': 'ተዛዚሙ',
+  'co.step.details': 'ሓበሬታኻ',
+  'co.step.payment': 'ክፍሊት',
+  'co.step.done': 'ምርግጋጽ',
+  'co.back': 'ተመለስ',
+
+  'co.backToEvent': 'ናብ ፍጻመ ተመለስ',
+  'co.title': 'ክፍሊት ምዝዛም',
+  'co.lead': 'ቲኬታትካ ኣረጋግጽ፣ ናበይ ክንሰዶም ከም ዘለና ንገረና።',
+  'co.yourTickets': 'ቲኬታትካ',
+  'co.change': 'ቀይር',
+  'co.each': 'ነፍሲ ወከፍ {price}',
+  'co.atLeastOne': 'እንተወሓደ ሓደ ቲኬት የድልየካ። ካብ መጀመርታ ክትጅምር ናብ ፍጻመ ተመለስ።',
+  'co.holder': 'ሓበሬታ ዋና ቲኬት',
+  'co.holderLead': 'ቲኬታትካን ቅብሊትካን ናብዚ ይስደዱ።',
+  'co.name': 'ምሉእ ስም',
+  'co.email': 'ኢመይል',
+  'co.emailHint': 'ቲኬታትካ ናብዚ ኣድራሻ ንሰዶም።',
+  'co.phone': 'ቁጽሪ ተሌፎን',
+  'co.phoneHint': 'ንምርግጋጽ ክፍሊትካ ይጥቀመሉ።',
+  'co.errName': 'በጃኻ ምሉእ ስም ዋና ቲኬት ኣእቱ።',
+  'co.errEmail': 'ቅኑዕ ኣድራሻ ኢመይል ኣእቱ — ቲኬታትካ ናብዚ ይስደዱ።',
+  'co.errPhone': 'ቅኑዕ ቁጽሪ ሞባይል ኣእቱ፣ ንኣብነት 911 234 567።',
+  'co.preview': 'እዚ ናይ መርኣዪ ስሪት እዩ። ክፍሊት ኣይውሰድን፣ ብሓቀኛ ስርዓት ዝወሃብ ቲኬት ውን የለን።',
+  'co.continue': 'ናብ ክፍሊት ቀጽል',
+  'co.poweredBy': 'ክፍሊታት ዝካየዱ ብ',
+
+  'sum.label': 'ጽማቕ ትእዛዝ',
+  'sum.subtotal': 'ንኡስ ድምር',
+  'fee.note': 'ልዕሊ ዋጋ ቲኬት ይኽፈል፣ ኣብ ዋጋ ኣይሕባእን።',
 }

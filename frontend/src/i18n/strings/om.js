@@ -220,4 +220,43 @@ export default {
   'sel.continue': 'Gara kaffaltiitti itti fufi',
   'sel.secure': 'Kaffaltii nageenya qabu BillPay’n',
   'fee.label': 'Kaffaltii tajaajilaa BillEvents',
+
+
+  
+  'form.optional': 'Dirqama miti',
+  'form.select': 'Filadhu...',
+
+  'co.secure': 'Kaffaltii nageenya qabu',
+  'co.progress': 'Adeemsa kaffaltii',
+  'co.stepOf': 'Tarkaanfii {n} kan {total} keessaa · ',
+  'co.completed': 'xumurameera',
+  'co.step.details': 'Odeeffannoo kee',
+  'co.step.payment': 'Kaffaltii',
+  'co.step.done': 'Mirkaneessa',
+  'co.back': 'Deebi’i',
+
+  'co.backToEvent': 'Gara taateetti deebi’i',
+  'co.title': 'Kaffaltii xumuruu',
+  'co.lead': 'Tikeetii kee mirkaneessiitii eessatti akka ergamu nutti himi.',
+  'co.yourTickets': 'Tikeetii kee',
+  'co.change': 'Jijjiiri',
+  'co.each': 'Tokkoon tokkoon {price}',
+  'co.atLeastOne': 'Yoo xiqqaate tikeetii tokko si barbaachisa. Haaraa jalqabuuf gara taateetti deebi’i.',
+  'co.holder': 'Odeeffannoo abbaa tikeetii',
+  'co.holderLead': 'Tikeetii fi nagaheen kee asitti ergamu.',
+  'co.name': 'Maqaa guutuu',
+  'co.email': 'Imeelii',
+  'co.emailHint': 'Tikeetii kee teessoo kanatti ergina.',
+  'co.phone': 'Lakkoofsa bilbilaa',
+  'co.phoneHint': 'Mirkaneessa kaffaltii keetiif fayyada.',
+  'co.errName': 'Maaloo maqaa guutuu abbaa tikeetii galchi.',
+  'co.errEmail': 'Teessoo imeelii sirrii galchi — tikeetiin kee asitti ergama.',
+  'co.errPhone': 'Lakkoofsa moobaayilaa sirrii galchi, fkn. 911 234 567.',
+  'co.preview': 'Kun gulaala agarsiisaati. Kaffaltiin hin fudhatamu, tikeetiinis sirna dhugaa irraa hin kennamu.',
+  'co.continue': 'Gara kaffaltiitti itti fufi',
+  'co.poweredBy': 'Kaffaltiin kan raawwatamu',
+
+  'sum.label': 'Cuunfaa ajajaa',
+  'sum.subtotal': 'Ida’ama xiqqaa',
+  'fee.note': 'Gatii tikeetii irratti dabalamee kaffalama; gatii keessatti hin dhokfamu.',
 }

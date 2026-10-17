@@ -221,4 +221,43 @@ export default {
   'sel.continue': 'ወደ ክፍያ ይቀጥሉ',
   'sel.secure': 'ደህንነቱ የተጠበቀ ክፍያ በBillPay',
   'fee.label': 'የBillEvents አገልግሎት ክፍያ',
+
+
+  
+  'form.optional': 'አማራጭ',
+  'form.select': 'ይምረጡ...',
+
+  'co.secure': 'ደህንነቱ የተጠበቀ ክፍያ',
+  'co.progress': 'የክፍያ ሂደት',
+  'co.stepOf': 'ደረጃ {n} ከ{total} · ',
+  'co.completed': 'ተጠናቋል',
+  'co.step.details': 'የእርስዎ መረጃ',
+  'co.step.payment': 'ክፍያ',
+  'co.step.done': 'ማረጋገጫ',
+  'co.back': 'ተመለስ',
+
+  'co.backToEvent': 'ወደ ዝግጅቱ ይመለሱ',
+  'co.title': 'ክፍያ ማጠናቀቂያ',
+  'co.lead': 'ትኬቶችዎን ያረጋግጡ እና የት እንደምንልክልዎ ይንገሩን።',
+  'co.yourTickets': 'ትኬቶችዎ',
+  'co.change': 'ቀይር',
+  'co.each': 'እያንዳንዱ {price}',
+  'co.atLeastOne': 'ቢያንስ አንድ ትኬት ያስፈልጋል። እንደገና ለመጀመር ወደ ዝግጅቱ ይመለሱ።',
+  'co.holder': 'የትኬት ባለቤት መረጃ',
+  'co.holderLead': 'ትኬቶችዎ እና ደረሰኝዎ እዚህ ይላካሉ።',
+  'co.name': 'ሙሉ ስም',
+  'co.email': 'ኢሜይል',
+  'co.emailHint': 'ትኬቶችዎን ወደዚህ አድራሻ እንልካለን።',
+  'co.phone': 'ስልክ ቁጥር',
+  'co.phoneHint': 'ለክፍያ ማረጋገጫዎ ጥቅም ላይ ይውላል።',
+  'co.errName': 'እባክዎ የትኬት ባለቤቱን ሙሉ ስም ያስገቡ።',
+  'co.errEmail': 'ትክክለኛ የኢሜይል አድራሻ ያስገቡ — ትኬቶችዎ እዚህ ይላካሉ።',
+  'co.errPhone': 'ትክክለኛ የሞባይል ቁጥር ያስገቡ፣ ለምሳሌ 911 234 567።',
+  'co.preview': 'ይህ የቅድመ እይታ ስሪት ነው። ምንም ክፍያ አይወሰድም፤ በእውነተኛ ሥርዓት የሚሰጥ ትኬትም የለም።',
+  'co.continue': 'ወደ ክፍያ ይቀጥሉ',
+  'co.poweredBy': 'ክፍያዎች የሚከናወኑት በ',
+
+  'sum.label': 'የትዕዛዝ ማጠቃለያ',
+  'sum.subtotal': 'ንዑስ ድምር',
+  'fee.note': 'ከትኬቱ ዋጋ በተጨማሪ ይከፈላል፤ በዋጋው ውስጥ አይደበቅም።',
 }

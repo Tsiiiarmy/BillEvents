@@ -196,4 +196,46 @@ export default {
   'sel.total': 'Total',
   'sel.continue': 'Continue to Checkout',
   'sel.secure': 'Secure payment with BillPay',
+
+
+  
+  // Shared form fields
+  'form.optional': 'Optional',
+  'form.select': 'Select...',
+
+  // Checkout header
+  'co.secure': 'Secure checkout',
+  'co.progress': 'Checkout progress',
+  'co.stepOf': 'Step {n} of {total} · ',
+  'co.completed': 'completed',
+  'co.step.details': 'Your details',
+  'co.step.payment': 'Payment',
+  'co.step.done': 'Confirmation',
+  'co.back': 'Back',
+
+  // Checkout details page
+  'co.backToEvent': 'Back to event',
+  'co.title': 'Checkout',
+  'co.lead': 'Check your tickets and tell us where to send them.',
+  'co.yourTickets': 'Your tickets',
+  'co.change': 'Change',
+  'co.each': '{price} each',
+  'co.atLeastOne': 'You need at least one ticket. To start over, go back to the event.',
+  'co.holder': 'Ticket holder details',
+  'co.holderLead': 'Your tickets and receipt are sent here.',
+  'co.name': 'Full name',
+  'co.email': 'Email',
+  'co.emailHint': 'We send your tickets to this address.',
+  'co.phone': 'Phone number',
+  'co.phoneHint': 'Used for your payment confirmation.',
+  'co.errName': 'Please enter the full name of the ticket holder.',
+  'co.errEmail': 'Enter a valid email address — your tickets go here.',
+  'co.errPhone': 'Enter a valid mobile number, e.g. 911 234 567.',
+  'co.preview': 'This is a preview build. No payment is taken and no tickets are issued by a real system yet.',
+  'co.continue': 'Continue to Payment',
+  'co.poweredBy': 'Payments powered by',
+
+  // Order summary (fee label and note in English come from data/checkout.js)
+  'sum.label': 'Order summary',
+  'sum.subtotal': 'Subtotal',
 }

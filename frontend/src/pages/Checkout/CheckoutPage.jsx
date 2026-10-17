@@ -10,6 +10,7 @@ import { OrderSummary } from '../../components/checkout/OrderSummary'
 
 import useAuth from '../../hooks/useAuth'
 import useCheckout from '../../hooks/useCheckout'
+import useLanguage from '../../hooks/useLanguage'
 import { MAX_PER_TIER } from '../../data/checkout'
 import { calcTotals, etb } from '../../utils/money'
 
@@ -21,6 +22,7 @@ export default function CheckoutPage({ theme, toggle }) {
   const navigate = useNavigate()
   const { user, isSignedIn } = useAuth()
   const { draft, hasDraft, setContact, setItems } = useCheckout()
+  const { t } = useLanguage()
 
   const [form, setForm] = useState(() => ({
     name: draft?.contact?.name ?? user?.name ?? '',
@@ -28,6 +30,7 @@ export default function CheckoutPage({ theme, toggle }) {
     phone: draft?.contact?.phone ?? user?.phone ?? '',
   }))
 
+  // Holds translation KEYS, so errors switch language along with the page.
   const [err, setErr] = useState({})
 
   // Guards. Hooks above run first so the order never changes.
@@ -47,9 +50,9 @@ export default function CheckoutPage({ theme, toggle }) {
   const submit = (e) => {
     e.preventDefault()
     const x = {}
-    if (form.name.trim().length < 2) x.name = 'Please enter the full name of the ticket holder.'
-    if (!EMAIL.test(form.email.trim())) x.email = 'Enter a valid email address — your tickets go here.'
-    if (!PHONE.test(form.phone.replace(/\s/g, ''))) x.phone = 'Enter a valid mobile number, e.g. 911 234 567.'
+    if (form.name.trim().length < 2) x.name = 'co.errName'
+    if (!EMAIL.test(form.email.trim())) x.email = 'co.errEmail'
+    if (!PHONE.test(form.phone.replace(/\s/g, ''))) x.phone = 'co.errPhone'
     setErr(x)
     if (Object.keys(x).length) return
 
@@ -61,10 +64,11 @@ export default function CheckoutPage({ theme, toggle }) {
     navigate('/checkout/payment')
   }
 
+  const errorText = (k) => (err[k] ? t(err[k]) : undefined)
+
   const stepper =
     'grid h-8 w-8 place-items-center rounded-full border border-navy/20 transition hover:bg-navy/10 disabled:opacity-30 disabled:hover:bg-transparent dark:border-white/25 dark:hover:bg-white/10'
-  const card =
-    'rounded-3xl border border-navy/10 bg-white p-5 sm:p-6 dark:border-white/10 dark:bg-navy-2'
+  const card = 'rounded-3xl border border-navy/10 bg-white p-5 sm:p-6 dark:border-white/10 dark:bg-navy-2'
 
   return (
     <div className="min-h-screen">
@@ -73,26 +77,23 @@ export default function CheckoutPage({ theme, toggle }) {
         toggle={toggle}
         current="details"
         backTo={`/events/${draft.eventId}`}
-        backLabel="Back to event"
+        backLabel={t('co.backToEvent')}
       />
 
       <main id="main" className="wrap py-8 sm:py-12">
-        <h1 className="font-heading text-3xl font-bold sm:text-4xl">Checkout</h1>
-        <p className="mt-2 text-mortar dark:text-white/70">
-          Check your tickets and tell us where to send them.
-        </p>
+        <h1 className="font-heading text-3xl font-bold sm:text-4xl">{t('co.title')}</h1>
+        <p className="mt-2 text-mortar dark:text-white/70">{t('co.lead')}</p>
 
         <div className="mt-8 grid items-start gap-6 lg:grid-cols-[1fr_380px] lg:gap-8">
           {/* Left: tickets + details */}
           <div className="grid gap-6">
             <section className={card} aria-labelledby="tickets-h">
               <div className="flex items-baseline justify-between gap-3">
-                <h2 id="tickets-h" className="font-heading text-lg font-bold">Your tickets</h2>
-                <Link
-                  to={`/events/${draft.eventId}`}
-                  className="text-sm font-bold text-teal hover:underline dark:text-aqua"
-                >
-                  Change
+                <h2 id="tickets-h" className="font-heading text-lg font-bold">
+                  {t('co.yourTickets')}
+                </h2>
+                <Link to={`/events/${draft.eventId}`} className="text-sm font-bold text-teal hover:underline dark:text-aqua">
+                  {t('co.change')}
                 </Link>
               </div>
 
@@ -104,24 +105,28 @@ export default function CheckoutPage({ theme, toggle }) {
                   >
                     <div className="min-w-0">
                       <p className="font-heading font-bold">{i.name}</p>
-                      <p className="text-sm text-mortar dark:text-white/60">{etb(i.price)} each</p>
+                      <p className="text-sm text-mortar dark:text-white/60">
+                        {i.price ? t('co.each', { price: etb(i.price) }) : t('card.free')}
+                      </p>
                     </div>
-                    <div className="flex items-center gap-2.5" role="group" aria-label={`${i.name} quantity`}>
+                    <div className="flex items-center gap-2.5" role="group" aria-label={t('sel.qtyGroup', { name: i.name })}>
                       <button
                         type="button"
                         onClick={() => change(i.id, -1)}
                         disabled={totals.qty <= 1}
-                        aria-label={`Remove one ${i.name} ticket`}
+                        aria-label={t('sel.remove', { name: i.name })}
                         className={stepper}
                       >
                         <Icon n="minus" className="h-3.5 w-3.5" />
                       </button>
-                      <span className="w-5 text-center font-bold" aria-live="polite">{i.qty}</span>
+                      <span className="w-5 text-center font-bold" aria-live="polite">
+                        {i.qty}
+                      </span>
                       <button
                         type="button"
                         onClick={() => change(i.id, 1)}
                         disabled={i.qty >= MAX_PER_TIER}
-                        aria-label={`Add one ${i.name} ticket`}
+                        aria-label={t('sel.add', { name: i.name })}
                         className={stepper}
                       >
                         <Icon n="plus" className="h-3.5 w-3.5" />
@@ -131,75 +136,69 @@ export default function CheckoutPage({ theme, toggle }) {
                 ))}
               </ul>
 
-              <p className="mt-3 text-xs text-mortar dark:text-white/55">
-                You need at least one ticket. To start over, go back to the event.
-              </p>
+              <p className="mt-3 text-xs text-mortar dark:text-white/55">{t('co.atLeastOne')}</p>
             </section>
 
             <section className={card} aria-labelledby="details-h">
-              <h2 id="details-h" className="font-heading text-lg font-bold">Ticket holder details</h2>
-              <p className="mt-1 text-sm text-mortar dark:text-white/60">
-                Your tickets and receipt are sent here.
-              </p>
+              <h2 id="details-h" className="font-heading text-lg font-bold">
+                {t('co.holder')}
+              </h2>
+              <p className="mt-1 text-sm text-mortar dark:text-white/60">{t('co.holderLead')}</p>
 
               <form onSubmit={submit} noValidate className="mt-5 grid gap-5" id="checkout-form">
                 <Field
                   id="co-name"
-                  label="Full name"
+                  label={t('co.name')}
                   icon="user"
                   autoComplete="name"
                   placeholder="Abebe Kebede"
                   value={form.name}
                   onChange={set('name')}
-                  error={err.name}
+                  error={errorText('name')}
                 />
                 <Field
                   id="co-email"
-                  label="Email"
+                  label={t('co.email')}
                   icon="mail"
                   type="email"
                   autoComplete="email"
                   placeholder="you@example.com"
-                  hint="We send your tickets to this address."
+                  hint={t('co.emailHint')}
                   value={form.email}
                   onChange={set('email')}
-                  error={err.email}
+                  error={errorText('email')}
                 />
                 <Field
                   id="co-phone"
-                  label="Phone number"
+                  label={t('co.phone')}
                   icon="phone"
                   prefix="+251"
                   inputMode="tel"
                   autoComplete="tel-national"
                   placeholder="911 234 567"
-                  hint="Used for your payment confirmation."
+                  hint={t('co.phoneHint')}
                   value={form.phone}
                   onChange={set('phone')}
-                  error={err.phone}
+                  error={errorText('phone')}
                 />
               </form>
             </section>
 
             <p className="flex items-start gap-2 text-xs text-mortar dark:text-white/55">
               <Icon n="info" className="h-4 w-4 shrink-0" />
-              This is a preview build. No payment is taken and no tickets are issued by a real system yet.
+              {t('co.preview')}
             </p>
           </div>
 
           {/* Right: summary */}
           <div className="lg:sticky lg:top-36">
             <OrderSummary draft={draft} totals={totals}>
-              <Btn
-                type="submit"
-                form="checkout-form"
-                className="mt-5 w-full bg-aqua py-3.5 text-base text-navy"
-              >
-                Continue to Payment <Icon n="arrow" className="h-4 w-4 transition group-hover:translate-x-1" />
+              <Btn type="submit" form="checkout-form" className="mt-5 w-full bg-aqua py-3.5 text-base text-navy">
+                {t('co.continue')} <Icon n="arrow" className="h-4 w-4 transition group-hover:translate-x-1" />
               </Btn>
 
               <p className="mt-4 flex items-center justify-center gap-2 text-xs text-mortar dark:text-white/60">
-                Payments powered by <BillPay theme={theme} className="h-4" />
+                {t('co.poweredBy')} <BillPay theme={theme} className="h-4" />
               </p>
             </OrderSummary>
           </div>
