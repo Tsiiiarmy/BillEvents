@@ -27,7 +27,11 @@ const subscribe = (cb) => {
   listeners.add(cb)
   return () => listeners.delete(cb)
 }
+
 const getSnapshot = () => state
+
+/** Current language, for plain functions that aren't components (e.g. utils/money.js). */
+export const getLang = () => state
 
 export function setLang(code) {
   if (!known(code) || code === state) return

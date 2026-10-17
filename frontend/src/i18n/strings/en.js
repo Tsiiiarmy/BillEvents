@@ -166,4 +166,34 @@ export default {
   'sort.priceAsc': 'Price: low to high',
   'sort.priceDesc': 'Price: high to low',
   'price.any': 'Any price',
+
+  
+  // Event detail page
+  'event.notFound': 'Event not found',
+  'event.notFoundText': 'That event doesn’t exist or is no longer available.',
+  'event.browseAll': 'Browse all events',
+  'event.back': 'All events',
+  'event.date': 'Date',
+  'event.time': 'Time',
+  'event.venue': 'Venue',
+  'event.about': 'About this event',
+  'event.goodToKnow': 'Good to know',
+  'event.good1': 'Your digital ticket appears in My Tickets right after payment.',
+  'event.good2': 'Payments are processed securely through BillPay.',
+  'event.good3': 'Show your ticket on your phone at the entrance.',
+  'event.tickets': 'Tickets',
+  'event.more': 'More events',
+  'event.related': 'You might also like',
+
+  // Ticket selector (the fee label in English comes from data/checkout.js)
+  'sel.title': 'Choose your tickets',
+  'sel.limit': 'Up to {max} per ticket type.',
+  'sel.qtyGroup': '{name} quantity',
+  'sel.remove': 'Remove one {name} ticket',
+  'sel.add': 'Add one {name} ticket',
+  'sel.count.one': '{count} ticket',
+  'sel.count.other': '{count} tickets',
+  'sel.total': 'Total',
+  'sel.continue': 'Continue to Checkout',
+  'sel.secure': 'Secure payment with BillPay',
 }

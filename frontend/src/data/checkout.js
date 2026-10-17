@@ -23,6 +23,8 @@ export const SERVICE_FEE = {
   min: 10,
   max: 150,
   flat: 25,
+    // English label. Other languages use the 'fee.label' key in src/i18n/strings —
+  // update those too if you rename this.
   label: 'BillEvents service fee',
   note: 'Charged on top of the ticket price, never hidden inside it.',
 }

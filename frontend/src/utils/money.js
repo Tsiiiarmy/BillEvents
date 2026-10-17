@@ -1,9 +1,13 @@
 import { SERVICE_FEE, FREE_IS_FREE } from '../data/checkout'
+import { translate, getLang } from '../hooks/useLanguage'
 
-/** 1500 → "1,500 ETB" */
+
+/** 1500 → "1,500 ETB" — or "1,500 ብር", "1,500 Birr" in the current language. */
 export function etb(amount) {
-  return `${Math.round(amount || 0).toLocaleString('en-US')} ETB`
+  const n = Math.round(amount || 0).toLocaleString('en-US')
+  return translate(getLang(), 'card.currency', { amount: n })
 }
+
 
 /** 1500 → "1,500" (when the unit is shown separately) */
 export function amount(value) {
