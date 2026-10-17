@@ -496,4 +496,6 @@ export default {
 
   'event.expired': 'Your checkout expired after {minutes} minutes and was cleared. Choose your tickets again below.',
   'event.dismiss': 'Dismiss',
+
+  'nav.signInHint': 'See your tickets and saved events',
 }

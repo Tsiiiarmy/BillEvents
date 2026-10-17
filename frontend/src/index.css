@@ -15,8 +15,9 @@
   --color-navy: #21335E;
   --color-aqua: #6BD6DA;
   --color-mortar: #595959;
-  --color-navy-2: #2B4170;   /* dark-mode card surface */
-  --color-navy-3: #182546;   /* dark-mode alt section */
+  --color-navy-2: #16213A;   /* dark-mode card surface */
+  --color-navy-3: #0E1628;   /* dark-mode alt section */
+  --color-ink: #0B1120;      /* dark-mode page background */
   --color-mist: #EAF6FA;     /* light-mode alt section */
   --color-teal: #0E7C86;     /* readable aqua for text on white */
 
@@ -43,7 +44,18 @@
     -webkit-font-smoothing: antialiased;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
-  html.dark body { background-color: var(--color-navy); color: #ffffff; }
+  
+  /* Deep "ink" page with a faint brand glow at the top, so dark mode has depth
+     instead of being one flat blue. Brand navy is kept for brand panels. */
+  html.dark body {
+    background-color: var(--color-ink);
+    background-image:
+      radial-gradient(1100px 520px at 8% -8%, rgb(107 214 218 / 0.07), transparent 60%),
+      radial-gradient(900px 480px at 100% 0%, rgb(51 100 170 / 0.12), transparent 60%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: #ffffff;
+  }
 
   h1, h2, h3, h4 { font-family: var(--font-heading); }
 

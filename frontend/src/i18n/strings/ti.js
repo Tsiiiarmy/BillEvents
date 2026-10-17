@@ -589,5 +589,7 @@ export default {
 
   'event.expired': 'መስርሕ ክፍሊትካ ድሕሪ {minutes} ደቓይቕ ግዜኡ ሓሊፉ ተሰሪዙ። ኣብ ታሕቲ ቲኬታትካ ደጊምካ ምረጽ።',
   'event.dismiss': 'ዕጸው',
+
+  'nav.signInHint': 'ቲኬታትካን ዝተዓቀቡ ፍጻመታትን ርአ',
   
 }

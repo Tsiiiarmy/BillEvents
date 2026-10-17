@@ -589,4 +589,6 @@ export default {
 
   'event.expired': 'የክፍያ ሂደትዎ ከ{minutes} ደቂቃዎች በኋላ ጊዜው አልፎ ተሰርዟል። ከታች ትኬቶችዎን እንደገና ይምረጡ።',
   'event.dismiss': 'ዝጋ',
+
+  'nav.signInHint': 'ትኬቶችዎን እና የተቀመጡ ዝግጅቶችን ይመልከቱ',
 }

@@ -572,4 +572,6 @@ export default {
 
   'event.expired': 'Adeemsi kaffaltii kee daqiiqaa {minutes} booda yeroon isaa darbee haqameera. Armaan gaditti tikeetii kee irra deebi’ii filadhu.',
   'event.dismiss': 'Cufi',
+
+  'nav.signInHint': 'Tikeetii fi taateewwan olkaa’aman kee ilaali',
 }

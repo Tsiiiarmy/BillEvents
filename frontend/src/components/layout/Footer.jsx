@@ -38,7 +38,7 @@ export function Footer() {
     <>
       <Newsletter />
 
-      <footer className="bg-navy text-white dark:bg-[#0F1A33]">
+            <footer className="bg-navy text-white">
         <div className="wrap grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           {/* Brand */}
           <div>
