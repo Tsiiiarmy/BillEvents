@@ -302,4 +302,57 @@ export default {
   'done.browseMore': 'Browse more events',
   'done.seeAll': 'See all your tickets in My Tickets',
   'done.paidSecurely': 'Paid securely with',
+
+  
+  // Relative dates (utils/datetime.js)
+  'when.now': 'Happening now',
+  'when.today': 'Today',
+  'when.earlierToday': 'Earlier today',
+  'when.tomorrow': 'Tomorrow',
+  'when.yesterday': 'Yesterday',
+  'when.inDays': 'In {n} days',
+  'when.inWeeks': 'In {n} weeks',
+  'when.inMonths': 'In {n} months',
+  'when.daysAgo': '{n} days ago',
+  'when.weeksAgo': '{n} weeks ago',
+  'when.monthsAgo': '{n} months ago',
+
+  // Digital ticket (status labels in English come from data/checkout.js)
+  'tk.seatOf': 'Ticket {n} of {total}',
+  'tk.qrAlt': 'QR code for ticket {code}',
+  'tk.qrError': 'The code could not be drawn. Show the ticket number below instead.',
+  'tk.scanHere': 'Scan this at the entrance',
+  'tk.number': 'Ticket number',
+  'tk.order': 'Order {ref}',
+  'tk.save': 'Save the code',
+
+  // My Tickets
+  'mt.lead': 'Every ticket you’ve bought, with its QR code ready for the gate.',
+  'mt.tabs': 'Ticket filter',
+  'mt.upcoming': 'Upcoming',
+  'mt.past': 'Past',
+  'mt.emptyUpTitle': 'No upcoming tickets',
+  'mt.emptyUpText': 'When you buy a ticket it lands here, ready to scan at the entrance.',
+  'mt.emptyPastTitle': 'Nothing here yet',
+  'mt.emptyPastText': 'Events you have already been to will show up here afterwards.',
+  'mt.find': 'Find an event',
+  'mt.preview': 'Preview build: your orders live in this browser only. They will move to your real account once the backend exists.',
+
+  // Order card
+  'oc.checkedIn': ' · {n} checked in',
+  'oc.receipt': 'Receipt',
+  'oc.show': 'Show tickets',
+  'oc.view': 'View tickets',
+
+  // Ticket view
+  'tv.notFound': 'Ticket not found',
+  'tv.notFoundText': 'We can’t find an order with that reference in this browser.',
+  'tv.back': 'Back to My Tickets',
+  'tv.all': 'All tickets',
+  'tv.tip': 'Each ticket admits one person and works once. Turn your screen brightness up before you reach the gate.',
+  'tv.receipt': 'View receipt',
+
+  // Account greeting
+  'account.hi': 'Hi, {name}',
+  'account.heading': 'Your account',
 }

@@ -333,5 +333,57 @@ export default {
   'done.browseMore': 'ተወሳኺ ፍጻመታት ዳህስስ',
   'done.seeAll': 'ኩሎም ቲኬታትካ ኣብ "ቲኬታተይ" ርአ',
   'done.paidSecurely': 'ብውሑስ ዝተኸፈለ ብ',
+
+  
+  'when.now': 'ሕጂ ይካየድ ኣሎ',
+  'when.today': 'ሎሚ',
+  'when.earlierToday': 'ሎሚ ቀደም ኢሉ',
+  'when.tomorrow': 'ጽባሕ',
+  'when.yesterday': 'ትማሊ',
+  'when.inDays': 'ኣብ {n} መዓልታት',
+  'when.inWeeks': 'ኣብ {n} ሰሙናት',
+  'when.inMonths': 'ኣብ {n} ኣዋርሕ',
+  'when.daysAgo': 'ቅድሚ {n} መዓልታት',
+  'when.weeksAgo': 'ቅድሚ {n} ሰሙናት',
+  'when.monthsAgo': 'ቅድሚ {n} ኣዋርሕ',
+
+  'tstatus.valid': 'ዝሰርሕ',
+  'tstatus.used': 'ኣትዩ',
+  'tstatus.expired': 'ግዜኡ ዝሓለፈ',
+  'tstatus.void': 'ዝተሰረዘ',
+
+  'tk.seatOf': 'ቲኬት {n} ካብ {total}',
+  'tk.qrAlt': 'QR ኮድ ቲኬት {code}',
+  'tk.qrError': 'ኮድ ክስኣል ኣይከኣለን። ኣብ ክንድኡ ኣብ ታሕቲ ዘሎ ቁጽሪ ቲኬት ኣርኢ።',
+  'tk.scanHere': 'ነዚ ኣብ መእተዊ ኣስካን',
+  'tk.number': 'ቁጽሪ ቲኬት',
+  'tk.order': 'ትእዛዝ {ref}',
+  'tk.save': 'ኮድ ኣቐምጥ',
+
+  'mt.lead': 'ዝገዛእካዮም ኩሎም ቲኬታት፣ QR ኮዶም ንመእተዊ ድሉው።',
+  'mt.tabs': 'መጻረዪ ቲኬት',
+  'mt.upcoming': 'ዝመጽኡ',
+  'mt.past': 'ዝሓለፉ',
+  'mt.emptyUpTitle': 'ዝመጽእ ቲኬት የለን',
+  'mt.emptyUpText': 'ቲኬት ምስ ገዛእካ ኣብዚ ይኣቱ፣ ኣብ መእተዊ ንምስካን ድሉው።',
+  'mt.emptyPastTitle': 'ገና ዋላ ሓንቲ የለን',
+  'mt.emptyPastText': 'ዝተሳተፍካዮም ፍጻመታት ድሕሪ ምዝዛሞም ኣብዚ ይርኣዩ።',
+  'mt.find': 'ፍጻመ ርኸብ',
+  'mt.preview': 'ናይ መርኣዪ ስሪት፦ ትእዛዛትካ ኣብዚ ብራውዘር ጥራይ ይዕቀቡ። ስርዓት ምስ ተዳለወ ናብ ሓቀኛ ሕሳብካ ክሰጋገሩ እዮም።',
+
+  'oc.checkedIn': ' · {n} ኣትዮም',
+  'oc.receipt': 'ቅብሊት',
+  'oc.show': 'ቲኬታት ኣርኢ',
+  'oc.view': 'ቲኬታት ርአ',
+
+  'tv.notFound': 'ቲኬት ኣይተረኽበን',
+  'tv.notFoundText': 'ኣብዚ ብራውዘር ብኡ ቁጽሪ ዝተመዝገበ ትእዛዝ ክንረኽብ ኣይከኣልናን።',
+  'tv.back': 'ናብ ቲኬታተይ ተመለስ',
+  'tv.all': 'ኩሎም ቲኬታት',
+  'tv.tip': 'ነፍሲ ወከፍ ቲኬት ሓደ ሰብ የእቱ፣ ሓንሳእ ጥራይ ይሰርሕ። ናብ መእተዊ ቅድሚ ምብጻሕካ ብርሃን ስክሪንካ ወስኽ።',
+  'tv.receipt': 'ቅብሊት ርአ',
+
+  'account.hi': 'ሰላም፣ {name}',
+  'account.heading': 'ሕሳብካ',
   
 }

@@ -7,38 +7,31 @@ import { Icon } from '../../components/common/Icon'
 import { Btn } from '../../components/common/Btn'
 
 import useOrders from '../../hooks/useOrders'
+import useLanguage, { translate } from '../../hooks/useLanguage'
 import { isPastEvent, byStart } from '../../utils/datetime'
 
 export default function MyTicketsPage({ theme, toggle }) {
   const { orders } = useOrders()
+  const { lang, t } = useLanguage()
   const [tab, setTab] = useState('upcoming')
 
   useEffect(() => {
-    document.title = 'My Tickets — BillEvents'
-  }, [])
+    document.title = `${translate(lang, 'account.tickets')} — BillEvents`
+  }, [lang])
 
   const upcoming = orders.filter((o) => !isPastEvent(o)).sort(byStart(1))
   const past = orders.filter(isPastEvent).sort(byStart(-1))
   const shown = tab === 'upcoming' ? upcoming : past
 
   const tabs = [
-    ['upcoming', 'Upcoming', upcoming.length],
-    ['past', 'Past', past.length],
+    ['upcoming', 'mt.upcoming', upcoming.length],
+    ['past', 'mt.past', past.length],
   ]
 
   return (
-    <AccountLayout
-      theme={theme}
-      toggle={toggle}
-      title="My Tickets"
-      lead="Every ticket you've bought, with its QR code ready for the gate."
-    >
-      <div
-        role="tablist"
-        aria-label="Ticket filter"
-        className="inline-flex rounded-full bg-white p-1 dark:bg-navy-2"
-      >
-        {tabs.map(([id, label, count]) => (
+    <AccountLayout theme={theme} toggle={toggle} title={t('account.tickets')} lead={t('mt.lead')}>
+      <div role="tablist" aria-label={t('mt.tabs')} className="inline-flex rounded-full bg-white p-1 dark:bg-navy-2">
+        {tabs.map(([id, key, count]) => (
           <button
             key={id}
             role="tab"
@@ -52,7 +45,7 @@ export default function MyTicketsPage({ theme, toggle }) {
                 : 'text-mortar hover:text-navy dark:text-white/60 dark:hover:text-white'
             }`}
           >
-            {label} <span className="font-normal opacity-70">({count})</span>
+            {t(key)} <span className="font-normal opacity-70">({count})</span>
           </button>
         ))}
       </div>
@@ -64,16 +57,14 @@ export default function MyTicketsPage({ theme, toggle }) {
               <Icon n="ticket" className="h-7 w-7" />
             </span>
             <h2 className="mt-5 font-heading text-xl font-bold">
-              {tab === 'upcoming' ? 'No upcoming tickets' : 'Nothing here yet'}
+              {tab === 'upcoming' ? t('mt.emptyUpTitle') : t('mt.emptyPastTitle')}
             </h2>
             <p className="mx-auto mt-2 max-w-sm text-mortar dark:text-white/65">
-              {tab === 'upcoming'
-                ? 'When you buy a ticket it lands here, ready to scan at the entrance.'
-                : 'Events you have already been to will show up here afterwards.'}
+              {tab === 'upcoming' ? t('mt.emptyUpText') : t('mt.emptyPastText')}
             </p>
             {tab === 'upcoming' && (
               <Btn as={Link} to="/events" variant="dark" className="mt-6">
-                Find an event <Icon n="arrow" className="h-4 w-4 transition group-hover:translate-x-1" />
+                {t('mt.find')} <Icon n="arrow" className="h-4 w-4 transition group-hover:translate-x-1" />
               </Btn>
             )}
           </div>
@@ -88,8 +79,7 @@ export default function MyTicketsPage({ theme, toggle }) {
         {orders.length > 0 && (
           <p className="mt-6 flex items-start gap-2 text-xs text-mortar dark:text-white/55">
             <Icon n="info" className="h-4 w-4 shrink-0" />
-            Preview build: your orders live in this browser only. They will move to your real account
-            once the backend exists.
+            {t('mt.preview')}
           </p>
         )}
       </div>

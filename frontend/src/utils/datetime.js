@@ -1,3 +1,5 @@
+import { translate, getLang } from '../hooks/useLanguage'
+
 /**
  * Upcoming vs past. The grace period means an event that started this
  * evening still counts as upcoming while it is actually happening —
@@ -21,29 +23,43 @@ export function isPastEvent(order) {
   return isPastDate(order?.eventStart)
 }
 
-/** "In 11 days", "Tomorrow", "Today", "Happening now", "3 weeks ago". */
-export function whenLabel(order) {
+/**
+ * The language-neutral part: which phrase, and the number for it.
+ * → { key: 'when.inDays', n: 11 } or null when there's no start date.
+ */
+export function whenParts(order) {
   const t = toTime(order?.eventStart)
-  if (t === null) return ''
+  if (t === null) return null
 
   const diff = t - Date.now()
   const day = 86_400_000
 
-  if (diff < 0 && diff > -GRACE_HOURS * 3_600_000) return 'Happening now'
+  if (diff < 0 && diff > -GRACE_HOURS * 3_600_000) return { key: 'when.now' }
 
   const days = Math.round(diff / day)
-  if (days === 0) return diff > 0 ? 'Today' : 'Earlier today'
-  if (days === 1) return 'Tomorrow'
-  if (days === -1) return 'Yesterday'
-  if (days > 1 && days < 14) return `In ${days} days`
+  if (days === 0) return { key: diff > 0 ? 'when.today' : 'when.earlierToday' }
+  if (days === 1) return { key: 'when.tomorrow' }
+  if (days === -1) return { key: 'when.yesterday' }
+  if (days > 1 && days < 14) return { key: 'when.inDays', n: days }
   if (days >= 14) {
     const weeks = Math.round(days / 7)
-    return weeks < 9 ? `In ${weeks} weeks` : `In ${Math.round(days / 30)} months`
+    return weeks < 9 ? { key: 'when.inWeeks', n: weeks } : { key: 'when.inMonths', n: Math.round(days / 30) }
   }
   const ago = Math.abs(days)
-  if (ago < 14) return `${ago} days ago`
+  if (ago < 14) return { key: 'when.daysAgo', n: ago }
   const weeks = Math.round(ago / 7)
-  return weeks < 9 ? `${weeks} weeks ago` : `${Math.round(ago / 30)} months ago`
+  return weeks < 9 ? { key: 'when.weeksAgo', n: weeks } : { key: 'when.monthsAgo', n: Math.round(ago / 30) }
+}
+
+/** "In 11 days", "Tomorrow", "Happening now"… in the current language. */
+export function whenLabel(order) {
+  const p = whenParts(order)
+  return p ? translate(getLang(), p.key, { n: p.n }) : ''
+}
+
+/** True while the event is on (between its start and the grace period). */
+export function isHappeningNow(order) {
+  return whenParts(order)?.key === 'when.now'
 }
 
 /** Sort newest-first for past events, soonest-first for upcoming. */
