@@ -10,14 +10,11 @@ import useAuth from '../../hooks/useAuth'
 import useOrders from '../../hooks/useOrders'
 import useSaved from '../../hooks/useSaved'
 import useCheckout from '../../hooks/useCheckout'
-import useLanguage from '../../hooks/useLanguage'
+import useLanguage, { translate } from '../../hooks/useLanguage'
 import { LANGUAGES } from '../../i18n/languages'
-
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const PHONE = /^(\+251|251|0)?[79]\d{8}$/
-
-
 
 /** Shared panel so every block on the page sits in the same frame. */
 function Section({ icon, title, lead, children }) {
@@ -39,12 +36,13 @@ function Section({ icon, title, lead, children }) {
 
 /** Destructive actions ask once before they fire. */
 function DangerRow({ label, detail, count, onConfirm }) {
+  const { t } = useLanguage()
   const [asking, setAsking] = useState(false)
 
   useEffect(() => {
     if (!asking) return undefined
-    const t = setTimeout(() => setAsking(false), 6000)
-    return () => clearTimeout(t)
+    const timer = setTimeout(() => setAsking(false), 6000)
+    return () => clearTimeout(timer)
   }, [asking])
 
   return (
@@ -57,7 +55,7 @@ function DangerRow({ label, detail, count, onConfirm }) {
       </div>
 
       {asking ? (
-        <div className="flex items-center gap-2" role="group" aria-label={`Confirm ${label}`}>
+        <div className="flex items-center gap-2" role="group" aria-label={t('set.confirm', { label })}>
           <button
             type="button"
             onClick={() => {
@@ -66,14 +64,14 @@ function DangerRow({ label, detail, count, onConfirm }) {
             }}
             className="rounded-full bg-red-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-red-700"
           >
-            Yes, delete
+            {t('set.yesDelete')}
           </button>
           <button
             type="button"
             onClick={() => setAsking(false)}
             className="rounded-full border border-navy/20 px-4 py-2 text-sm font-bold transition hover:bg-navy/5 dark:border-white/25 dark:hover:bg-white/10"
           >
-            Cancel
+            {t('set.cancel')}
           </button>
         </div>
       ) : (
@@ -84,7 +82,7 @@ function DangerRow({ label, detail, count, onConfirm }) {
           className="inline-flex items-center gap-1.5 rounded-full border border-red-500/40 px-4 py-2 text-sm font-bold text-red-600 transition hover:bg-red-500/10 disabled:pointer-events-none disabled:opacity-40 dark:text-red-400"
         >
           <Icon n="trash" className="h-4 w-4" />
-          Delete
+          {t('set.delete')}
         </button>
       )}
     </div>
@@ -97,24 +95,24 @@ export default function SettingsPage({ theme, toggle }) {
   const { orders, clearOrders } = useOrders()
   const { saved, clearSaved } = useSaved()
   const { draft, clearCheckout } = useCheckout()
-  const { lang, setLang, t } = useLanguage()
+  const { lang, language, setLang, t } = useLanguage()
 
   const [form, setForm] = useState(() => ({
     name: user?.name ?? '',
     email: user?.email ?? '',
     phone: user?.phone ?? '',
   }))
-  const [err, setErr] = useState({})
+  const [err, setErr] = useState({}) // translation KEYS
   const [saved_, setSaved_] = useState(false)
 
   useEffect(() => {
-    document.title = 'Settings — BillEvents'
-  }, [])
+    document.title = `${translate(lang, 'account.settings')} — BillEvents`
+  }, [lang])
 
   useEffect(() => {
     if (!saved_) return undefined
-    const t = setTimeout(() => setSaved_(false), 3000)
-    return () => clearTimeout(t)
+    const timer = setTimeout(() => setSaved_(false), 3000)
+    return () => clearTimeout(timer)
   }, [saved_])
 
   const set = (k) => (val) => {
@@ -123,9 +121,7 @@ export default function SettingsPage({ theme, toggle }) {
   }
 
   const dirty =
-    form.name !== (user?.name ?? '') ||
-    form.email !== (user?.email ?? '') ||
-    form.phone !== (user?.phone ?? '')
+    form.name !== (user?.name ?? '') || form.email !== (user?.email ?? '') || form.phone !== (user?.phone ?? '')
 
   const submit = (e) => {
     e.preventDefault()
@@ -133,12 +129,10 @@ export default function SettingsPage({ theme, toggle }) {
     const email = form.email.trim()
     const phone = form.phone.replace(/\s/g, '')
 
-    if (form.name.trim().length < 2) x.name = 'Please enter your full name.'
-    if (email && !EMAIL.test(email)) x.email = 'Enter a valid email address.'
-    if (phone && !PHONE.test(phone)) x.phone = 'Enter a valid mobile number, e.g. 911 234 567.'
-    if (!email && !phone) {
-      x.email = 'Keep at least one way for us to reach you — an email or a phone number.'
-    }
+    if (form.name.trim().length < 2) x.name = 'err.name'
+    if (email && !EMAIL.test(email)) x.email = 'err.email'
+    if (phone && !PHONE.test(phone)) x.phone = 'co.errPhone'
+    if (!email && !phone) x.email = 'set.errOneContact'
 
     setErr(x)
     if (Object.keys(x).length) return
@@ -147,13 +141,15 @@ export default function SettingsPage({ theme, toggle }) {
     setSaved_(true)
   }
 
+  const errorText = (k) => (err[k] ? t(err[k]) : undefined)
+
   const leave = () => {
     signOut()
     navigate('/')
   }
 
   const joined = user?.joinedAt
-    ? new Date(user.joinedAt).toLocaleDateString('en-GB', {
+    ? new Date(user.joinedAt).toLocaleDateString(language.locale, {
         day: 'numeric',
         month: 'long',
         year: 'numeric',
@@ -161,94 +157,80 @@ export default function SettingsPage({ theme, toggle }) {
     : null
 
   const themes = [
-    ['light', 'Light', 'sun'],
-    ['dark', 'Dark', 'moon'],
+    ['light', 'set.light', 'sun'],
+    ['dark', 'set.dark', 'moon'],
   ]
 
   return (
-    <AccountLayout
-      theme={theme}
-      toggle={toggle}
-      title="Settings"
-      lead="Your details and how BillEvents looks on this device."
-    >
+    <AccountLayout theme={theme} toggle={toggle} title={t('account.settings')} lead={t('set.lead')}>
       <div className="grid gap-6">
         {/* Profile */}
-        <Section
-          icon="user"
-          title="Your details"
-          lead="These are used on your tickets and receipts."
-        >
+        <Section icon="user" title={t('set.details')} lead={t('set.detailsLead')}>
           <form onSubmit={submit} noValidate className="grid gap-5">
             <Field
               id="set-name"
-              label="Full name"
+              label={t('co.name')}
               icon="user"
               autoComplete="name"
               placeholder="Abebe Kebede"
               value={form.name}
               onChange={set('name')}
-              error={err.name}
+              error={errorText('name')}
             />
             <Field
               id="set-email"
-              label="Email"
+              label={t('co.email')}
               icon="mail"
               type="email"
               autoComplete="email"
               placeholder="you@example.com"
-              hint="Where your tickets and receipts are sent."
+              hint={t('set.emailHint')}
               value={form.email}
               onChange={set('email')}
-              error={err.email}
+              error={errorText('email')}
             />
             <Field
               id="set-phone"
-              label="Phone number"
+              label={t('co.phone')}
               icon="phone"
               prefix="+251"
               inputMode="tel"
               autoComplete="tel-national"
               placeholder="911 234 567"
-              hint="Used for payment confirmations."
+              hint={t('set.phoneHint')}
               value={form.phone}
               onChange={set('phone')}
-              error={err.phone}
+              error={errorText('phone')}
             />
 
             <div className="flex flex-wrap items-center gap-4">
               <Btn type="submit" disabled={!dirty} className="disabled:pointer-events-none disabled:opacity-40">
                 <Icon n="check" className="h-4 w-4" />
-                Save changes
+                {t('set.save')}
               </Btn>
               {saved_ && (
-                <p
-                  role="status"
-                  className="inline-flex items-center gap-1.5 text-sm font-bold text-teal dark:text-aqua"
-                >
+                <p role="status" className="inline-flex items-center gap-1.5 text-sm font-bold text-teal dark:text-aqua">
                   <Icon n="check" className="h-4 w-4" />
-                  Saved
+                  {t('set.saved')}
                 </p>
               )}
-              {!saved_ && dirty && (
-                <p className="text-sm text-mortar dark:text-white/60">You have unsaved changes.</p>
-              )}
+              {!saved_ && dirty && <p className="text-sm text-mortar dark:text-white/60">{t('set.unsaved')}</p>}
             </div>
           </form>
 
           {joined && (
             <p className="mt-5 border-t border-navy/10 pt-4 text-xs text-mortar dark:border-white/10 dark:text-white/55">
-              Account created {joined}
+              {t('set.joined', { date: joined })}
             </p>
           )}
         </Section>
 
         {/* Appearance */}
-        <Section icon="sun" title="Appearance" lead="Saved on this device.">
+        <Section icon="sun" title={t('set.appearance')} lead={t('set.appearanceLead')}>
           <fieldset>
-            <legend className="sr-only">Theme</legend>
+            <legend className="sr-only">{t('set.theme')}</legend>
             <div className="grid gap-3 sm:grid-cols-2">
-              {themes.map(([val, label, ic]) => (
+              {themes.map(([val, key, ic]) => (
                 <label key={val} className="cursor-pointer">
                   <input
                     type="radio"
@@ -261,10 +243,8 @@ export default function SettingsPage({ theme, toggle }) {
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-mist text-teal dark:bg-navy dark:text-aqua">
                       <Icon n={ic} className="h-5 w-5" />
                     </span>
-                    <span className="font-bold">{label}</span>
-                    {theme === val && (
-                      <Icon n="check" className="ml-auto h-5 w-5 text-teal dark:text-aqua" />
-                    )}
+                    <span className="font-bold">{t(key)}</span>
+                    {theme === val && <Icon n="check" className="ml-auto h-5 w-5 text-teal dark:text-aqua" />}
                   </span>
                 </label>
               ))}
@@ -301,9 +281,7 @@ export default function SettingsPage({ theme, toggle }) {
                         <span className="block text-xs text-mortar dark:text-white/55">{l.name}</span>
                       )}
                     </span>
-                    {lang === l.code && (
-                      <Icon n="check" className="ml-auto h-5 w-5 shrink-0 text-teal dark:text-aqua" />
-                    )}
+                    {lang === l.code && <Icon n="check" className="ml-auto h-5 w-5 shrink-0 text-teal dark:text-aqua" />}
                   </span>
                 </label>
               ))}
@@ -315,29 +293,24 @@ export default function SettingsPage({ theme, toggle }) {
           </p>
         </Section>
 
-
         {/* Local data */}
-        <Section
-          icon="shield"
-          title="Data on this device"
-          lead="Nothing in this preview reaches a server. Everything below is stored in this browser."
-        >
+        <Section icon="shield" title={t('set.data')} lead={t('set.dataLead')}>
           <div className="grid gap-3">
             <DangerRow
-              label="Orders and tickets"
-              detail="Your purchases and their QR codes."
+              label={t('set.orders')}
+              detail={t('set.ordersDetail')}
               count={orders.length}
               onConfirm={clearOrders}
             />
             <DangerRow
-              label="Saved events"
-              detail="Events you've hearted."
+              label={t('account.saved')}
+              detail={t('set.savedDetail')}
               count={saved.length}
               onConfirm={clearSaved}
             />
             <DangerRow
-              label="Unfinished checkout"
-              detail="A basket you started but didn't pay for."
+              label={t('set.draft')}
+              detail={t('set.draftDetail')}
               count={draft ? 1 : 0}
               onConfirm={clearCheckout}
             />
@@ -345,22 +318,19 @@ export default function SettingsPage({ theme, toggle }) {
         </Section>
 
         {/* Session */}
-        <Section icon="logout" title="Sign out" lead="You can sign back in at any time.">
+        <Section icon="logout" title={t('nav.signOut')} lead={t('set.signOutLead')}>
           <div className="flex flex-wrap items-center gap-4">
             <Btn as="button" variant="dark" onClick={leave}>
               <Icon n="logout" className="h-4 w-4" />
-              Sign out
+              {t('nav.signOut')}
             </Btn>
-            <p className="text-sm text-mortar dark:text-white/60">
-              Your orders and saved events stay on this device.
-            </p>
+            <p className="text-sm text-mortar dark:text-white/60">{t('set.signOutNote')}</p>
           </div>
         </Section>
 
         <p className="flex items-start gap-2 text-xs text-mortar dark:text-white/55">
           <Icon n="info" className="h-4 w-4 shrink-0" />
-          Preview build: there's no password to change and no real account yet. Those arrive with the
-          backend, along with notification preferences.
+          {t('set.preview')}
         </p>
       </div>
     </AccountLayout>
