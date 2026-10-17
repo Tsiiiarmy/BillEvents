@@ -1,6 +1,7 @@
 import { Icon } from '../common/Icon'
 import { Reveal } from '../common/Reveal'
 import { events } from '../../data'
+import useLanguage from '../../hooks/useLanguage'
 import logoLight from '../../assets/logo/billevents-logo.svg'
 
 const AppleLogo = () => (
@@ -15,9 +16,13 @@ const PlayLogo = () => (
 )
 
 // Before launch, swap these for the official App Store / Google Play badges.
-function StoreButton({ logo, small, big }) {
+function StoreButton({ logo, small, big, label }) {
   return (
-    <a href="#" aria-label={`${small} ${big}`} className="group flex items-center gap-3 rounded-2xl bg-white px-5 py-3 text-navy shadow-lg shadow-black/20 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <a
+      href="#"
+      aria-label={label}
+      className="group flex items-center gap-3 rounded-2xl bg-white px-5 py-3 text-navy shadow-lg shadow-black/20 transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+    >
       <span className="transition duration-300 group-hover:scale-110">{logo}</span>
       <span className="text-left leading-tight">
         <span className="block text-[11px] opacity-70">{small}</span>
@@ -29,8 +34,10 @@ function StoreButton({ logo, small, big }) {
 
 // Phone screen mockup (always light, like a real app screen)
 function Phone() {
+  const { t } = useLanguage()
   const [feat, ...rest] = events
   const upcoming = [rest[0], rest[2]]
+
   return (
     <div className="animate-float mx-auto h-[28rem] w-60 rounded-[2.5rem] border-[8px] border-[#0c1830] bg-white p-3 text-navy shadow-2xl">
       <div className="mx-auto mb-3 h-1.5 w-16 rounded-full bg-navy/20" />
@@ -38,17 +45,29 @@ function Phone() {
         <img src={logoLight} alt="BillEvents" className="h-5 w-auto" />
         <Icon n="search" className="h-4 w-4 text-mortar" />
       </div>
-      <div className={`mt-3 flex flex-col justify-end rounded-xl bg-linear-to-br ${feat.grad} p-3 text-white`} style={{ height: 104 }}>
+      <div
+        className={`mt-3 flex flex-col justify-end rounded-xl bg-linear-to-br ${feat.grad} p-3 text-white`}
+        style={{ height: 104 }}
+      >
         <p className="font-heading text-xs font-bold">{feat.title}</p>
-        <p className="text-[9px] opacity-85">{feat.date.split(' · ')[0]} · {feat.venue}</p>
-        <span className="mt-1.5 w-fit rounded-full bg-aqua px-2.5 py-1 text-[9px] font-bold text-navy">Get Tickets</span>
+        <p className="text-[9px] opacity-85">
+          {feat.date.split(' · ')[0]} · {feat.venue}
+        </p>
+        <span className="mt-1.5 w-fit rounded-full bg-aqua px-2.5 py-1 text-[9px] font-bold text-navy">
+          {t('card.getTickets')}
+        </span>
       </div>
-      <p className="mt-3 text-[10px] font-bold">Upcoming Events</p>
+      <p className="mt-3 text-[10px] font-bold">{t('app.upcoming')}</p>
       <ul className="mt-1.5 grid gap-2">
         {upcoming.map((e) => (
           <li key={e.id} className="flex items-center gap-2 rounded-lg border border-navy/10 p-2">
-            <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-md bg-linear-to-br ${e.grad}`}><Icon n={e.icon} className="h-4 w-4 text-white/90" /></span>
-            <span className="min-w-0"><span className="block truncate text-[10px] font-bold">{e.title}</span><span className="block text-[9px] text-mortar">{e.date.split(' · ')[0]}</span></span>
+            <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-md bg-linear-to-br ${e.grad}`}>
+              <Icon n={e.icon} className="h-4 w-4 text-white/90" />
+            </span>
+            <span className="min-w-0">
+              <span className="block truncate text-[10px] font-bold">{e.title}</span>
+              <span className="block text-[9px] text-mortar">{e.date.split(' · ')[0]}</span>
+            </span>
           </li>
         ))}
       </ul>
@@ -57,6 +76,8 @@ function Phone() {
 }
 
 export function AppSection() {
+  const { t } = useLanguage()
+
   return (
     <section id="app" className="py-20 lg:pt-28">
       <div className="wrap">
@@ -65,8 +86,20 @@ export function AppSection() {
             {/* decorative background (clipped to the rounded panel) */}
             <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl" aria-hidden="true">
               <div className="animate-drift absolute -right-10 -top-16 h-72 w-72 rounded-full bg-aqua/30 blur-3xl" />
-              <svg viewBox="0 0 400 120" fill="none" stroke="white" className="absolute -right-6 bottom-4 hidden w-[26rem] opacity-25 lg:block">
-                {[0, 10, 20].map((o) => <path key={o} className="animate-wave" strokeWidth="1.5" d={`M0 ${70 + o}C80 ${10 + o} 140 ${120 + o} 220 ${60 + o}S340 ${20 + o} 400 ${50 + o}`} />)}
+              <svg
+                viewBox="0 0 400 120"
+                fill="none"
+                stroke="white"
+                className="absolute -right-6 bottom-4 hidden w-[26rem] opacity-25 lg:block"
+              >
+                {[0, 10, 20].map((o) => (
+                  <path
+                    key={o}
+                    className="animate-wave"
+                    strokeWidth="1.5"
+                    d={`M0 ${70 + o}C80 ${10 + o} 140 ${120 + o} 220 ${60 + o}S340 ${20 + o} 400 ${50 + o}`}
+                  />
+                ))}
               </svg>
             </div>
 
@@ -77,12 +110,22 @@ export function AppSection() {
 
             {/* text */}
             <div className="relative order-1 self-center px-6 py-12 text-center text-white lg:order-2 lg:px-4 lg:text-left">
-              <p className="text-xs font-bold tracking-[0.2em] text-aqua">GET THE BILLEVENTS APP</p>
-              <h2 className="mt-2 font-heading text-3xl font-bold sm:text-4xl">Your events, always with you.</h2>
-              <p className="mx-auto mt-3 max-w-md text-white/80 lg:mx-0">Discover new events, keep your tickets close, and stay ready for your next experience.</p>
+              <p className="text-xs font-bold tracking-[0.2em] text-aqua">{t('app.eyebrow')}</p>
+              <h2 className="mt-2 font-heading text-3xl font-bold sm:text-4xl">{t('app.title')}</h2>
+              <p className="mx-auto mt-3 max-w-md text-white/80 lg:mx-0">{t('app.text')}</p>
               <div className="mt-7 flex flex-wrap justify-center gap-4 lg:justify-start">
-                <StoreButton logo={<AppleLogo />} small="Download on the" big="App Store" />
-                <StoreButton logo={<PlayLogo />} small="Get it on" big="Google Play" />
+                <StoreButton
+                  logo={<AppleLogo />}
+                  small={t('app.appleSmall')}
+                  big="App Store"
+                  label={t('app.appleLabel')}
+                />
+                <StoreButton
+                  logo={<PlayLogo />}
+                  small={t('app.playSmall')}
+                  big="Google Play"
+                  label={t('app.playLabel')}
+                />
               </div>
             </div>
 
@@ -91,12 +134,22 @@ export function AppSection() {
               <div className="absolute right-10 top-1/2 h-52 w-52 -translate-y-1/2 rounded-full bg-white/10" />
               <div className="absolute right-20 top-1/2 h-32 w-32 -translate-y-1/2 rounded-full bg-aqua/40" />
               <div className="animate-float absolute right-28 top-12 flex items-center gap-2 rounded-2xl bg-white p-3 text-navy shadow-xl">
-                <span className="grid h-9 w-9 place-items-center rounded-lg bg-aqua"><Icon n="ticket" className="h-5 w-5" /></span>
-                <span className="leading-tight"><span className="block text-xs font-bold">Ticket ready</span><span className="block text-[10px] text-mortar">2 × Regular</span></span>
+                <span className="grid h-9 w-9 place-items-center rounded-lg bg-aqua">
+                  <Icon n="ticket" className="h-5 w-5" />
+                </span>
+                <span className="leading-tight">
+                  <span className="block text-xs font-bold">{t('app.ticketReady')}</span>
+                  <span className="block text-[10px] text-mortar">
+                    {t('app.ticketCount', { count: 2, tier: t('tier.regular') })}
+                  </span>
+                </span>
               </div>
-              <div className="absolute bottom-14 right-6 flex items-center gap-2 rounded-2xl bg-white/15 p-3 text-white shadow-xl backdrop-blur-md" style={{ animation: 'float 7s ease-in-out -2s infinite' }}>
+              <div
+                className="absolute bottom-14 right-6 flex items-center gap-2 rounded-2xl bg-white/15 p-3 text-white shadow-xl backdrop-blur-md"
+                style={{ animation: 'float 7s ease-in-out -2s infinite' }}
+              >
                 <Icon n="heart" className="h-5 w-5 fill-current text-aqua" />
-                <span className="text-xs font-bold">Saved events</span>
+                <span className="text-xs font-bold">{t('account.saved')}</span>
               </div>
             </div>
           </div>

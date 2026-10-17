@@ -102,4 +102,42 @@ export default {
   'cat.Conferences': 'ኮንፈረንሶች',
   'cat.Workshops': 'ዎርክሾፖች',
   'cat.Community': 'ማህበረሰብ',
+
+  
+  'card.from': 'ከ{price} ጀምሮ',
+  'card.currency': '{amount} ብር',
+  'card.free': 'ነፃ',
+  'card.getTickets': 'ትኬት ይግዙ',
+
+  'how.eyebrow': 'እንዴት እንደሚሰራ',
+  'how.title': 'ታላቅ ተሞክሮዎች በአራት ቀላል ደረጃዎች።',
+
+  'org.eyebrow': 'ለአዘጋጆች',
+  'org.title': 'ዝግጅትዎን ሕያው ያድርጉ',
+  'org.text': 'ለዝግጅትዎ ትኬቶችን ይፍጠሩ፣ ያስተዳድሩ እና ይሽጡ — ሁሉንም በአንድ ቦታ።',
+  'org.cta': 'ዝግጅት ይፍጠሩ',
+  'org.learn': 'ተጨማሪ ይወቁ',
+  'org.demoLabel': 'የተሸጡ ትኬቶችን፣ ገቢን፣ የሽያጭ ገበታን እና የትኬት ክምችትን የሚያሳይ የአዘጋጅ ዳሽቦርድ ናሙና',
+  'org.demoTitle': 'የዝግጅት አፈጻጸም',
+  'org.sample': 'ናሙና መረጃ',
+  'org.sold': 'የተሸጡ ትኬቶች',
+  'org.revenue': 'ገቢ',
+  'org.upcoming': 'መጪ',
+  'tier.early': 'ቅድመ ሽያጭ',
+  'tier.regular': 'መደበኛ',
+  'tier.vip': 'ቪአይፒ',
+
+  'app.eyebrow': 'የBillEvents መተግበሪያን ያግኙ',
+  'app.title': 'ዝግጅቶችዎ ሁሌም ከእርስዎ ጋር።',
+  'app.text': 'አዳዲስ ዝግጅቶችን ያግኙ፣ ትኬቶችዎን በቅርብ ይያዙ፣ ለቀጣዩ ተሞክሮዎ ዝግጁ ይሁኑ።',
+  'app.appleSmall': 'ከዚህ ያውርዱ',
+  'app.playSmall': 'ከዚህ ያግኙ',
+  'app.appleLabel': 'ከApp Store ያውርዱ',
+  'app.playLabel': 'ከGoogle Play ያግኙ',
+  'app.upcoming': 'መጪ ዝግጅቶች',
+  'app.ticketReady': 'ትኬት ዝግጁ ነው',
+  'app.ticketCount': '{count} × {tier}',
+
+  'trust.lead': 'ደህንነቱ የተጠበቀ ክፍያ በአጋራችን',
+  'trust.tagline': 'ደህንነቱ የተጠበቀ • ቀላል • አስተማማኝ',
 }

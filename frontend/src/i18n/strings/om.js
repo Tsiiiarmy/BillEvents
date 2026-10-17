@@ -101,4 +101,42 @@ export default {
   'cat.Conferences': 'Koonfiraansiiwwan',
   'cat.Workshops': 'Leenjiiwwan',
   'cat.Community': 'Hawaasa',
+
+  
+  'card.from': '{price} irraa eegalee',
+  'card.currency': '{amount} Birr',
+  'card.free': 'Bilisa',
+  'card.getTickets': 'Tikeetii bitadhu',
+
+  'how.eyebrow': 'AKKAMITTI HOJJETA',
+  'how.title': 'Muuxannoo gaarii tarkaanfii salphaa afuriin.',
+
+  'org.eyebrow': 'QINDEESSITOOTAAF',
+  'org.title': 'Taatee kee jireenyatti fidi',
+  'org.text': 'Tikeetii taatee keetii uumi, bulchi fi gurguri — hunda bakka tokkotti.',
+  'org.cta': 'Taatee uumi',
+  'org.learn': 'Dabalata baradhu',
+  'org.demoLabel': 'Fakkeenya daashboordii qindeessaa: tikeetii gurguraman, galii, chaartii gurgurtaa fi kuusaa tikeetii',
+  'org.demoTitle': 'Raawwii taatee',
+  'org.sample': 'DAATAA FAKKEENYAA',
+  'org.sold': 'Tikeetii gurguraman',
+  'org.revenue': 'Galii',
+  'org.upcoming': 'Dhufaa jiran',
+  'tier.early': 'Jalqabaa',
+  'tier.regular': 'Idilee',
+  'tier.vip': 'VIP',
+
+  'app.eyebrow': 'APPII BILLEVENTS ARGADHU',
+  'app.title': 'Taateewwan kee yeroo hunda si waliin.',
+  'app.text': 'Taateewwan haaraa argadhu, tikeetii kee dhiyootti qabadhu, muuxannoo itti aanuuf qophaa’i.',
+  'app.appleSmall': 'Irraa buusi',
+  'app.playSmall': 'Irraa argadhu',
+  'app.appleLabel': 'App Store irraa buusi',
+  'app.playLabel': 'Google Play irraa argadhu',
+  'app.upcoming': 'Taateewwan dhufaa jiran',
+  'app.ticketReady': 'Tikeetiin qophaa’eera',
+  'app.ticketCount': '{count} × {tier}',
+
+  'trust.lead': 'Kaffaltii nageenya qabu kan dhiyeessu',
+  'trust.tagline': 'NAGAA • SALPHAA • AMANAMAA',
 }

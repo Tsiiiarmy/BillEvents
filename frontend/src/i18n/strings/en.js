@@ -87,4 +87,47 @@ export default {
   'cats.eyebrow': 'EXPLORE BY CATEGORY',
   'cats.title': 'Find Your Vibe',
   'cats.text': 'From music to culture, there’s something for everyone.',
+
+  
+  // Event card (landing + Discover)
+  'card.from': 'From {price}',
+  'card.currency': '{amount} ETB',
+  'card.free': 'Free',
+  'card.getTickets': 'Get Tickets',
+
+  // How it works
+  'how.eyebrow': 'HOW IT WORKS',
+  'how.title': 'Great experiences in four simple steps.',
+
+  // Organizers section
+  'org.eyebrow': 'FOR ORGANIZERS',
+  'org.title': 'Bring Your Event to Life',
+  'org.text': 'Create, manage and sell tickets for your event — all in one place.',
+  'org.cta': 'Create Event',
+  'org.learn': 'Learn More',
+  'org.demoLabel': 'Sample organizer dashboard showing tickets sold, revenue, sales chart and ticket inventory',
+  'org.demoTitle': 'Event Performance',
+  'org.sample': 'SAMPLE DATA',
+  'org.sold': 'Tickets sold',
+  'org.revenue': 'Revenue',
+  'org.upcoming': 'Upcoming',
+  'tier.early': 'Early Bird',
+  'tier.regular': 'Regular',
+  'tier.vip': 'VIP',
+
+  // App section
+  'app.eyebrow': 'GET THE BILLEVENTS APP',
+  'app.title': 'Your events, always with you.',
+  'app.text': 'Discover new events, keep your tickets close, and stay ready for your next experience.',
+  'app.appleSmall': 'Download on the',
+  'app.playSmall': 'Get it on',
+  'app.appleLabel': 'Download on the App Store',
+  'app.playLabel': 'Get it on Google Play',
+  'app.upcoming': 'Upcoming Events',
+  'app.ticketReady': 'Ticket ready',
+  'app.ticketCount': '{count} × {tier}',
+
+  // Trust strip
+  'trust.lead': 'Secure payments powered by',
+  'trust.tagline': 'SAFE • SIMPLE • RELIABLE',
 }

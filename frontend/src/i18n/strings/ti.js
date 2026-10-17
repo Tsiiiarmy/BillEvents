@@ -101,4 +101,42 @@ export default {
   'cat.Conferences': 'ዋዕላታት',
   'cat.Workshops': 'ዓውደ-ስራሕ',
   'cat.Community': 'ሕብረተሰብ',
+
+  
+  'card.from': 'ካብ {price} ጀሚሩ',
+  'card.currency': '{amount} ብር',
+  'card.free': 'ብነጻ',
+  'card.getTickets': 'ቲኬት ግዛእ',
+
+  'how.eyebrow': 'ከመይ ይሰርሕ',
+  'how.title': 'ዓበይቲ ተመክሮታት ብኣርባዕተ ቀለልቲ ስጉምትታት።',
+
+  'org.eyebrow': 'ንኣዳለውቲ',
+  'org.title': 'ፍጻመኻ ህያው ግበሮ',
+  'org.text': 'ንፍጻመኻ ቲኬታት ፍጠር፣ ኣመሓድር፣ ሸጥ — ኩሉ ኣብ ሓደ ቦታ።',
+  'org.cta': 'ፍጻመ ፍጠር',
+  'org.learn': 'ተወሳኺ ፍለጥ',
+  'org.demoLabel': 'ዝተሸጡ ቲኬታት፣ እቶት፣ ሰንጠረዥ መሸጣን ክዝና ቲኬታትን ዘርኢ ኣብነታዊ ዳሽቦርድ ኣዳላዊ',
+  'org.demoTitle': 'ኣፈጻጽማ ፍጻመ',
+  'org.sample': 'ኣብነታዊ ሓበሬታ',
+  'org.sold': 'ዝተሸጡ ቲኬታት',
+  'org.revenue': 'እቶት',
+  'org.upcoming': 'ዝመጽእ',
+  'tier.early': 'ቀዳማይ መሸጣ',
+  'tier.regular': 'ስሩዕ',
+  'tier.vip': 'VIP',
+
+  'app.eyebrow': 'ኣፕሊኬሽን BillEvents ርኸብ',
+  'app.title': 'ፍጻመታትካ ኩሉ ግዜ ምሳኻ።',
+  'app.text': 'ሓደስቲ ፍጻመታት ርኸብ፣ ቲኬታትካ ኣብ ጥቓኻ ሓዝ፣ ንዝቕጽል ተመክሮኻ ድሉው ኩን።',
+  'app.appleSmall': 'ካብዚ ኣውርድ',
+  'app.playSmall': 'ካብዚ ርኸብ',
+  'app.appleLabel': 'ካብ App Store ኣውርድ',
+  'app.playLabel': 'ካብ Google Play ርኸብ',
+  'app.upcoming': 'ዝመጽኡ ፍጻመታት',
+  'app.ticketReady': 'ቲኬት ድሉው እዩ',
+  'app.ticketCount': '{count} × {tier}',
+
+  'trust.lead': 'ውሑስ ክፍሊት ብሓገዝ',
+  'trust.tagline': 'ውሑስ • ቀሊል • እሙን',
 }
