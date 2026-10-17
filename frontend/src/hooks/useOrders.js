@@ -1,6 +1,7 @@
-import { useSyncExternalStore } from 'react'
+import { useMemo, useSyncExternalStore } from 'react'
 import { makeOrderRef, makeTicketCode } from '../utils/ids'
 import { calcTotals } from '../utils/money'
+import useAuth from './useAuth'
 
 const KEY = 'billevents-orders'
 const listeners = new Set()
@@ -113,6 +114,7 @@ export function createOrder({ draft, method, user }) {
   return order
 }
 
+// These search EVERY order on the device — the gate needs that.
 export function findOrder(ref) {
   return state.find((o) => o.ref === ref) ?? null
 }
@@ -136,10 +138,7 @@ export function checkInTicket(code) {
 
 /**
  * Reverses a check-in made by mistake: used → valid, so it can be scanned again.
- * Only touches a ticket that is currently 'used'. Returns true if it changed.
- *
- * A real backend should record who undid it and when (an audit log), not just
- * flip the status back.
+ * A real backend should record who undid it and when (an audit log).
  */
 export function undoCheckIn(code) {
   return updateTicket(
@@ -149,13 +148,49 @@ export function undoCheckIn(code) {
   )
 }
 
+/** Wipes every order on the device (dev tools). */
 export function clearOrders() {
   state = []
   persist()
 }
 
-/** Returns { orders, createOrder, findOrder, findTicket, checkInTicket, undoCheckIn, clearOrders }. */
+/** Wipes one person's orders (plus old ownerless ones, which they could see). */
+export function clearOrdersFor(userId) {
+  state = userId ? state.filter((o) => o.userId && o.userId !== userId) : []
+  persist()
+}
+
+// An order with no userId was saved before orders were scoped — everyone sees it.
+const ownedBy = (uid) => (o) => !o.userId || o.userId === uid
+
+/**
+ * Returns {
+ *   orders,      ← only the signed-in person's orders
+ *   allOrders,   ← every order on this device (the gate uses this)
+ *   createOrder, findOrder, findTicket, checkInTicket, undoCheckIn,
+ *   clearOrders, clearMyOrders
+ * }
+ */
 export default function useOrders() {
-  const orders = useSyncExternalStore(subscribe, getSnapshot)
-  return { orders, createOrder, findOrder, findTicket, checkInTicket, undoCheckIn, clearOrders }
+  const all = useSyncExternalStore(subscribe, getSnapshot)
+  const { user } = useAuth()
+  const uid = user?.id ?? null
+
+  if (import.meta.env.DEV && user && !uid) {
+    console.warn('[useOrders] Signed-in user has no id — orders are not scoped per person.')
+  }
+
+  const orders = useMemo(() => (uid ? all.filter(ownedBy(uid)) : all), [all, uid])
+
+  return {
+    orders,
+    allOrders: all,
+    createOrder,
+    findOrder,
+    findTicket,
+    checkInTicket,
+    undoCheckIn,
+    clearOrders,
+    clearMyOrders: () => clearOrdersFor(uid),
+  }
 }

@@ -586,4 +586,7 @@ export default {
   'legal.privacy.children': 'ልጆች',
   'legal.privacy.changes': 'በዚህ ፖሊሲ ላይ የሚደረጉ ለውጦች',
   'legal.privacy.contact': 'ያግኙን',
+
+  'event.expired': 'የክፍያ ሂደትዎ ከ{minutes} ደቂቃዎች በኋላ ጊዜው አልፎ ተሰርዟል። ከታች ትኬቶችዎን እንደገና ይምረጡ።',
+  'event.dismiss': 'ዝጋ',
 }

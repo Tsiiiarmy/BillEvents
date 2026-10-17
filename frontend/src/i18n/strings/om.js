@@ -569,4 +569,7 @@ export default {
   'legal.terms.fees': 'Gatii fi kaffaltii tajaajilaa',
   'legal.terms.payments': 'Kaffaltiiwwan',
   'legal.terms.entry': 'Tikeetii fi seensa',
+
+  'event.expired': 'Adeemsi kaffaltii kee daqiiqaa {minutes} booda yeroon isaa darbee haqameera. Armaan gaditti tikeetii kee irra deebi’ii filadhu.',
+  'event.dismiss': 'Cufi',
 }

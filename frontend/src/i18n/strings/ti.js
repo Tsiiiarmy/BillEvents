@@ -586,5 +586,8 @@ export default {
   'legal.privacy.children': 'ቆልዑ',
   'legal.privacy.changes': 'ለውጥታት ኣብዚ ፖሊሲ',
   'legal.privacy.contact': 'ርኸቡና',
+
+  'event.expired': 'መስርሕ ክፍሊትካ ድሕሪ {minutes} ደቓይቕ ግዜኡ ሓሊፉ ተሰሪዙ። ኣብ ታሕቲ ቲኬታትካ ደጊምካ ምረጽ።',
+  'event.dismiss': 'ዕጸው',
   
 }

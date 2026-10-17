@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
+import { CHECKOUT_TTL_MINUTES } from '../../data/checkout'
 import { Navbar } from '../../components/layout/Navbar'
 import { Footer } from '../../components/layout/Footer'
 import { SkipLink } from '../../components/common/SkipLink'
@@ -15,7 +16,10 @@ import useLanguage, { translate } from '../../hooks/useLanguage'
 const GOOD_TO_KNOW = ['event.good1', 'event.good2', 'event.good3']
 
 export default function EventDetailPage({ theme, toggle }) {
-  const { id } = useParams()
+    const { id } = useParams()
+  const [params, setParams] = useSearchParams()
+  const expired = params.get('expired') === '1'
+  const dismissExpired = () => setParams({}, { replace: true })
   const { lang, t, tCategory } = useLanguage()
   const event = allEvents.find((e) => String(e.id) === id)
 
@@ -130,6 +134,23 @@ export default function EventDetailPage({ theme, toggle }) {
           </div>
 
           <aside className="lg:sticky lg:top-24" aria-label={t('event.tickets')}>
+            {expired && (
+              <div
+                role="alert"
+                className="mb-4 flex items-start gap-3 rounded-2xl border border-amber-500/40 bg-amber-500/10 p-4 text-sm"
+              >
+                <Icon n="clock" className="mt-0.5 h-5 w-5 shrink-0 text-amber-600 dark:text-amber-400" />
+                <p className="flex-1">{t('event.expired', { minutes: CHECKOUT_TTL_MINUTES })}</p>
+                <button
+                  type="button"
+                  onClick={dismissExpired}
+                  aria-label={t('event.dismiss')}
+                  className="icon-btn h-8 w-8 shrink-0"
+                >
+                  <Icon n="x" className="h-4 w-4" />
+                </button>
+              </div>
+            )}
             <TicketSelector event={event} />
           </aside>
         </div>

@@ -14,7 +14,7 @@ const hhmm = (iso) =>
   new Date(iso).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
 
 export default function EntryPage() {
-  const { orders, undoCheckIn } = useOrders()
+    const { allOrders: orders, undoCheckIn } = useOrders()
   const [gate, setGate] = useState(null)
   const [session, setSession] = useState({ in: 0, refused: 0 })
   const [recent, setRecent] = useState([]) // this shift's admissions, newest first

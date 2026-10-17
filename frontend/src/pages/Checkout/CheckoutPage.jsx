@@ -21,7 +21,7 @@ const PHONE = /^(\+251|251|0)?[79]\d{8}$/
 export default function CheckoutPage({ theme, toggle }) {
   const navigate = useNavigate()
   const { user, isSignedIn } = useAuth()
-  const { draft, hasDraft, setContact, setItems } = useCheckout()
+  const { draft, hasDraft, expiredEventId, setContact, setItems } = useCheckout()
   const { t } = useLanguage()
 
   const [form, setForm] = useState(() => ({
@@ -34,7 +34,9 @@ export default function CheckoutPage({ theme, toggle }) {
   const [err, setErr] = useState({})
 
   // Guards. Hooks above run first so the order never changes.
-  if (!hasDraft) return <Navigate to="/events" replace />
+  if (!hasDraft) {
+    return <Navigate to={expiredEventId ? `/events/${expiredEventId}?expired=1` : '/events'} replace />
+  }
   if (!isSignedIn) return <Navigate to="/signin?next=/checkout" replace />
 
   const totals = calcTotals(draft.items)

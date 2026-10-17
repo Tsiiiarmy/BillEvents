@@ -92,7 +92,7 @@ function DangerRow({ label, detail, count, onConfirm }) {
 export default function SettingsPage({ theme, toggle }) {
   const navigate = useNavigate()
   const { user, updateUser, signOut } = useAuth()
-  const { orders, clearOrders } = useOrders()
+  const { orders, clearMyOrders } = useOrders()
   const { saved, clearSaved } = useSaved()
   const { draft, clearCheckout } = useCheckout()
   const { lang, language, setLang, t } = useLanguage()
@@ -300,7 +300,7 @@ export default function SettingsPage({ theme, toggle }) {
               label={t('set.orders')}
               detail={t('set.ordersDetail')}
               count={orders.length}
-              onConfirm={clearOrders}
+              onConfirm={clearMyOrders}
             />
             <DangerRow
               label={t('account.saved')}

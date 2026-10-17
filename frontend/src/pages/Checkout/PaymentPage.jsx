@@ -23,7 +23,7 @@ const card = 'rounded-3xl border border-navy/10 bg-white p-5 sm:p-6 dark:border-
 
 export default function PaymentPage({ theme, toggle }) {
   const { user, isSignedIn } = useAuth()
-  const { draft, hasDraft, clearCheckout } = useCheckout()
+    const { draft, hasDraft, expiredEventId, clearCheckout } = useCheckout()
   const { createOrder } = useOrders()
   const { t } = useLanguage()
 
@@ -49,7 +49,9 @@ export default function PaymentPage({ theme, toggle }) {
   // Paid comes first: the draft is deleted on success, so this must win
   // over the "no draft" guard or we'd bounce to /events instead.
   if (doneRef) return <Navigate to={`/checkout/success/${doneRef}`} replace />
-  if (!hasDraft) return <Navigate to="/events" replace />
+    if (!hasDraft) {
+    return <Navigate to={expiredEventId ? `/events/${expiredEventId}?expired=1` : '/events'} replace />
+  }
   if (!isSignedIn) return <Navigate to="/signin?next=/checkout/payment" replace />
   if (!draft.contact) return <Navigate to="/checkout" replace />
 

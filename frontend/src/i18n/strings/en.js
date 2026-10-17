@@ -493,4 +493,7 @@ export default {
   'legal.draftText': 'This page hasn’t been written yet. It shows the sections it will cover so the layout is ready. The final wording will come from BillPay’s legal team, and nothing here is binding.',
   'legal.willCover': 'Will cover:',
   'legal.questions': 'Questions? {contact}. See also our {other}.',
+
+  'event.expired': 'Your checkout expired after {minutes} minutes and was cleared. Choose your tickets again below.',
+  'event.dismiss': 'Dismiss',
 }
