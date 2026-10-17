@@ -15,6 +15,7 @@ import { LANGUAGES } from '../../i18n/languages'
 const BASE_LINKS = [
   { key: 'nav.discover', to: '/events', match: (p) => p.startsWith('/events') },
   { key: 'nav.categories', to: '/#categories' },
+  { key: 'footer.howItWorks', to: '/#how' },
 ]
 
 // Top-level on purpose: it's the page people open at the gate.
@@ -50,12 +51,6 @@ export function Navbar({ theme, toggle }) {
     return () => document.removeEventListener('keydown', onKey)
   }, [open])
 
-  const goSearch = () => {
-    const el = document.getElementById('hero-search') || document.getElementById('event-search')
-    if (el) el.focus()
-    else navigate('/events')
-  }
-
   const leave = () => {
     setOpen(false)
     signOut()
@@ -72,7 +67,7 @@ export function Navbar({ theme, toggle }) {
       : `/signin?next=${encodeURIComponent(pathname)}`
 
   const pill = (on) =>
-    `inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm transition ${
+    `inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm transition ${
       on
         ? 'bg-navy/7 font-bold text-navy dark:bg-white/10 dark:text-white'
         : 'font-medium text-navy/70 hover:bg-navy/5 hover:text-navy dark:text-white/70 dark:hover:bg-white/10 dark:hover:text-white'
@@ -87,12 +82,15 @@ export function Navbar({ theme, toggle }) {
         sc ? 'shadow-lg shadow-navy/10' : ''
       }`}
     >
-      <div className="wrap flex h-16 items-center gap-6">
-        <Link to="/" aria-label={t('nav.home')} className="shrink-0">
+      {/* Three columns on laptop and up: logo | links (centred) | controls.
+          The two outer columns share the leftover space equally, so the
+          middle one stays in the true centre of the bar. */}
+      <div className="wrap grid h-16 grid-cols-[auto_1fr] items-center gap-4 lg:grid-cols-[1fr_auto_1fr]">
+        <Link to="/" aria-label={t('nav.home')} className="justify-self-start">
           <Logo theme={theme} className="h-8" />
         </Link>
 
-        <nav aria-label={t('nav.main')} className="hidden items-center gap-1 md:flex">
+        <nav aria-label={t('nav.main')} className="hidden items-center gap-1 lg:flex">
           {links.map((l) => (
             <Link
               key={l.key}
@@ -106,18 +104,10 @@ export function Navbar({ theme, toggle }) {
           ))}
         </nav>
 
-        <div className="ml-auto flex items-center gap-1">
-          <button type="button" className="icon-btn" aria-label={t('nav.search')} onClick={goSearch}>
-            <Icon n="search" />
-          </button>
-
+        <div className="flex items-center justify-self-end gap-1 sm:gap-2">
           <div className="hidden sm:block">
             <LanguageMenu />
           </div>
-
-          <ThemeToggle theme={theme} toggle={toggle} />
-
-          <span aria-hidden="true" className="mx-2 hidden h-6 w-px bg-navy/10 sm:block dark:bg-white/15" />
 
           {isSignedIn ? (
             <UserMenu />
@@ -128,9 +118,11 @@ export function Navbar({ theme, toggle }) {
             </Btn>
           )}
 
+          <ThemeToggle theme={theme} toggle={toggle} />
+
           <button
             type="button"
-            className="icon-btn md:hidden"
+            className="icon-btn lg:hidden"
             aria-label={t(open ? 'nav.menuClose' : 'nav.menuOpen')}
             aria-expanded={open}
             aria-controls="mobile-menu"
@@ -145,7 +137,7 @@ export function Navbar({ theme, toggle }) {
         <nav
           id="mobile-menu"
           aria-label={t('nav.mobile')}
-          className="wrap grid gap-1 border-t border-navy/10 py-4 md:hidden dark:border-white/10"
+          className="wrap grid gap-1 border-t border-navy/10 py-4 lg:hidden dark:border-white/10"
         >
           {isSignedIn && (
             <div className="mb-2 flex items-center gap-3 rounded-xl bg-mist px-3 py-3 dark:bg-navy-2">
