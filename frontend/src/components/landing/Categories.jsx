@@ -5,6 +5,7 @@ import { Heading } from '../common/Heading'
 import { categories } from '../../data'
 import useLanguage from '../../hooks/useLanguage'
 
+
 /* ───────────── CATEGORIES ───────────── */
 export function Categories() {
   const { t, tCategory } = useLanguage()

@@ -500,4 +500,33 @@ export default {
   'event.dismiss': 'Dismiss',
 
   'nav.signInHint': 'See your tickets and saved events',
+
+    // What's the plan?
+  'plan.eyebrow': 'WHAT’S THE PLAN?',
+  'plan.title': 'I’m in the mood for',
+  'plan.moods': 'Pick a mood',
+  'plan.surprise': 'Surprise me',
+  'plan.browse': 'Browse all events',
+  'plan.empty': 'Nothing for this mood right now.',
+  'plan.emptyText': 'New events are added all the time. Check back soon.',
+  'plan.night.chip': 'Night out',
+  'plan.night.phrase': 'a night out',
+  'plan.night.hint': 'Live music, stand-up and shows after dark.',
+  'plan.friends.chip': 'With friends',
+  'plan.friends.phrase': 'fun with friends',
+  'plan.friends.hint': 'Festivals, laughs and good food together.',
+  'plan.family.chip': 'Family day',
+  'plan.family.phrase': 'a family day',
+  'plan.family.hint': 'Daytime outings the whole family can enjoy.',
+  'plan.outdoors.chip': 'Outdoors',
+  'plan.outdoors.phrase': 'the great outdoors',
+  'plan.outdoors.hint': 'Fresh air, hikes and open-air festivals.',
+  'plan.culture.chip': 'Culture',
+  'plan.culture.phrase': 'a culture fix',
+  'plan.culture.hint': 'Art, heritage and exhibitions.',
+  'plan.budget.chip': 'On a budget',
+  'plan.budget.phrase': 'something affordable',
+  'plan.budget.hint': 'Free events and tickets from 500 ETB or less.',
+
 }
+

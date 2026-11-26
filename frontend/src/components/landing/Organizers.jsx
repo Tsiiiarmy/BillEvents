@@ -22,7 +22,7 @@ export function Organizers() {
   ]
 
   return (
-    <section id="organizers" className="pb-20">
+    <section id="organizers" className="py-20">
       <div className="wrap">
         <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-navy to-[#2C4A86] p-6 text-white sm:p-10 lg:p-14 dark:ring-1 dark:ring-aqua/20">
           <div className="animate-drift absolute -right-20 -top-20 h-80 w-80 rounded-full bg-aqua/25 blur-3xl" />

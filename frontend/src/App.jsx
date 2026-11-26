@@ -15,6 +15,7 @@ import { HowItWorks } from "./components/landing/HowItWorks";
 import { Organizers } from "./components/landing/Organizers";
 import { AppSection } from "./components/landing/AppSection";
 import { Trust } from "./components/landing/Trust";
+import { PlanPicker } from "./components/landing/PlanPicker";
 
 import AuthPage from "./pages/Auth/AuthPage";
 import DiscoverPage from "./pages/Discover/DiscoverPage";
@@ -41,6 +42,7 @@ function Landing({ theme, toggle }) {
         <Featured />
         <Categories />
         <HowItWorks />
+        <PlanPicker />
         <Organizers />
         <AppSection />
         <Trust />
