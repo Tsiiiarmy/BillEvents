@@ -38,7 +38,7 @@ export function Hero() {
     <section
       id="top"
       ref={ref}
-      className="relative isolate overflow-hidden bg-navy text-white"
+      className="relative isolate -mt-16 overflow-hidden bg-navy pt-16 text-white"
     >
       <div
         className="absolute inset-x-0 -top-10 -z-20 h-[120%]"

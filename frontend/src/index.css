@@ -15,11 +15,11 @@
   --color-navy: #21335E;
   --color-aqua: #6BD6DA;
   --color-mortar: #595959;
-  --color-navy-2: #16213A;   /* dark-mode card surface */
-  --color-navy-3: #0E1628;   /* dark-mode alt section */
-  --color-ink: #0B1120;      /* dark-mode page background */
-  --color-mist: #EAF6FA;     /* light-mode alt section */
-  --color-teal: #0E7C86;     /* readable aqua for text on white */
+  --color-navy-2: #16213A;   
+  --color-navy-3: #0E1628;  
+  --color-ink: #0B1120;      
+  --color-mist: #EAF6FA;     
+  --color-teal: #0E7C86;     
 
   --font-heading: "Satoshi", "Helvetica Neue", Arial, sans-serif;
   --font-body: "Helvetica Neue", Helvetica, Arial, "Noto Sans Ethiopic", sans-serif;
@@ -35,7 +35,7 @@
 @layer base {
   html { scroll-behavior: smooth; }
 
-  section[id] { scroll-margin-top: 4rem; }
+  section[id] { scroll-margin-top: 4.5rem; }
 
   body {
     font-family: var(--font-body);
@@ -279,4 +279,21 @@
 @media (prefers-reduced-motion: reduce) {
   .plan-word, .plan-underline, .plan-fade, .plan-icon, .spin-once { animation: none; }
   .plan-pill { transition: opacity 0.2s ease; }
+}
+
+/* ── Navbar ───────────────────────────────────────────────── */
+.slide-pill {
+  width: var(--w, 0);
+  transform: translateX(var(--x, 0));
+  opacity: 0;
+  transition:
+    transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.25s ease;
+}
+.menu-in { animation: fade-in 0.25s ease both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .slide-pill { transition: opacity 0.2s ease; }
+  .menu-in { animation: none; }
 }
