@@ -1,18 +1,26 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Icon } from '../common/Icon'
 import { Reveal } from '../common/Reveal'
 import useLanguage from '../../hooks/useLanguage'
+import { prefersReducedMotion } from '../../utils/motion'
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export function Newsletter() {
   const { t } = useLanguage()
   const [email, setEmail] = useState('')
-  const [status, setStatus] = useState('idle') // idle | error | done
+  const [status, setStatus] = useState('idle') // idle | error | flying | done
+
+  // Let the paper plane finish its flight before showing the thank-you.
+  useEffect(() => {
+    if (status !== 'flying') return undefined
+    const id = setTimeout(() => setStatus('done'), prefersReducedMotion() ? 0 : 650)
+    return () => clearTimeout(id)
+  }, [status])
 
   const submit = (e) => {
     e.preventDefault()
-    setStatus(EMAIL.test(email) ? 'done' : 'error')
+    setStatus(EMAIL.test(email) ? 'flying' : 'error')
   }
 
   return (
@@ -20,8 +28,12 @@ export function Newsletter() {
       <Reveal>
         <div className="flex flex-col items-center gap-5 rounded-2xl bg-linear-to-r from-navy to-[#2C4A86] px-6 py-6 text-white shadow-xl shadow-navy/20 md:flex-row md:justify-between dark:from-navy-2 dark:to-[#35508a] dark:shadow-none dark:ring-1 dark:ring-white/10">
           <div className="flex items-center gap-4 text-center md:text-left">
-            <span className="hidden h-12 w-12 shrink-0 place-items-center rounded-xl bg-white/10 text-aqua sm:grid">
-              <Icon n="send" className="h-6 w-6" />
+            <span className="hidden h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-xl bg-white/10 text-aqua sm:grid">
+              {status === 'done' ? (
+                <Icon n="check" className="animate-pop h-6 w-6" />
+              ) : (
+                <Icon n="send" className={`h-6 w-6 ${status === 'flying' ? 'plane-fly' : ''}`} />
+              )}
             </span>
             <div>
               <h2 className="font-heading text-lg font-bold">{t('news.title')}</h2>
@@ -30,7 +42,10 @@ export function Newsletter() {
           </div>
 
           {status === 'done' ? (
-            <p role="status" className="flex items-center gap-2 rounded-full bg-white/10 px-5 py-3 text-sm font-bold">
+            <p
+              role="status"
+              className="animate-pop flex items-center gap-2 rounded-full bg-white/10 px-5 py-3 text-sm font-bold"
+            >
               <Icon n="check" className="h-4 w-4 text-aqua" /> {t('news.done')}{' '}
               <span className="font-normal text-white/60">{t('news.preview')}</span>
             </p>
@@ -56,7 +71,8 @@ export function Newsletter() {
                 />
                 <button
                   type="submit"
-                  className="shrink-0 rounded-full bg-aqua px-5 py-2.5 text-sm font-bold transition hover:brightness-95 active:scale-95"
+                  disabled={status === 'flying'}
+                  className="shrink-0 rounded-full bg-aqua px-5 py-2.5 text-sm font-bold transition hover:brightness-95 active:scale-95 disabled:opacity-70"
                 >
                   {t('news.subscribe')}
                 </button>

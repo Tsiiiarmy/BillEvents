@@ -70,6 +70,7 @@
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
@@ -104,9 +105,9 @@
 }
 
 .line { stroke-dasharray: 1; stroke-dashoffset: 1; }
-.in .line { animation: draw 2s 0.3s ease forwards; }
+.in .line, .is-visible .line { animation: draw 2s 0.3s ease forwards; }
 .bar { transform: scaleX(0); transform-origin: left; transition: transform 1.3s 0.3s cubic-bezier(0.2, 0.7, 0.2, 1); }
-.in .bar { transform: scaleX(var(--w)); }
+.in .bar, .is-visible .bar { transform: scaleX(var(--w)); }
 
 
 /* ── Gate scanner ─────────────────────────────────────────── */
@@ -161,4 +162,74 @@
   .countdown {
     animation: none;
   }
+}
+
+
+@keyframes wave-x { to { transform: translateX(-50%); } }
+.wave-layer { animation: wave-x var(--dur, 16s) linear infinite; will-change: transform; }
+.wave-reverse { animation-direction: reverse; }
+
+/* Categories: lines draw themselves in, then sway */
+.cat-line { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.is-in .cat-line {
+  animation:
+    draw 1.8s cubic-bezier(0.65, 0, 0.35, 1) var(--d, 0s) forwards,
+    sway var(--dur, 9s) ease-in-out var(--d, 0s) infinite alternate;
+}
+@keyframes sway { to { transform: translate(-22px, 10px); } }
+
+/* Categories: the row "breathes" like a slow wave */
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+.cat-bob { animation: bob 3.6s ease-in-out infinite; animation-delay: calc(var(--i, 0) * 0.18s); }
+
+@keyframes ring-pulse {
+  from { box-shadow: 0 0 0 0 rgb(107 214 218 / 0.55); }
+  to { box-shadow: 0 0 0 16px rgb(107 214 218 / 0); }
+}
+.group:hover .cat-ring,
+.group:focus-visible .cat-ring { animation: ring-pulse 1.2s ease-out infinite; }
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-12deg); }
+  50% { transform: rotate(9deg); }
+  75% { transform: rotate(-4deg); }
+}
+.group:hover .cat-icon,
+.group:focus-visible .cat-icon { animation: wiggle 0.6s ease; }
+
+/* How it works: connector fills as you scroll. Vertical on phones, horizontal on laptop. */
+.how-fill { transform: scaleY(var(--f, 0)); transform-origin: top; transition: transform 0.15s linear; }
+@media (min-width: 64rem) {
+  .how-fill { transform: scaleX(var(--f, 0)); transform-origin: left; }
+}
+
+/* Footer links: underline slides in from the left */
+.link-slide {
+  background: linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat;
+  padding-bottom: 2px;
+  transition: background-size 0.3s ease, color 0.15s ease;
+}
+.link-slide:hover,
+.link-slide:focus-visible { background-size: 100% 1px; }
+
+/* Newsletter: paper plane flies off on subscribe */
+@keyframes plane-fly {
+  0% { transform: none; opacity: 1; }
+  30% { transform: translate(-4px, 4px) rotate(4deg); }
+  100% { transform: translate(44px, -44px) rotate(-12deg); opacity: 0; }
+}
+.plane-fly { animation: plane-fly 0.65s cubic-bezier(0.5, 0, 0.75, 0) forwards; }
+
+@media (prefers-reduced-motion: reduce) {
+  .wave-layer,
+  .cat-bob,
+  .is-in .cat-line,
+  .group:hover .cat-ring,
+  .group:focus-visible .cat-ring,
+  .group:hover .cat-icon,
+  .group:focus-visible .cat-icon,
+  .plane-fly { animation: none; }
+  .cat-line { stroke-dashoffset: 0; }
+  .how-fill { transition: none; }
 }

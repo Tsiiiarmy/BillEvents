@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom'
+import { Icon } from '../common/Icon'
 import { SocialIcon } from '../common/SocialIcon'
+import { WaveBand } from '../common/WaveBand'
 import { Newsletter } from './Newsletter'
 import useLanguage from '../../hooks/useLanguage'
 import { LANGUAGES } from '../../i18n/languages'
+import { prefersReducedMotion } from '../../utils/motion'
 import logoDark from '../../assets/logo/billevents-logo-reverse.svg'
 import payMonogram from '../../assets/logo/billpay-monogram-reverse.svg'
 
@@ -29,16 +32,37 @@ const social = [
   ['LinkedIn', 'linkedin'],
 ]
 
-const link = 'transition hover:text-aqua'
+const link = 'link-slide hover:text-aqua'
+
+function backToTop() {
+  window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
+  // Keyboard users land at the top too, instead of staying stranded down here.
+  document.querySelector('header a')?.focus({ preventScroll: true })
+}
 
 export function Footer() {
   const { lang, setLang, t } = useLanguage()
+  const toTopLabel = t('footer.backToTop', null, 'Back to top')
 
   return (
     <>
       <Newsletter />
 
-            <footer className="bg-navy text-white">
+      <WaveBand variant="footer" className="relative -mb-px h-14 sm:h-20" />
+
+      <footer className="bg-navy text-white">
+        <div className="wrap relative">
+          <button
+            type="button"
+            onClick={backToTop}
+            aria-label={toTopLabel}
+            title={toTopLabel}
+            className="group absolute -top-7 right-5 grid h-14 w-14 place-items-center rounded-full bg-aqua text-navy shadow-xl shadow-navy/30 ring-4 ring-navy transition hover:-translate-y-1 sm:right-8"
+          >
+            <Icon n="arrow" className="h-5 w-5 -rotate-90 transition group-hover:-translate-y-0.5" />
+          </button>
+        </div>
+
         <div className="wrap grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           {/* Brand */}
           <div>
@@ -46,10 +70,12 @@ export function Footer() {
             <p className="mt-4 max-w-[17rem] text-sm leading-6 text-white/70">{t('footer.tagline')}</p>
             <Link
               to="/events"
-              className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-white transition hover:text-aqua"
+              className="group mt-5 inline-flex items-center gap-2 text-sm font-medium text-white transition hover:text-aqua"
             >
               {t('footer.explore')}
-              <span aria-hidden="true">→</span>
+              <span aria-hidden="true" className="transition group-hover:translate-x-1">
+                →
+              </span>
             </Link>
           </div>
 
@@ -114,7 +140,7 @@ export function Footer() {
                     lang={l.code}
                     aria-pressed={lang === l.code}
                     onClick={() => setLang(l.code)}
-                    className={`${link} ${lang === l.code ? 'font-bold text-white underline underline-offset-4' : ''}`}
+                    className={`transition hover:text-aqua ${lang === l.code ? 'font-bold text-white underline underline-offset-4' : ''}`}
                   >
                     {l.native}
                   </button>

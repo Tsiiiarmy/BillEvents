@@ -1,38 +1,76 @@
+import { useRef } from 'react'
 import { Icon } from '../common/Icon'
-import { Reveal } from '../common/Reveal'
 import { Heading } from '../common/Heading'
 import { steps } from '../../data'
 import useLanguage from '../../hooks/useLanguage'
+import useScrollProgress from '../../hooks/useScrollProgress'
 
-/* ───────────── HOW IT WORKS ───────────── */
+const clamp01 = (n) => Math.min(1, Math.max(0, n))
+
+  /* ───────────── HOW IT WORKS ───────────── */
+
 export function HowItWorks() {
   const { t } = useLanguage()
+  const ref = useRef(null)
+  const p = useScrollProgress(ref)
+  const last = steps.length - 1
 
   return (
     <section id="how" className="py-20">
       <div className="wrap">
         <Heading eyebrow={t('how.eyebrow')} title={t('how.title')} />
-        <div className="relative grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-          <div
-            className="absolute left-[12.5%] right-[12.5%] top-10 hidden border-t-2 border-dashed border-aqua/70 lg:block"
-            aria-hidden="true"
-          />
-          {steps.map((s, i) => (
-            <Reveal key={s.n} delay={i * 140} className="relative text-center">
-              <div className="relative z-10 mx-auto grid h-20 w-20 place-items-center rounded-full bg-white text-teal shadow-xl shadow-navy/10 ring-1 ring-navy/10 dark:bg-navy-2 dark:text-aqua dark:ring-aqua/30">
-                <Icon n={s.icon} className="h-8 w-8" />
-                <span className="absolute -right-1 -top-1 grid h-7 w-7 place-items-center rounded-full bg-navy text-[11px] font-bold text-white dark:bg-aqua dark:text-navy">
-                  {s.n}
-                </span>
-              </div>
-              {/* Falls back to the English text in data/ until a translation exists */}
-              <h3 className="mt-5 font-heading text-lg font-bold">{t(`how.step${i + 1}.title`, null, s.title)}</h3>
-              <p className="mx-auto mt-2 max-w-[16rem] text-sm text-mortar dark:text-white/70">
-                {t(`how.step${i + 1}.text`, null, s.text)}
-              </p>
-            </Reveal>
-          ))}
-        </div>
+
+        <ol ref={ref} className="grid gap-10 lg:grid-cols-4">
+          {steps.map((s, i) => {
+            const on = p > 0.02 && p >= i / last - 0.02
+            // How much of the segment from this step to the next is filled.
+            const fill = clamp01((p - i / last) * last)
+
+            return (
+              <li
+                key={s.n}
+                className="relative flex items-start gap-5 lg:flex-col lg:items-center lg:text-center"
+              >
+                {i < last && (
+                  <span
+                    aria-hidden="true"
+                    className="absolute left-10 top-10 h-[calc(100%+2.5rem)] w-0.5 lg:left-1/2 lg:h-0.5 lg:w-[calc(100%+2.5rem)]"
+                  >
+                    <span className="absolute inset-0 border-l-2 border-dashed border-aqua/50 lg:border-l-0 lg:border-t-2" />
+                    <span className="how-fill absolute inset-0 bg-aqua" style={{ '--f': fill }} />
+                  </span>
+                )}
+
+                <div
+                  className={`relative z-10 grid h-20 w-20 shrink-0 place-items-center rounded-full bg-white shadow-xl transition duration-500 dark:bg-navy-2 ${
+                    on
+                      ? 'text-teal shadow-aqua/40 ring-2 ring-aqua dark:text-aqua'
+                      : 'text-mortar/60 shadow-navy/10 ring-1 ring-navy/10 dark:text-white/40 dark:ring-white/10'
+                  }`}
+                >
+                  <Icon n={s.icon} className={`h-8 w-8 ${on ? 'animate-pop' : ''}`} />
+                  <span
+                    className={`absolute -right-1 -top-1 grid h-7 w-7 place-items-center rounded-full text-[11px] font-bold transition-colors duration-500 ${
+                      on ? 'bg-aqua text-navy' : 'bg-navy text-white dark:bg-white/15'
+                    }`}
+                  >
+                    {s.n}
+                  </span>
+                </div>
+
+                <div className={`pt-4 transition-opacity duration-500 lg:pt-0 ${on ? 'opacity-100' : 'opacity-60'}`}>
+                  {/* Falls back to the English text in data/ until a translation exists */}
+                  <h3 className="font-heading text-lg font-bold lg:mt-5">
+                    {t(`how.step${i + 1}.title`, null, s.title)}
+                  </h3>
+                  <p className="mt-2 max-w-xs text-sm text-mortar lg:mx-auto lg:max-w-[16rem] dark:text-white/70">
+                    {t(`how.step${i + 1}.text`, null, s.text)}
+                  </p>
+                </div>
+              </li>
+            )
+          })}
+        </ol>
       </div>
     </section>
   )

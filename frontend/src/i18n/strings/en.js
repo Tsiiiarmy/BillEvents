@@ -53,6 +53,7 @@ export default {
   'footer.followText': 'Stay connected and never miss what’s happening.',
   'footer.rights': '© {year} BillEvents. All rights reserved.',
   'footer.family': 'Part of the BillPay family',
+  'footer.backToTop': 'Back to top',
 
   // Newsletter bar
   'news.label': 'Newsletter',

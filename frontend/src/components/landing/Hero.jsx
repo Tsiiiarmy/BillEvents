@@ -4,6 +4,7 @@ import { Icon } from "../common/Icon";
 import { events } from "../../data";
 import useLanguage from "../../hooks/useLanguage";
 import heroImg from "../../assets/images/hero-addis-concert.jpg";
+import { WaveBand } from "../common/WaveBand";
 
 // English names on purpose — they go into the URL. Labels are translated.
 const POPULAR = ["Music", "Festivals", "Shows", "Exhibitions", "Outdoor"];
@@ -146,21 +147,11 @@ export function Hero() {
         </div>
       </div>
 
-      <svg
-        viewBox="0 0 1440 120"
-        preserveAspectRatio="none"
-        className="absolute inset-x-0 bottom-0 h-20 w-full sm:h-28"
-        aria-hidden="true"
-      >
-        <path
-          className="animate-wave fill-aqua/45"
-          d="M0 50C240 110 480 0 720 45S1200 100 1440 30V120H0Z"
-        />
-        <path
-          className="fill-white dark:fill-ink"
-          d="M0 85C260 125 520 45 760 80S1220 115 1440 75V120H0Z"
-        />
-      </svg>
+      <WaveBand
+        variant="hero"
+        className="absolute inset-x-0 bottom-0 h-20 sm:h-28"
+      />
+      
     </section>
   );
 }
