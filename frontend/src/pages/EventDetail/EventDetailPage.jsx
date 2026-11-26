@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { CHECKOUT_TTL_MINUTES } from '../../data/checkout'
 import { Navbar } from '../../components/layout/Navbar'
@@ -8,26 +7,22 @@ import { Icon } from '../../components/common/Icon'
 import { Btn } from '../../components/common/Btn'
 import { Reveal } from '../../components/common/Reveal'
 import { SaveButton } from '../../components/common/SaveButton'
+import { ShareButton } from '../../components/common/ShareButton'
 import { EventCard } from '../../components/landing/EventCard'
 import { TicketSelector } from '../../components/event/TicketSelector'
 import { allEvents } from '../../data'
-import useLanguage, { translate } from '../../hooks/useLanguage'
+import useLanguage from '../../hooks/useLanguage'
 
 const GOOD_TO_KNOW = ['event.good1', 'event.good2', 'event.good3']
 
+// The browser tab title is set by useRouteTitle (in App.jsx), not here.
 export default function EventDetailPage({ theme, toggle }) {
-    const { id } = useParams()
+  const { id } = useParams()
   const [params, setParams] = useSearchParams()
   const expired = params.get('expired') === '1'
   const dismissExpired = () => setParams({}, { replace: true })
-  const { lang, t, tCategory } = useLanguage()
+  const { t, tCategory } = useLanguage()
   const event = allEvents.find((e) => String(e.id) === id)
-
-  useEffect(() => {
-    document.title = event
-      ? `${event.title} — BillEvents`
-      : `${translate(lang, 'event.notFound')} — BillEvents`
-  }, [event, lang])
 
   if (!event) {
     return (
@@ -78,13 +73,18 @@ export default function EventDetailPage({ theme, toggle }) {
             />
           )}
           <div className="wrap flex min-h-[18rem] flex-col justify-between py-6 sm:min-h-[22rem]">
-            <div className="flex items-center justify-between">
+            {/* Back on the left, Share + Save on the right */}
+            <div className="flex items-center justify-between gap-3">
               <Link to="/events" className="inline-flex items-center gap-1.5 text-sm font-bold hover:text-aqua">
                 <Icon n="arrow" className="h-4 w-4 rotate-180" />
                 {t('event.back')}
               </Link>
-              <SaveButton event={event} />
+              <div className="flex items-center gap-2">
+                <ShareButton event={event} tone="overlay" />
+                <SaveButton event={event} tone="overlay" />
+              </div>
             </div>
+
             <div className="animate-up pb-4">
               <span className="rounded-full bg-white px-3 py-1 text-xs font-bold text-navy">
                 {tCategory(event.cat)}
