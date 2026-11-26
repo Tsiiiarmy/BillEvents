@@ -8,6 +8,7 @@ import { CheckoutHeader } from '../../components/checkout/CheckoutHeader'
 import { OrderSummary } from '../../components/checkout/OrderSummary'
 import { PaymentMethodPicker } from '../../components/checkout/PaymentMethodPicker'
 import { PaymentFields } from '../../components/checkout/PaymentFields'
+import { HoldTimer } from '../../components/checkout/HoldTimer'
 
 import useAuth from '../../hooks/useAuth'
 import useCheckout from '../../hooks/useCheckout'
@@ -138,6 +139,10 @@ export default function PaymentPage({ theme, toggle }) {
         <p className="mt-2 flex flex-wrap items-center gap-2 text-mortar dark:text-white/70">
           {t('pay.lead')} <BillPay theme={theme} className="h-4" />
         </p>
+        
+        <div className="mt-4">
+          <HoldTimer startedAt={draft.startedAt} />
+        </div>
 
         <div className="mt-8 grid items-start gap-6 lg:grid-cols-[1fr_380px] lg:gap-8">
           {/* Left: method + fields */}

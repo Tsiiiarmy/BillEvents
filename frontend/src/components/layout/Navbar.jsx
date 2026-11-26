@@ -26,6 +26,9 @@ const TICKETS_LINK = {
   match: (p) => p.startsWith("/account/tickets"),
 };
 
+// Pages that open with a dark hero band. The bar starts see-through on these.
+const OVERLAY_PATHS = ["/", "/events"];
+
 /**
  * Landing page, at the top: see-through over the hero photo, all white.
  * After scrolling (and on every other page): the white bar.
@@ -94,7 +97,7 @@ export function Navbar({ theme, toggle }) {
   const isOn = (l) => Boolean(l.match?.(pathname));
 
   // See-through only on the landing page, at the top, with the menu closed.
-  const overlay = pathname === "/" && !sc && !open;
+   const overlay = OVERLAY_PATHS.includes(pathname) && !sc && !open;
 
   // Come back to the same page after signing in.
   const signInTo =

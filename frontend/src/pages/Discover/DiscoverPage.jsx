@@ -29,7 +29,7 @@ export default function DiscoverPage({ theme, toggle }) {
       <SkipLink />
       <Navbar theme={theme} toggle={toggle} />
       <main id="main">
-        <section className="relative isolate overflow-hidden bg-navy pb-24 pt-14 text-white sm:pt-20 dark:bg-navy-3">
+        <section className="relative isolate -mt-16 overflow-hidden bg-navy pb-24 pt-14 text-white sm:pt-20 dark:bg-navy-3">
           <div className="animate-drift absolute -left-24 -top-10 -z-10 h-80 w-80 rounded-full bg-aqua/25 blur-3xl" />
           <div className="wrap">
             <p className="animate-up text-xs font-bold tracking-[0.25em] text-aqua">

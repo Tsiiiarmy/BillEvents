@@ -13,6 +13,7 @@ import useCheckout from '../../hooks/useCheckout'
 import useLanguage from '../../hooks/useLanguage'
 import { MAX_PER_TIER } from '../../data/checkout'
 import { calcTotals, etb } from '../../utils/money'
+import { HoldTimer } from '../../components/checkout/HoldTimer'
 
 // Same rules as AuthPage. If data/patterns.js already exports these, swap to it.
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -85,6 +86,9 @@ export default function CheckoutPage({ theme, toggle }) {
       <main id="main" className="wrap py-8 sm:py-12">
         <h1 className="font-heading text-3xl font-bold sm:text-4xl">{t('co.title')}</h1>
         <p className="mt-2 text-mortar dark:text-white/70">{t('co.lead')}</p>
+        <div className="mt-4">
+          <HoldTimer startedAt={draft.startedAt} />
+        </div>
 
         <div className="mt-8 grid items-start gap-6 lg:grid-cols-[1fr_380px] lg:gap-8">
           {/* Left: tickets + details */}
