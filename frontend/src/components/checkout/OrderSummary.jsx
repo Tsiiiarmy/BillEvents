@@ -76,7 +76,6 @@ export function OrderSummary({ draft, totals, children }) {
         <span className="font-bold">{t('sel.total')}</span>
         <span className="font-heading text-2xl font-bold">{etb(totals.total)}</span>
       </div>
-
       {children}
     </aside>
   )

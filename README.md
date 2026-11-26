@@ -33,6 +33,7 @@ Coming soon.
 ```text
 BillEvents/
 ├── frontend/
+└── organizer/
 └── backend/
 
 

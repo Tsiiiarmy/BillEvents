@@ -77,6 +77,7 @@ export default {
   'hero.featured': 'FEATURED',
   'hero.imageAlt': 'A huge crowd lighting up the night with phone lights at a live concert in Addis Ababa',
 
+  
   // Featured events
   'featured.eyebrow': 'FEATURED EVENTS',
   'featured.title': 'Don’t Miss These',

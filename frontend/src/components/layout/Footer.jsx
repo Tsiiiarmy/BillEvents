@@ -20,7 +20,7 @@ const support = [
   ['footer.privacy', '/privacy'],
 ]
 
-// Brand names — not translated. TODO: real profile URLs.
+// Brand names — not translated. TODO: real profile URLs. this waits
 const social = [
   ['Facebook', 'facebook'],
   ['X', 'x'],

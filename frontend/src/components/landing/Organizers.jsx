@@ -4,6 +4,7 @@ import { Reveal } from '../common/Reveal'
 import { Btn } from '../common/Btn'
 import { benefits } from '../../data'
 import useLanguage from '../../hooks/useLanguage'
+import { organizerUrl } from '../../data/links'
 
 /* ───────────── ORGANIZERS ───────────── */
 export function Organizers() {
@@ -47,7 +48,7 @@ export function Organizers() {
               </ul>
 
               <div className="mt-8 flex flex-wrap gap-3">
-                <Btn as={Link} to="/organizer" className="bg-aqua text-navy">
+                <Btn as="a" href={organizerUrl()} className="bg-aqua text-navy">
                   {t('org.cta')} <Icon n="arrow" className="h-4 w-4 transition group-hover:translate-x-1" />
                 </Btn>
                 <Btn as={Link} to="/help#help-organizers" variant="ghost">
